@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Glass - ISC DHCP Server Utility</title>
+    <!-- Favicon-->
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="assets/plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="assets/plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <link href="assets/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="assets/css/themes/all-themes.css" rel="stylesheet" />
+</head>
+
+<body class="theme-red">
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="preloader">
+            <div class="spinner-layer pl-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+        <p>Please wait...</p>
+    </div>
+</div>
+<!-- #END# Page Loader -->
+<!-- Overlay For Sidebars -->
+<div class="overlay"></div>
+<!-- #END# Overlay For Sidebars -->
+
+<!-- #END# Search Bar -->
+<!-- Top Bar -->
+<nav class="navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+            <a href="javascript:void(0);" class="bars"></a>
+            <a class="navbar-brand" href="/">[application_name]</a>
+        </div>
+    </div>
+</nav>
+<!-- #Top Bar -->
+<section>
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar">
+        <!-- Menu -->
+        <div class="menu">
+            <ul class="list">
+                <li class="header active">MAIN NAVIGATION</li>
+                <li class="active">
+                    <a href="/" pjax="1">
+                        <i class="material-icons">home</i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dhcp_leases" pjax="1">
+                        <i class="material-icons">layers</i>
+                        <span>Leases</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/api_examples" pjax="1">
+                        <i class="material-icons">widgets</i>
+                        <span>API Examples</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../../pages/helper-classes.html">
+                        <i class="material-icons">layers</i>
+                        <span>Helper Classes</span>
+                    </a>
+                </li>
+
+                <li class="header">LABELS</li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <i class="material-icons col-red">donut_large</i>
+                        <span>Important</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <i class="material-icons col-amber">donut_large</i>
+                        <span>Warning</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+                        <i class="material-icons col-light-blue">donut_large</i>
+                        <span>Information</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- #Menu -->
+        <!-- Footer -->
+        <div class="legal">
+            <div class="copyright">
+                &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
+            </div>
+            <div class="version">
+                <b>Version: </b> 1.0.5
+            </div>
+        </div>
+        <!-- #Footer -->
+    </aside>
+    <!-- #END# Left Sidebar -->
+
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <h2>Dashboard</h2>
+        </div>
+        <div id="body-content">
+            [body_content]
+        </div>
+    </div>
+</section>
+
+<!-- Jquery Core Js -->
+<script src="assets/plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core Js -->
+<script src="assets/plugins/bootstrap/js/bootstrap.js"></script>
+
+<!-- Select Plugin Js -->
+<script src="assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+<!-- Slimscroll Plugin Js -->
+<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+<!-- Waves Effect Plugin Js -->
+<script src="assets/plugins/node-waves/waves.js"></script>
+
+<!-- Custom Js -->
+<script src="assets/js/admin.js"></script>
+
+<!-- Demo Js -->
+<script src="assets/js/demo.js"></script>
+
+<script src="assets/js/pjax.js"></script>
+
+<script src="assets/js/api_examples.js"></script>
+
+<script src="assets/plugins/jquery-datatable/jquery.dataTables.js"></script>
+<script src="assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+<script src="assets/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+
+<script type="text/javascript">
+
+    function get_dashboard() {
+		$.get( "/get_dashboard", function( data ) {
+			$('#body-content').html(data);
+			$('#shared-networks').fadeOut(300).fadeIn(300);
+			$('#display-subnets').fadeOut(300).fadeIn(300);
+		});
+	}
+    function get_stats() {
+		$.get( "/get_stats", function( data ) {
+            $('#cpu-utilization').html(data.cpu_utilization + "%");
+            $('#leases-sec').html(data.leases_per_second.toLocaleString('en'));
+            $('#total-leases').html(data.leases_used.toLocaleString('en'));
+		});
+    }
+
+    console.log(window.location.pathname);
+
+    if(window.location.pathname == "/") {
+		dashboard_timer = setInterval(function () {
+			if (window_focus && $('#shared-networks').length) {
+				get_dashboard();
+			}
+		}, 5000);
+		get_stats_timer = setInterval(function () {
+			if (window_focus && $('#cpu-utilization').length) {
+				get_stats();
+			}
+		}, 5000);
+		get_dashboard(); get_stats();
+	}
+
+	var window_focus = true;
+
+	$(window).focus(function() {
+		window_focus = true;
+		get_stats();
+	}).blur(function() {
+		window_focus = false;
+	});
+
+</script>
+
+</body>
+
+</html>

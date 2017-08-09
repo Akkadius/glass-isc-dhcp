@@ -1,0 +1,36 @@
+
+<div class="card">
+    <div class="header">
+        <h2>Active Leases</h2>
+    </div>
+    <div class="body">
+        <div class="table-responsive">
+
+            <table id="display-leases" class="table table-bordered table-striped table-hover js-basic-example dataTable dashboard-task-infos">
+                <thead>
+                <tr>
+                    <th>IP</th>
+                    <th>MAC</th>
+                    <th>Hostname</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                [table_data]
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+	$('#display-leases').DataTable({
+		dom: 'tip',
+		responsive: true,
+		"pageLength": 100,
+		"aaSorting": []
+	});
+</script>

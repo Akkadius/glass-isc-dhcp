@@ -1,0 +1,39 @@
+
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="card">
+        <div class="header">
+            <h2>Subnets</h2>
+        </div>
+        <div class="body">
+            <div class="table-responsive">
+
+                <table id="display-subnets" class="table table-bordered table-striped table-hover js-basic-example dataTable dashboard-task-infos">
+                    <thead>
+                    <tr>
+                        <th>Subnet Location</th>
+                        <th>IP Range</th>
+                        <th>Used</th>
+                        <th>Size</th>
+                        <th>Free</th>
+                        <th>%</th>
+                        <th>Utilization</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        [table_data]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+	$('#display-subnets').DataTable({
+		dom: 'tip',
+		responsive: true,
+		"pageLength": 100,
+		"aaSorting": []
+	});
+</script>
