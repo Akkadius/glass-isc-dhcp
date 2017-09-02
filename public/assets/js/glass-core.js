@@ -2,7 +2,21 @@
  * Created by cmiles on 8/9/2017.
  */
 
+$( document ).ajaxComplete(function( event, request, settings ) {
+	check_dashboard_active();
+});
+
+function check_dashboard_active() {
+	if(window.location.pathname == "/" && in_dashboard != 1) {
+		in_dashboard = 1;
+	}
+	else {
+		in_dashboard = 0;
+	}
+}
+
 function modal (title, content, buttons) {
+	$('#modal-buttons').html('');
 	$('#modal-title').html(title);
 	$('#modal-body').html(content);
 

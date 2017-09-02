@@ -31,7 +31,7 @@ router.post('/', function(req, res, next) {
 
 			output = output.replace("\n", "<br>");
 			res.send(
-				'<script type="text/javascript">modal (\'DHCP Config Save\', ' + JSON.stringify('Syntax OK') + ', "");'
+				'<script type="text/javascript">modal (\'DHCP Config Save\', ' + JSON.stringify('Syntax OK <br><br> Config Snapshot created') + ', "");'
 			);
 			/* Read Config */
 			var json_file = require('jsonfile');

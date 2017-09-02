@@ -105,7 +105,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/start_stop_restart" pjax="1">
+                    <a href="/dhcp_start_stop_restart" pjax="1">
                         <i class="material-icons">refresh</i>
                         <span>Start / Stop / Restart</span>
                     </a>
@@ -116,6 +116,13 @@
                     <a href="/glass_settings" pjax="1">
                         <i class="material-icons">settings</i>
                         <span>Glass Settings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/glass_alerts" pjax="1">
+                        <i class="material-icons">add_alert</i>
+                        <span>Glass Alerts</span>
                     </a>
                 </li>
 
@@ -155,7 +162,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <div id="modal-buttons"></div>
+                    <div id="modal-buttons" style="display:inline-block"></div>
                     <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                 </div>
             </div>
@@ -212,6 +219,8 @@
 
 <script type="text/javascript">
 
+    var in_dashboard = 0;
+
     function get_dashboard() {
 		$.get( "/get_dashboard", function( data ) {
 			$('#body-content').html(data);
@@ -227,20 +236,21 @@
 		});
     }
 
-    console.log(window.location.pathname);
+	dashboard_timer = setInterval(function () {
+		if (window_focus && $('#shared-networks').length && in_dashboard == 1) {
+			get_dashboard();
+		}
+	}, 5000);
 
-    if(window.location.pathname == "/") {
-		dashboard_timer = setInterval(function () {
-			if (window_focus && $('#shared-networks').length) {
-				get_dashboard();
-			}
-		}, 5000);
-		get_stats_timer = setInterval(function () {
-			if (window_focus && $('#cpu-utilization').length) {
-				get_stats();
-			}
-		}, 5000);
-		get_dashboard(); get_stats();
+	get_stats_timer = setInterval(function () {
+		if (window_focus && $('#cpu-utilization').length && in_dashboard == 1) {
+			get_stats();
+		}
+	}, 5000);
+
+	if(window.location.pathname == "/") {
+		get_stats();
+		get_dashboard();
 	}
 
 	var window_focus = true;
