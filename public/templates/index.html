@@ -242,8 +242,28 @@
 		window_focus = false;
 	});
 
+	if (typeof $.fn.slimScroll != 'undefined') {
+		var configs = $.AdminBSB.options.leftSideBar;
+		var height = ($(window).height() - ($('.legal').outerHeight() + $('.user-info').outerHeight() + $('.navbar').innerHeight()));
+		var $el = $('.list');
+
+		$el.slimscroll({
+			height: height + "px",
+			color: configs.scrollColor,
+			size: configs.scrollWidth,
+			alwaysVisible: configs.scrollAlwaysVisible,
+			borderRadius: configs.scrollBorderRadius,
+			railBorderRadius: configs.scrollRailBorderRadius
+		});
+
+		//Scroll active menu item when page load, if option set = true
+		if ($.AdminBSB.options.leftSideBar.scrollActiveItemWhenPageLoad) {
+			var activeItemOffsetTop = $('.menu .list li.active')[0].offsetTop
+			if (activeItemOffsetTop > 150) $el.slimscroll({ scrollTo: activeItemOffsetTop + 'px' });
+		}
+	}
+
 </script>
 
 </body>
-
 </html>
