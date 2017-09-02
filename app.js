@@ -33,6 +33,8 @@ app.use('/dhcp_config_save', require('./routes/dhcp_config_save'));
 app.use('/dhcp_start_stop_restart', require('./routes/dhcp_start_stop_restart'));
 app.use('/api_examples', require('./routes/api_examples'));
 app.use('/glass_settings', require('./routes/glass_settings'));
+app.use('/glass_alerts', require('./routes/glass_alerts'));
+app.use('/glass_alert_settings_save', require('./routes/glass_alert_settings_save'));
 app.use('/glass_settings_save', require('./routes/glass_settings_save'));
 
 /* API Routes */

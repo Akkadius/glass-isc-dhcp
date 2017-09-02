@@ -1,0 +1,46 @@
+<div id="alerts_config">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Glass Alerts
+                    </h2>
+                </div>
+                <div class="body">
+                    [c_content]
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Notification Settings
+
+                    </h2>
+                </div>
+                <div class="body">
+                    [n_content]
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="glass_alerts_result"></div>
+</div>
+
+[save_button]
+
+<script type="text/javascript">
+    function save_alarm_settings() {
+		glass_alert_settings = get_form_query_string("alerts_config");
+
+		$.post( "/glass_alert_settings_save", glass_alert_settings, function( data ) {
+			$( "#glass_alerts_result" ).html( data );
+		});
+    }
+</script>
