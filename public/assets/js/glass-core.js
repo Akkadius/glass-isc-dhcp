@@ -2,6 +2,17 @@
  * Created by cmiles on 8/9/2017.
  */
 
+function modal (title, content, buttons) {
+	$('#modal-title').html(title);
+	$('#modal-body').html(content);
+
+	// <button type="button" class="btn btn-link waves-effect">SAVE CHANGES</button>
+	if(buttons != '') {
+		$('#modal-buttons').html(buttons);
+	}
+	$('#mdModal').modal('show');
+}
+
 function get_form_query_string(form_id){
 	query_string = "";
 	$('#' + form_id).find('input, select, textarea').each(function (key) {

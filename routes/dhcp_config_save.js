@@ -19,16 +19,35 @@ router.post('/', function(req, res, next) {
 
 		if (err) {
 			output = output.replace("\n", "<br>");
-			res.send('<script type="text/javascript">notification(\'There are errors!<br>See below for details...\');</script><br></b><b style="color:red">' + output + '</b>');
+			output = output.replace(". ", "<br>");
+			output = output.replace("line", "<br><br>line");
+			output = output.replace("Configuration file errors encountered", "<br><br>Configuration file errors encountered");
+
+			res.send('<script type="text/javascript">modal (\'DHCP Config Syntax Validation\', ' + JSON.stringify('<span style="color:red">' + output + '</span>') + ', "");');
+
 			return;
 		}
 		else {
 
-			res.send('<script type="text/javascript">notification(' + JSON.stringify("<b>Syntax OK</b> <br><br>" + output) + ')</script>');
-
+			output = output.replace("\n", "<br>");
+			res.send(
+				'<script type="text/javascript">modal (\'DHCP Config Save\', ' + JSON.stringify('Syntax OK') + ', "");'
+			);
 			/* Read Config */
 			var json_file = require('jsonfile');
 			var glass_config = json_file.readFileSync('config/glass_config.json');
+
+			/* Make Dir if not exist */
+			var dir = './config_backups';
+			if (!fs.existsSync(dir)){
+				fs.mkdirSync(dir);
+			}
+
+			//date +"%Y-%m-%d_%H:%M:%S"
+			exec('cp ' + glass_config.config_file + ' ./config_backups/`basename ' + glass_config.config_file + '`_`date +"%Y-%m-%d_%H:%M:%S"`',
+				function(err, stdout, stderr) {
+
+			});
 
 			fs.writeFileSync(glass_config.config_file, request.dhcp_config_data, 'utf8');
 
