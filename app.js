@@ -26,6 +26,8 @@ app.use('/get_dashboard', require('./routes/dashboard'));
 app.use('/get_stats', require('./routes/get_stats'));
 app.use('/dhcp_leases', require('./routes/dhcp_leases'));
 app.use('/dhcp_log', require('./routes/dhcp_log'));
+app.use('/dhcp_config', require('./routes/dhcp_config'));
+app.use('/dhcp_config_save', require('./routes/dhcp_config_save'));
 app.use('/api_examples', require('./routes/api_examples'));
 app.use('/glass_settings', require('./routes/glass_settings'));
 app.use('/glass_settings_save', require('./routes/glass_settings_save'));
@@ -176,7 +178,6 @@ var tail_dhcp_log = new tail_module(
 
 tail_dhcp_log.on("line", function(data) {
 	if(listening_to_log_file) {
-		// console.log(data);
 		wss.broadcast_event(data, 'dhcp_log_subscription');
 	}
 });

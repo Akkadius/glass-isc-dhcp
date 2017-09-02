@@ -10,7 +10,7 @@ router.post('/', function(req, res, next) {
 	var json_file = require('jsonfile');
 
 	json_file.writeFile('./config/glass_config.json', request, {spaces: 2}, function(err) {
-		console.error(err)
+		console.error(err);
 	});
 
 	res.send('<script type="text/javascript">notification(\'Saved Config!\')</script>');
