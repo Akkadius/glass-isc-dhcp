@@ -27,6 +27,8 @@ app.use('/get_stats', require('./routes/get_stats'));
 app.use('/dhcp_leases', require('./routes/dhcp_leases'));
 app.use('/dhcp_log', require('./routes/dhcp_log'));
 app.use('/dhcp_config', require('./routes/dhcp_config'));
+app.use('/dhcp_config_snapshots', require('./routes/dhcp_config_snapshots'));
+app.use('/dhcp_config_snapshot_view', require('./routes/dhcp_config_snapshot_view'));
 app.use('/dhcp_config_save', require('./routes/dhcp_config_save'));
 app.use('/api_examples', require('./routes/api_examples'));
 app.use('/glass_settings', require('./routes/glass_settings'));
