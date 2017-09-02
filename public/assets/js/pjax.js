@@ -1,5 +1,6 @@
 /**
  * Created by cmiles on 3/13/2015.
+ * Custom pjax framework used for years
  */
 var pjax_request_count = 1;
 var pjax_debug = 1;
@@ -90,9 +91,6 @@ function do_pjax_request(request_url){
 		$('#body-content').css("opacity", "1");
 		$('#body-content').html(e_res);
 
-		/* Set new page scroll position to 0 */
-		// document.body.scrollTop = document.documentElement.scrollTop = 0;
-		// $(scroll_target).scrollTop(0);
 		$(scroll_target).animate({scrollTop: 0}, 100);
 
 		last_navigated_url = request_url;

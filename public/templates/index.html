@@ -70,7 +70,7 @@
         <!-- Menu -->
         <div class="menu">
             <ul class="list">
-                <li class="header active">MAIN NAVIGATION</li>
+                <li class="header">Glass Navigation</li>
                 <li class="active">
                     <a href="/" pjax="1">
                         <i class="material-icons">home</i>
@@ -83,48 +83,41 @@
                         <span>Leases</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="/dhcp_logs" pjax="1">
+                        <i class="material-icons">view_stream</i>
+                        <span>Logs</span>
+                    </a>
+                </li>
+
+                <li class="header">Settings</li>
+                <li>
+                    <a href="/glass_settings" pjax="1">
+                        <i class="material-icons">settings</i>
+                        <span>Glass Settings</span>
+                    </a>
+                </li>
+
+                <li class="header">Glass API</li>
                 <li>
                     <a href="/api_examples" pjax="1">
                         <i class="material-icons">widgets</i>
                         <span>API Examples</span>
                     </a>
                 </li>
-                <li>
-                    <a href="../../pages/helper-classes.html">
-                        <i class="material-icons">layers</i>
-                        <span>Helper Classes</span>
-                    </a>
-                </li>
 
-                <li class="header">LABELS</li>
-                <li>
-                    <a href="javascript:void(0);">
-                        <i class="material-icons col-red">donut_large</i>
-                        <span>Important</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">
-                        <i class="material-icons col-amber">donut_large</i>
-                        <span>Warning</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">
-                        <i class="material-icons col-light-blue">donut_large</i>
-                        <span>Information</span>
-                    </a>
-                </li>
             </ul>
         </div>
         <!-- #Menu -->
         <!-- Footer -->
         <div class="legal">
             <div class="copyright">
-                &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
+                &copy; 2017 <a href="javascript:void(0);">Glass - Chris Miles</a><br>
+                &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>
             </div>
             <div class="version">
-                <b>Version: </b> 1.0.5
+                <b>Version: </b> 1.0.0
             </div>
         </div>
         <!-- #Footer -->
@@ -156,6 +149,9 @@
 <!-- Slimscroll Plugin Js -->
 <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
 
+<!-- Notify plugin -->
+<script src="assets/plugins/bootstrap-notify/bootstrap-notify.js"></script>
+
 <!-- Waves Effect Plugin Js -->
 <script src="assets/plugins/node-waves/waves.js"></script>
 
@@ -167,7 +163,8 @@
 
 <script src="assets/js/pjax.js"></script>
 
-<script src="assets/js/api_examples.js"></script>
+<script src="assets/js/api-examples.js"></script>
+<script src="assets/js/glass-core.js"></script>
 
 <script src="assets/plugins/jquery-datatable/jquery.dataTables.js"></script>
 <script src="assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>

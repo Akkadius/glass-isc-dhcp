@@ -3,12 +3,13 @@ var router = express.Router();
 var fs = require('fs');
 var template_render = require('../lib/render_template.js');
 
-/* GET home page. */
+var json_file = require('jsonfile');
+glass_config = json_file.readFileSync('config/glass_config.json');
+
 router.get('/', function(req, res, next) {
 
 	const execSync = require('child_process').execSync;
-	output = execSync('/home/cmiles/dhcpd-pools -c /home/cmiles/dhcpd.conf -l /home/cmiles/dhcpd.leases -f J -A -s e');
-	// output = execSync('/home/cmiles/dhcpd-pools -c /etc/dhcp/dhcpd.conf -l /var/lib/dhcp/dhcpd.leases -f j -A -s e');
+	output = execSync('./bin/dhcpd-pools -c ' + glass_config.config_file + ' -l ' + glass_config.leases_file + ' -f j -A -s e');
 
 	var dhcp_data = JSON.parse(output);
 

@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
+/* Read Config */
+var json_file = require('jsonfile');
+glass_config = json_file.readFileSync('config/glass_config.json');
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -22,9 +26,12 @@ app.use('/get_dashboard', require('./routes/dashboard'));
 app.use('/get_stats', require('./routes/get_stats'));
 app.use('/dhcp_leases', require('./routes/dhcp_leases'));
 app.use('/api_examples', require('./routes/api_examples'));
+app.use('/glass_settings', require('./routes/glass_settings'));
+app.use('/glass_settings_save', require('./routes/glass_settings_save'));
 
 /* API Routes */
 app.use('/api/get_active_leases/', require('./api/get_active_leases'));
+app.use('/api/get_subnet_details/', require('./api/get_subnet_details'));
 
 app.set('view engine', 'html');
 
@@ -62,7 +69,7 @@ dhcp_lease_data = {};
 lease_read_buffer = "";
 
 fs = require('fs');
-fs.readFile('/var/lib/dhcp/dhcpd.leases', 'utf8', function (err,data) {
+fs.readFile(glass_config.leases_file, 'utf8', function (err,data) {
 	if (err) {
 		return console.log(err);
 	}
@@ -73,7 +80,7 @@ fs.readFile('/var/lib/dhcp/dhcpd.leases', 'utf8', function (err,data) {
 
 var tail_module = require('always-tail');
 tail = new tail_module(
-	"/var/lib/dhcp/dhcpd.leases",
+	glass_config.leases_file,
 	"\n",
 	options
 );
