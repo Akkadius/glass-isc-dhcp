@@ -22,6 +22,9 @@ router.get('/', function(req, res, next) {
 	/* Config File */
 	input = input + template_render.form_input('Config File', '<input type="input" class="form-control" id="config_file" placeholder="/etc/dhcp/dhcpd.conf" value="' + glass_config.config_file + '">');
 
+	/* Log File */
+	input = input + template_render.form_input('Log File', '<input type="input" class="form-control" id="log_file" placeholder="/var/log/dhcp.log" value="' + glass_config.log_file + '">');
+
 	/* Admin User */
 	input = input + template_render.form_input('Admin User', '<input type="input" class="form-control" id="admin_user" placeholder="Username" value="' + glass_config.admin_user + '">');
 	input = input + template_render.form_input('Admin Password', '<input type="input" class="form-control" id="admin_password" placeholder="Password" value="' + glass_config.admin_password + '">');

@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    [title]
+                </h2>
+            </div>
+            <div class="body">
+                [log_content]
+                <form>
+                    <label>Actions</label>
+                    <div class="form-group">
+                        <div >
+                            <button type="button" onclick="log_action('start')" class="btn btn-default waves-effect">Start Watch</button>
+                            <button type="button" onclick="log_action('stop')" class="btn btn-default waves-effect">Stop Watch</button>
+                            <button type="button" onclick="log_action('clear')" class="btn btn-default waves-effect">Clear</button>
+                            <button type="button" onclick="log_action('download_logs')" class="btn btn-default waves-effect">Save to File</button>
+                        </div>
+                    </div>
+                    <label>Grep Filter</label>
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input type="text" id="grep_fitler" class="form-control" placeholder="Add text/regex you would like to filter the logs with...">
+                        </div>
+                    </div>
+
+                    <div id="dhcp_log" style="width:100%; height:800px; color: #95cd24"></div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/ace_editor/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="assets/js/ace_editor/theme-terminal.js" type="text/javascript" charset="utf-8"></script>
+<script src="assets/js/page-dhcp-logs.js" type="text/javascript" charset="utf-8"></script>
