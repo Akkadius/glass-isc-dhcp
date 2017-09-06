@@ -21,6 +21,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+if(glass_config.ip_ranges_to_allow) {
+	var ip_filter = require('express-ipfilter').IpFilter;
+	var ips = glass_config.ip_ranges_to_allow;
+	app.use(ip_filter(ips, {mode: 'allow'}));
+}
+
 /* Normal Web Routes */
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));

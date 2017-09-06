@@ -8,5 +8,6 @@
   "shared_network_warning_threshold": "80",
   "slack_webhook_url": "https://hooks.slack.com/services/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",
   "slack_alert_channel": "#alerting",
-  "leases_per_minute_threshold": "1000"
+  "leases_per_minute_threshold": "1000",
+  "ip_ranges_to_allow": [""]
 }
