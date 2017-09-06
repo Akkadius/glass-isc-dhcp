@@ -3,22 +3,6 @@
  */
 
 $( document ).ajaxComplete(function( event, request, settings ) {
-
-	/*
-	* Properly check pjax requests to see if we are in the dashboard or not
-	*/
-	if(/v_ajax/.test(settings.url)){
-		request = settings.url;
-		request = request.replace("\?v_ajax", "").trim();
-
-		if(request == "/" && in_dashboard != 1) {
-			in_dashboard = 1;
-		}
-		else {
-			in_dashboard = 0;
-		}
-	}
-
 	/*
 	* Form input focus event
 	*/

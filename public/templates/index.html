@@ -218,15 +218,6 @@
 
 <script type="text/javascript">
 
-    var in_dashboard = 0;
-
-    function get_dashboard() {
-		$.get( "/get_dashboard", function( data ) {
-			$('#body-content').html(data);
-			$('#shared-networks').fadeOut(300).fadeIn(300);
-			$('#display-subnets').fadeOut(300).fadeIn(300);
-		});
-	}
     function get_stats() {
 		$.get( "/get_stats", function( data ) {
             $('#cpu-utilization').html(data.cpu_utilization + "%");
@@ -256,26 +247,17 @@
 				"aaSorting": []
 			});
 
+			$('#shared-networks').fadeOut(100).fadeIn(100);
+			$('#display-subnets').fadeOut(100).fadeIn(100);
 		});
     }
 
 	get_stats_timer = setInterval(function () {
-		console.log("get_stats_timer");
-		if (window_focus && $('#total-leases').length && in_dashboard == 1) {
-			console.log("get_stats_timer trigger");
+		if (window_focus && $('#total-leases').length) {
 			get_stats();
 		}
 	}, 5000);
 
-	if(window.location.pathname == "/") {
-		get_stats();
-		in_dashboard = 1;
-		console.log("in dash");
-	}
-	else {
-		in_dashboard = 0;
-		console.log("out dash");
-    }
 
 	var window_focus = true;
 

@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 			content_shared_networks + content_subnets +
 			'</div>',
             req.url
-        ) + '<script type="text/javascript">get_stats();</script>'
+        ) + '<script type="text/javascript">get_stats(); </script>'
 
 	);
 

@@ -24,7 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 /* Normal Web Routes */
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
-app.use('/get_dashboard', require('./routes/dashboard'));
 app.use('/get_stats', require('./routes/get_stats'));
 app.use('/dhcp_leases', require('./routes/dhcp_leases'));
 app.use('/dhcp_log', require('./routes/dhcp_log'));
