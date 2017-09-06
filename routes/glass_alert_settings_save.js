@@ -4,8 +4,9 @@
 
 var express = require('express');
 var router = express.Router();
+var authorize = require('../lib/authorize.js');
 
-router.post('/', function(req, res, next) {
+router.post('/', authorize.auth, function(req, res, next) {
 	var request = req.body;
 	var json_file = require('jsonfile');
 	var glass_config = json_file.readFileSync('config/glass_config.json');

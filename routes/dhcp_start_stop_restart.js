@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var template_render = require('../lib/render_template.js');
+var authorize = require('../lib/authorize.js');
 
-router.get('/', function(req, res, next) {
+router.get('/', authorize.auth, function(req, res, next) {
 
 	var content = "";
 
@@ -41,7 +42,7 @@ router.get('/', function(req, res, next) {
 	});
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', authorize.auth, function(req, res, next) {
 	var request = req.body;
 
 	const execSync = require('child_process').execSync;

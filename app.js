@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-if(glass_config.ip_ranges_to_allow) {
+if(glass_config.ip_ranges_to_allow != "") {
 	var ip_filter = require('express-ipfilter').IpFilter;
 	var ips = glass_config.ip_ranges_to_allow;
 	app.use(ip_filter(ips, {mode: 'allow'}));
@@ -377,11 +377,11 @@ alert_check_timer = setInterval(function(){
 		console.log("[Timer] lpm: %s lpm_th: %s", leases_per_minute, glass_config.leases_per_minute_threshold);
 		if (leases_per_minute <= glass_config.leases_per_minute_threshold && alert_status['leases_per_minute'] == 0) {
 			alert_status['leases_per_minute'] = 1;
-			slack_message(":warning: WARNING: DHCP leases per minute have dropped below critical threshold (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") Current (" + parseInt(leases_per_minute).toLocaleString('en') + ")");
+			slack_message(":warning: WARNING: DHCP leases per minute have dropped below threshold (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") Current (" + parseInt(leases_per_minute).toLocaleString('en') + ")");
 		}
 		else if (leases_per_minute >= glass_config.leases_per_minute_threshold && alert_status['leases_per_minute'] == 1) {
 			alert_status['leases_per_minute'] = 0;
-			slack_message(":white_check_mark: CLEAR: DHCP leases per minute have returned to above the critical threshold (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") Current (" + parseInt(leases_per_minute).toLocaleString('en') + ")");
+			slack_message(":white_check_mark: CLEAR: DHCP leases per minute have returned to above threshold (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") Current (" + parseInt(leases_per_minute).toLocaleString('en') + ")");
 		}
 	}
 }, (60 * 1000));

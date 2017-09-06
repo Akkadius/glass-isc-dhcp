@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var template_render = require('../lib/render_template.js');
+var authorize = require('../lib/authorize.js');
 
-router.get('/', function(req, res, next) {
+router.get('/', authorize.auth, function(req, res, next) {
 
 	var content = "";
 
