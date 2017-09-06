@@ -7,14 +7,25 @@ var template_render = require('../lib/render_template.js');
 router.get('/', function(req, res, next) {
     console.log(req.url);
 
-    res.send(
-        template_render.get_index_template(
-            '<script type="text/javascript">' +
-            'get_dashboard(); get_stats();' +
-            '</script>',
+	counters = template_render.get_template("counters");
+
+	/* Display Shared Networks Row */
+	content_shared_networks = template_render.get_template("shared_networks");
+
+	/* Display Subnets Row */
+	content_subnets = template_render.get_template("display_subnets");
+
+	res.send(
+		template_render.get_index_template(
+		    counters +
+			'<div class="row clearfix">' +
+			content_shared_networks + content_subnets +
+			'</div>',
             req.url
-        )
-    );
+        ) + '<script type="text/javascript">get_stats();</script>'
+
+	);
+
 });
 
 module.exports = router;

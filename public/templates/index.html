@@ -171,6 +171,13 @@
 
 </section>
 
+<!-- Jquery Core Js -->
+<script src="assets/plugins/jquery/jquery.min.js"></script>
+
+<script src="assets/plugins/jquery-datatable/jquery.dataTables.js"></script>
+<script src="assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+<script src="assets/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
@@ -181,9 +188,6 @@
         </div>
     </div>
 </section>
-
-<!-- Jquery Core Js -->
-<script src="assets/plugins/jquery/jquery.min.js"></script>
 
 <!-- Bootstrap Core Js -->
 <script src="assets/plugins/bootstrap/js/bootstrap.js"></script>
@@ -210,9 +214,7 @@
 
 <script src="assets/js/file-saver.js"></script>
 
-<script src="assets/plugins/jquery-datatable/jquery.dataTables.js"></script>
-<script src="assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-<script src="assets/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+
 
 <script type="text/javascript">
 
@@ -228,27 +230,52 @@
     function get_stats() {
 		$.get( "/get_stats", function( data ) {
             $('#cpu-utilization').html(data.cpu_utilization + "%");
-            $('#leases-sec').html(data.leases_per_second.toLocaleString('en'));
+            $('#leases-sec').html(data.leases_per_second.toLocaleString('en') + ' / ' + data.leases_per_minute.toLocaleString('en'));
             $('#total-leases').html(data.leases_used.toLocaleString('en'));
+            $('#shared-networks > tbody').html(data.shared_network_table);
+
+            $('#display-subnets > tbody').html(data.display_subnets_table);
+
+            if(typeof shared_networks !== "undefined")
+			    shared_networks.destroy();
+
+			if(typeof display_subnets !== "undefined")
+                display_subnets.destroy();
+
+			shared_networks = $('#shared-networks').DataTable({
+				dom: 'tip',
+				responsive: true,
+				"pageLength": 100,
+				"aaSorting": []
+			});
+
+			display_subnets = $('#display-subnets').DataTable({
+				dom: 'tip',
+				responsive: true,
+				"pageLength": 100,
+				"aaSorting": []
+			});
+
 		});
     }
 
-	dashboard_timer = setInterval(function () {
-		if (window_focus && $('#shared-networks').length && in_dashboard == 1) {
-			get_dashboard();
-		}
-	}, 5000);
-
 	get_stats_timer = setInterval(function () {
-		if (window_focus && $('#cpu-utilization').length && in_dashboard == 1) {
+		console.log("get_stats_timer");
+		if (window_focus && $('#total-leases').length && in_dashboard == 1) {
+			console.log("get_stats_timer trigger");
 			get_stats();
 		}
 	}, 5000);
 
 	if(window.location.pathname == "/") {
 		get_stats();
-		get_dashboard();
+		in_dashboard = 1;
+		console.log("in dash");
 	}
+	else {
+		in_dashboard = 0;
+		console.log("out dash");
+    }
 
 	var window_focus = true;
 

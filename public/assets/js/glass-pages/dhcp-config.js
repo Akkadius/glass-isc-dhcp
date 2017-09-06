@@ -1,3 +1,5 @@
+$('#dhcp_config').height($(window).height() * 0.6);
+
 var dhcp_config = ace.edit("dhcp_config");
 dhcp_config.setTheme("ace/theme/terminal");
 dhcp_config.$blockScrolling = Infinity;

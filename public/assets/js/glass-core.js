@@ -3,14 +3,25 @@
  */
 
 $( document ).ajaxComplete(function( event, request, settings ) {
-	check_dashboard_active();
-
 
 	/*
-	* Form input highlighting events
-	 */
+	* Properly check pjax requests to see if we are in the dashboard or not
+	*/
+	if(/v_ajax/.test(settings.url)){
+		request = settings.url;
+		request = request.replace("\?v_ajax", "").trim();
 
-	//On focus event
+		if(request == "/" && in_dashboard != 1) {
+			in_dashboard = 1;
+		}
+		else {
+			in_dashboard = 0;
+		}
+	}
+
+	/*
+	* Form input focus event
+	*/
 	$('.form-control').focus(function () {
 		$(this).parent().addClass('focused');
 	});
@@ -44,15 +55,6 @@ $( document ).ajaxComplete(function( event, request, settings ) {
 $( document ).ready(function() {
 	$('.form-line').removeClass("focused");
 });
-
-function check_dashboard_active() {
-	if(window.location.pathname == "/" && in_dashboard != 1) {
-		in_dashboard = 1;
-	}
-	else {
-		in_dashboard = 0;
-	}
-}
 
 function modal (title, content, buttons) {
 	$('#modal-buttons').html('');

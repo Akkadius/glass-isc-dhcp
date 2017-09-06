@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+const execSync = require('child_process').execSync;
+
 var app = express();
 
 /* Read Config */
@@ -66,6 +68,7 @@ module.exports = app;
 /**
  * Global Variables
  */
+leases_per_minute = 0;
 cpu_utilization = 0;
 total_leases = 0;
 
@@ -140,7 +143,7 @@ var glass_config = json_file.readFileSync('config/glass_config.json');
 var options = {};
 options.interval = 1000;
 
-dashboard_timer = setInterval(function(){
+var dashboard_timer = setInterval(function(){
 	// console.log("Checking timers...");
 	unix_time = Math.floor(new Date() / 1000);
 	if((unix_time - 5) > leases_last_update_time){
@@ -151,11 +154,49 @@ dashboard_timer = setInterval(function(){
 
 }, 5000);
 
+/**
+ * Calculate leases per minute
+ */
+var leases_per_minute_data = [];
+var leases_per_minute_counter = 0;
+
+leases_per_minute_counter_timer = setInterval(function(){
+	// console.log("leases per minute counter %i", leases_per_minute_counter);
+
+	leases_per_minute_data[leases_per_minute_counter] = current_leases_per_second;
+	leases_per_minute_counter++;
+
+	/* Count how many actual data sets we walked that have values */
+	leases_per_minute = 0;
+	for (i = 0; i < 59; i++){
+		if(leases_per_minute_data[i] > 0) {
+			leases_per_minute += leases_per_minute_data[i];
+			// console.log("iteration " + i + " val: " + leases_per_minute_data[i] + " lpm: " + leases_per_minute);
+		}
+		else {
+			// console.log("no data " + i);
+		}
+	}
+
+	if (leases_per_minute_counter == 60)
+		leases_per_minute_counter = 0;
+
+}, 1000);
+
+/**
+ * Poll: CPU Utilization
+ */
+
+cpu_utilization_poll = setInterval(function(){
+	cpu_utilization = parseFloat(execSync("top -bn 1 | awk 'NR>7{s+=$9} END {print s/4}'"))
+}, (15 * 1000));
+
+/**
+ * Clean Expired Leases
+ */
 lease_clean_timer = setInterval(function(){
 	lease_parser.clean();
 }, (60 * 1000));
-
-
 
 function get_socket_clients_connected_count() {
 	wss.clients.forEach(function each(client) {
@@ -172,7 +213,6 @@ function get_socket_clients_connected_count() {
 
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
-
 
 options.interval = 100;
 var tail_dhcp_log = new tail_module(
@@ -277,3 +317,47 @@ const interval = setInterval(function ping() {
 }, 30000);
 
 var socket_clients = 0;
+
+
+/**
+ * Slack Hooks
+ */
+
+
+var Slack = require('slack-node');
+
+webhookUri = glass_config.slack_webhook_url;
+
+slack = new Slack();
+slack.setWebhook(webhookUri);
+
+function slack_message(message) {
+	slack.webhook({
+		channel: glass_config.slack_alert_channel,
+		username: "Glass",
+		icon_emoji: "https://i.imgur.com/VDzAuAq.png",
+		text: message
+	}, function (err, response) {
+		console.log(response);
+	});
+}
+
+/**
+ * Alert Checks
+ */
+
+alert_status = [];
+alert_status['leases_per_second'] = 0;
+
+alert_check_timer = setInterval(function(){
+	if(glass_config.lease_per_second_threshold > 0) {
+		if (current_leases_per_second <= glass_config.lease_per_second_threshold && alert_status['leases_per_second'] == 0) {
+			alert_status['leases_per_second'] = 1;
+			// slack_message(":warning: WARNING: DHCP leases per second have dropped below critical threshold (" + glass_config.lease_per_second_threshold + ") Current LP/s (" + current_leases_per_second + ")");
+		}
+		else if (current_leases_per_second >= glass_config.lease_per_second_threshold && alert_status['leases_per_second'] == 1) {
+			alert_status['leases_per_second'] = 0;
+			// slack_message(":white_check_mark: CLEAR: DHCP leases per second have returned to above the critical threshold (" + glass_config.lease_per_second_threshold + ") Current LP/s (" + current_leases_per_second + ")");
+		}
+	}
+}, (5 * 1000));

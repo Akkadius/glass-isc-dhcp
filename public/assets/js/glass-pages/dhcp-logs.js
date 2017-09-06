@@ -76,11 +76,13 @@ if(typeof socket === "undefined") {
 			editor.setValue("");
 		}
 
-		var row = editor.session.getLength() - 1
-		var column = editor.session.getLine(row).length // or simply Infinity
+		var row = editor.session.getLength() - 1;
+		var column = editor.session.getLine(row).length; // or simply Infinity
 		editor.gotoLine(row + 1, column);
 	};
 }
+
+$('#dhcp_log').height($(window).height() * 0.6);
 
 var editor = ace.edit("dhcp_log");
 editor.setTheme("ace/theme/terminal");
