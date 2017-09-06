@@ -99,6 +99,7 @@ router.get('/', function(req, res, next) {
 		"leases_per_second": current_leases_per_second,
 		"leases_per_minute": leases_per_minute,
 		"shared_network_table": shared_networks,
+		"host_name": host_name,
 		"display_subnets_table": display_subnets
 	};
 

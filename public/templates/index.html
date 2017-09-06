@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Glass - ISC DHCP Server Utility</title>
+    <title>Glass | ISC DHCP Server Utility</title>
     <!-- Favicon-->
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 
@@ -67,6 +67,13 @@
 <section>
     <!-- Left Sidebar -->
     <aside id="leftsidebar" class="sidebar">
+        <div class="user-info" style="background: url('images/user-img-background.jpg') no-repeat no-repeat;height: 75px">
+            <div class="image">
+                <img src="images/glass_logo.png" width="48" height="48" alt="User">
+
+            </div>
+        </div>
+
         <!-- Menu -->
         <div class="menu">
             <ul class="list">
@@ -140,7 +147,7 @@
         <!-- Footer -->
         <div class="legal">
             <div class="copyright">
-                &copy; 2017 <a href="javascript:void(0);">Glass - Chris Miles</a><br>
+                &copy; 2017 <a href="javascript:void(0);">Glass | Chris Miles</a><br>
                 &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>
             </div>
             <div class="version">
@@ -222,6 +229,7 @@
             $('#cpu-utilization').html(data.cpu_utilization + "%");
             $('#leases-sec').html(data.leases_per_second.toLocaleString('en') + ' / ' + data.leases_per_minute.toLocaleString('en'));
             $('#total-leases').html(data.leases_used.toLocaleString('en'));
+            $('#server-name').html(data.host_name);
             $('#shared-networks > tbody').html(data.shared_network_table);
 
             $('#display-subnets > tbody').html(data.display_subnets_table);
@@ -250,6 +258,8 @@
 			$('#display-subnets').fadeOut(100).fadeIn(100);
 		});
     }
+
+    change_favicon("images/glass_logo.png");
 
 	get_stats_timer = setInterval(function () {
 		if (window_focus && $('#total-leases').length) {

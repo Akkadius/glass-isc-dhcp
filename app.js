@@ -81,6 +81,8 @@ listening_to_log_file = 0;
 options = {};
 options.interval = 1000;
 
+host_name = execSync("cat /etc/hostname").toString();
+
 /**
  * Ingest Current Lease File
  */
@@ -187,7 +189,7 @@ leases_per_minute_counter_timer = setInterval(function(){
  */
 
 cpu_utilization_poll = setInterval(function(){
-	cpu_utilization = parseFloat(execSync("top -bn 1 | awk 'NR>7{s+=$9} END {print s/4}'"))
+	cpu_utilization = parseFloat(execSync("top -bn 1 | awk 'NR>7{s+=$9} END {print s/4}'").toString())
 }, (15 * 1000));
 
 /**
@@ -207,13 +209,13 @@ function get_socket_clients_connected_count() {
 }
 
 /**
- * Websocker Server
+ * Websocket Server
  */
 
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
 
-options.interval = 100;
+options.interval = 300;
 var tail_dhcp_log = new tail_module(
 	glass_config.log_file,
 	"\n",
