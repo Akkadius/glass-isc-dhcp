@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
 
 	glass_config.shared_network_critical_threshold = request.shared_network_critical_threshold;
 	glass_config.shared_network_warning_threshold = request.shared_network_warning_threshold;
-	glass_config.lease_per_second_threshold = request.lease_per_second_threshold;
+	glass_config.leases_per_minute_threshold = request.leases_per_minute_threshold;
 	glass_config.slack_webhook_url = request.slack_webhook_url;
 	glass_config.slack_alert_channel = request.slack_alert_channel;
 

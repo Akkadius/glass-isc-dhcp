@@ -209,6 +209,19 @@ function get_socket_clients_connected_count() {
 }
 
 /**
+ * Watch config changes so we reload it for core functions...
+ */
+fs.watch('config/glass_config.json', function (event, filename) {
+	if (filename) {
+		setTimeout(function(){
+			glass_config = json_file.readFileSync('config/glass_config.json');
+		}, 1000);
+	} else {
+		console.log('filename not provided');
+	}
+});
+
+/**
  * Websocket Server
  */
 
@@ -333,10 +346,12 @@ slack = new Slack();
 slack.setWebhook(webhookUri);
 
 function slack_message(message) {
+	console.log("[Slack] %s", message);
+
 	slack.webhook({
 		channel: glass_config.slack_alert_channel,
 		username: "Glass",
-		icon_emoji: "https://i.imgur.com/VDzAuAq.png",
+		icon_emoji: "https://imgur.com/wD3CcBi",
 		text: message
 	}, function (err, response) {
 		console.log(response);
@@ -348,17 +363,19 @@ function slack_message(message) {
  */
 
 alert_status = [];
-alert_status['leases_per_second'] = 0;
+alert_status['leases_per_minute'] = 0;
 
 alert_check_timer = setInterval(function(){
-	if(glass_config.lease_per_second_threshold > 0) {
-		if (current_leases_per_second <= glass_config.lease_per_second_threshold && alert_status['leases_per_second'] == 0) {
-			alert_status['leases_per_second'] = 1;
-			// slack_message(":warning: WARNING: DHCP leases per second have dropped below critical threshold (" + glass_config.lease_per_second_threshold + ") Current LP/s (" + current_leases_per_second + ")");
+	console.log("[Timer] Alert Timer check");
+	if(glass_config.leases_per_minute_threshold > 0) {
+		console.log("[Timer] lpm: %s lpm_th: %s", leases_per_minute, glass_config.leases_per_minute_threshold);
+		if (leases_per_minute <= glass_config.leases_per_minute_threshold && alert_status['leases_per_minute'] == 0) {
+			alert_status['leases_per_minute'] = 1;
+			slack_message(":warning: WARNING: DHCP leases per minute have dropped below critical threshold (" + glass_config.leases_per_minute_threshold.toLocaleString('en') + ") Current LP/s (" + leases_per_minute.toLocaleString('en') + ")");
 		}
-		else if (current_leases_per_second >= glass_config.lease_per_second_threshold && alert_status['leases_per_second'] == 1) {
-			alert_status['leases_per_second'] = 0;
-			// slack_message(":white_check_mark: CLEAR: DHCP leases per second have returned to above the critical threshold (" + glass_config.lease_per_second_threshold + ") Current LP/s (" + current_leases_per_second + ")");
+		else if (leases_per_minute >= glass_config.leases_per_minute_threshold && alert_status['leases_per_minute'] == 1) {
+			alert_status['leases_per_minute'] = 0;
+			slack_message(":white_check_mark: CLEAR: DHCP leases per minute have returned to above the critical threshold (" + glass_config.leases_per_minute_threshold.toLocaleString('en') + ") Current LP/s (" + leases_per_minute.toLocaleString('en') + ")");
 		}
 	}
-}, (5 * 1000));
+}, (60 * 1000));

@@ -17,13 +17,13 @@ router.get('/', function(req, res, next) {
 	glass_config = json_file.readFileSync('config/glass_config.json');
 
 	/* Shared Network Alert Threshold (Critical) */
-	input = template_render.form_input('Shared Network Alert Threshold (Critical)', '<input type="input" class="form-control" id="shared_network_critical_threshold" placeholder="95%" value="' + glass_config.shared_network_critical_threshold + '">');
+	input = template_render.form_input('Shared Network Alert Threshold % (Critical)', '<input type="input" class="form-control" id="shared_network_critical_threshold" placeholder="95%" value="' + glass_config.shared_network_critical_threshold + '">');
 
 	/* Shared Network Alert Threshold (Warning) */
-	input = input + template_render.form_input('Shared Network Alert Threshold (Warning)', '<input type="input" class="form-control" id="shared_network_warning_threshold" placeholder="80" value="' + glass_config.shared_network_warning_threshold + '">');
+	input = input + template_render.form_input('Shared Network Alert Threshold % (Warning)', '<input type="input" class="form-control" id="shared_network_warning_threshold" placeholder="80" value="' + glass_config.shared_network_warning_threshold + '">');
 
-	/* Leases Per Second Threshold */
-	input = input + template_render.form_input('Alert when Leases Per Second Reaches Below this Number', '<input type="input" class="form-control" id="lease_per_second_threshold" placeholder="0" value="' + glass_config.lease_per_second_threshold + '">');
+	/* Leases Per Minute Threshold */
+	input = input + template_render.form_input('Alert when Leases Per Minute Reaches Below this Number', '<input type="input" class="form-control" id="leases_per_minute_threshold" placeholder="0" value="' + glass_config.leases_per_minute_threshold + '">');
 
 	// <div id="glass_settings_result"></div>
 
