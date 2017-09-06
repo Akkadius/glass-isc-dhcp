@@ -4,9 +4,9 @@
   "leases_file": "/var/lib/dhcp/dhcpd.leases",
   "log_file": "/var/log/dhcp.log",
   "config_file": "/etc/dhcp/dhcpd.conf",
-  "shared_network_critical_threshold": 95,
-  "shared_network_warning_threshold": 80,
-  "leases_per_minute_threshold": 0,
-  "slack_webhook_url": "",
-  "slack_alert_channel": ""
+  "shared_network_critical_threshold": "95",
+  "shared_network_warning_threshold": "80",
+  "slack_webhook_url": "https://hooks.slack.com/services/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",
+  "slack_alert_channel": "#alerting",
+  "leases_per_minute_threshold": "1000"
 }

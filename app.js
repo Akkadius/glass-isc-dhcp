@@ -379,3 +379,87 @@ alert_check_timer = setInterval(function(){
 		}
 	}
 }, (60 * 1000));
+
+alert_status_networks_warning = [];
+alert_status_networks_critical = [];
+
+alert_subnet_check_timer = setInterval(function(){
+	console.log("[Timer] Alert Timer check - subnets");
+
+	if(glass_config.shared_network_warning_threshold > 0 || glass_config.shared_network_critical_threshold > 0) {
+		const execSync = require('child_process').execSync;
+		output = execSync('./bin/dhcpd-pools -c ' + glass_config.config_file + ' -l ' + glass_config.leases_file + ' -f j -A -s e');
+		var dhcp_data = JSON.parse(output);
+
+		/*
+		* Iterate through Shared Networks
+		 */
+		for ( var i = 0; i < dhcp_data['shared-networks'].length; i++) {
+			utilization = round(parseFloat(dhcp_data['shared-networks'][i].used / dhcp_data['shared-networks'][i].defined) * 100, 2);
+
+			if(isNaN(utilization))
+				utilization = 0;
+
+
+			/* Initialize these array buckets */
+			if(typeof alert_status_networks_warning[dhcp_data['shared-networks'][i].location] === "undefined")
+				alert_status_networks_warning[dhcp_data['shared-networks'][i].location] = 0;
+
+			if(typeof alert_status_networks_critical[dhcp_data['shared-networks'][i].location] === "undefined")
+				alert_status_networks_critical[dhcp_data['shared-networks'][i].location] = 0;
+
+			console.log("Location: %s", dhcp_data['shared-networks'][i].location);
+			console.log("Used: %s", dhcp_data['shared-networks'][i].used.toLocaleString('en'));
+			console.log("Defined: %s", dhcp_data['shared-networks'][i].defined.toLocaleString('en'));
+			console.log("Free: %s", dhcp_data['shared-networks'][i].free.toLocaleString('en'));
+			console.log("Utilization: %s", utilization);
+			console.log(" \n");
+
+			/* Check Warnings */
+			if(glass_config.shared_network_warning_threshold > 0) {
+				if (
+					utilization >= glass_config.shared_network_warning_threshold &&
+					utilization <= glass_config.shared_network_critical_threshold &&
+					alert_status_networks_warning[dhcp_data['shared-networks'][i].location] == 0
+				)
+				{
+					alert_status_networks_warning[dhcp_data['shared-networks'][i].location] = 1;
+					slack_message(":warning: WARNING: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") Current: (" + utilization + ") Threshold: (" + glass_config.shared_network_warning_threshold + ")");
+				}
+				else if (
+					utilization <= glass_config.shared_network_warning_threshold &&
+					alert_status_networks_warning[dhcp_data['shared-networks'][i].location] == 1
+				)
+				{
+					alert_status_networks_warning[dhcp_data['shared-networks'][i].location] = 0;
+					slack_message(":white_check_mark: CLEAR: Warning DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") Current: (" + utilization + ") Threshold: (" + glass_config.shared_network_warning_threshold + ")");
+				}
+			}
+
+			/* Check Critical */
+			if(glass_config.shared_network_critical_threshold > 0) {
+				if (
+					utilization >= glass_config.shared_network_critical_threshold &&
+					alert_status_networks_critical[dhcp_data['shared-networks'][i].location] == 0
+				)
+				{
+					alert_status_networks_critical[dhcp_data['shared-networks'][i].location] = 1;
+					slack_message(":fire: CRITICAL: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") Current: (" + utilization + ") Threshold: (" + glass_config.shared_network_critical_threshold + ")");
+				}
+				else if (
+					utilization <= glass_config.shared_network_critical_threshold &&
+					alert_status_networks_critical[dhcp_data['shared-networks'][i].location] == 1
+				)
+				{
+					alert_status_networks_critical[dhcp_data['shared-networks'][i].location] = 0;
+					slack_message(":white_check_mark: CLEAR: Critical DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") Current: (" + utilization + ") Threshold: (" + glass_config.shared_network_critical_threshold + ")");
+				}
+			}
+		}
+	}
+}, (5 * 1000));
+
+function round(num, places) {
+	var multiplier = Math.pow(10, places);
+	return Math.round(num * multiplier) / multiplier;
+}
