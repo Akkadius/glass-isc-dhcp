@@ -40,6 +40,19 @@ $( document ).ready(function() {
 	$('.form-line').removeClass("focused");
 });
 
+// leftsidebar
+
+
+/*
+ * When a sidebar item is clicked in mobile - let's make sure we push the sidebar back in
+ */
+
+$(document).on('click','a',function(){
+	console.log("click");
+	//  $(this) = your current element that clicked.
+	// additional code
+});
+
 function modal (title, content, buttons) {
 	$('#modal-buttons').html('');
 	$('#modal-title').html(title);

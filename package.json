@@ -7,12 +7,18 @@
   },
   "dependencies": {
     "always-tail": "^0.2.0",
+    "basic-auth": "^1.1.0",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "express-ipfilter": "^0.3.1",
+    "humanize": "0.0.9",
     "jade": "~1.11.0",
+    "jsonfile": "^3.0.1",
     "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "slack-node": "^0.1.8",
+    "ws": "^3.1.0"
   }
 }
