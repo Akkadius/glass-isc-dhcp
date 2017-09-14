@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "always-tail": "^0.2.0",
+    "always-tail2": "^1.0.0",
     "basic-auth": "^1.1.0",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
