@@ -73,7 +73,7 @@ function do_pjax_request(request_url){
 	/* Destroy some dynamically spawned assets */
 
 	$('#body-content').css("opacity", ".1");
-	
+
 	if(pjax_cache[request_url] && ignore_cache != 1){
 		if (typeof e !== 'undefined') {
 			e.preventDefault();
@@ -92,6 +92,8 @@ function do_pjax_request(request_url){
 		$('#body-content').html(e_res);
 
 		$(scroll_target).animate({scrollTop: 0}, 100);
+
+		$( document ).trigger( "on_pjax_complete");
 
 		last_navigated_url = request_url;
 
@@ -115,6 +117,9 @@ function do_pjax_request(request_url){
 
 			$('#body-content').css("opacity", "1");
 			$('#body-content').html(e_res);
+
+			$( document ).trigger( "on_pjax_complete");
+
 
 			/* Cache the result */
 			pjax_cache[request_url] = e_res;

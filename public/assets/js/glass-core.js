@@ -40,17 +40,15 @@ $( document ).ready(function() {
 	$('.form-line').removeClass("focused");
 });
 
-// leftsidebar
-
-
 /*
  * When a sidebar item is clicked in mobile - let's make sure we push the sidebar back in
  */
 
-$(document).on('click','a',function(){
-	console.log("click");
-	//  $(this) = your current element that clicked.
-	// additional code
+$(document).on('on_pjax_complete',function(){
+	if($('.ls-closed').length > 0){
+		$('body').removeClass('overlay-open');
+		$('.overlay').css("display", "none");
+	}
 });
 
 function modal (title, content, buttons) {
