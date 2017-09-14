@@ -109,7 +109,7 @@ fs.readFile(glass_config.leases_file, 'utf8', function (err,data) {
 /**
  * Leases File Listener
  */
-var tail_module = require('always-tail');
+var tail_module = require('always-tail2');
 tail = new tail_module(
 	glass_config.leases_file,
 	"\n",
@@ -253,7 +253,7 @@ wss.on('connection', function connection(ws) {
 
 	if (!listening_to_log_file) {
 		/* Watch log file for new information */
-		var tail_module = require('always-tail');
+		var tail_module = require('always-tail2');
 
 		listening_to_log_file = 1;
 	}
