@@ -28,14 +28,14 @@ router.get('/', function(req, res, next) {
 	shared_networks = '';
 
 	for ( var i = 0; i < dhcp_data['shared-networks'].length; i++) {
-		table_row = '';
-		table_row = table_row + '<td><b>' + dhcp_data['shared-networks'][i].location + '</b></td>';
-		table_row = table_row + '<td>' + dhcp_data['shared-networks'][i].used.toLocaleString('en') + '</td>';
-		table_row = table_row + '<td>' + dhcp_data['shared-networks'][i].defined.toLocaleString('en') + '</td>';
-		table_row = table_row + '<td>' + dhcp_data['shared-networks'][i].free.toLocaleString('en') + '</td>';
+
 		utilization = dhcp_data['shared-networks'][i].utilization;
 
-		table_row = table_row + '<td>' + utilization + '</td>';
+		table_row = '';
+		table_row = table_row + '<td><b>' + dhcp_data['shared-networks'][i].location + '</b></td>';
+		table_row = table_row + '<td>' + dhcp_data['shared-networks'][i].used.toLocaleString('en') + ' (' + utilization + '%)</td>';
+		table_row = table_row + '<td>' + dhcp_data['shared-networks'][i].defined.toLocaleString('en') + '</td>';
+		table_row = table_row + '<td>' + dhcp_data['shared-networks'][i].free.toLocaleString('en') + '</td>';
 
 		utilization_color = 'green';
 
@@ -67,15 +67,14 @@ router.get('/', function(req, res, next) {
 	display_subnets = '';
 
 	for ( var i = 0; i < dhcp_data.subnets.length; i++) {
+		utilization = dhcp_data.subnets[i].utilization;
+
 		table_row = '';
 		table_row = table_row + '<td><b>' + dhcp_data.subnets[i].location + '</b></td>';
 		table_row = table_row + '<td>' + dhcp_data.subnets[i].range + '</td>';
-		table_row = table_row + '<td>' + dhcp_data.subnets[i].used.toLocaleString('en') + '</td>';
+		table_row = table_row + '<td>' + dhcp_data.subnets[i].used.toLocaleString('en') + ' (' + utilization + '%)</td>';
 		table_row = table_row + '<td>' + dhcp_data.subnets[i].defined.toLocaleString('en') + '</td>';
 		table_row = table_row + '<td>' + dhcp_data.subnets[i].free.toLocaleString('en') + '</td>';
-
-		utilization = dhcp_data.subnets[i].utilization;
-		table_row = table_row + '<td>' + utilization + '</td>';
 
 		utilization_color = 'green';
 
