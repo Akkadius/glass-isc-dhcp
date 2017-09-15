@@ -103,6 +103,7 @@ fs.readFile(glass_config.leases_file, 'utf8', function (err,data) {
 	}
 	else {
 		lease_parser.parse(data);
+        console.log("[Glass Server] Leases file loaded");
 	}
 });
 
@@ -193,7 +194,6 @@ leases_per_minute_counter_timer = setInterval(function(){
 /**
  * Poll: CPU Utilization
  */
-
 cpu_utilization_poll = setInterval(function(){
 	cpu_utilization = parseFloat(execSync("top -bn 1 | awk 'NR>7{s+=$9} END {print s/4}'").toString())
 }, (15 * 1000));
@@ -221,6 +221,7 @@ fs.watch('config/glass_config.json', function (event, filename) {
 	if (filename) {
 		setTimeout(function(){
 			glass_config = json_file.readFileSync('config/glass_config.json');
+            console.log("[Glass Server] Config Loaded");
 		}, 1000);
 	} else {
 		console.log('filename not provided');
@@ -371,7 +372,9 @@ function slack_message(message) {
 alert_status = [];
 alert_status['leases_per_minute'] = 0;
 setTimeout(function(){
-	alert_check_timer = setInterval(function(){
+    console.log("[Glass Server] Alert loop started");
+
+    alert_check_timer = setInterval(function(){
 		console.log("[Timer] Alert Timer check");
 		if(glass_config.leases_per_minute_threshold > 0) {
 			console.log("[Timer] lpm: %s lpm_th: %s", leases_per_minute, glass_config.leases_per_minute_threshold);
@@ -472,3 +475,5 @@ function round(num, places) {
 	var multiplier = Math.pow(10, places);
 	return Math.round(num * multiplier) / multiplier;
 }
+
+console.log("[Glass Server] Bootup complete");
