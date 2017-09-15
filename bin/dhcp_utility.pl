@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+#::: Chris Miles - Utility script
+
 use POSIX qw(strftime);
 
 my $output_format = 'human';

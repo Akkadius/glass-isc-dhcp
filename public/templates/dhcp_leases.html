@@ -14,7 +14,7 @@
                     <th>Hostname</th>
                     <th>Start</th>
                     <th>End</th>
-                    <th>Options</th>
+                    <th>Option Data</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,4 +33,17 @@
 		"pageLength": 100,
 		"aaSorting": []
 	});
+
+    $('.option_data').click(function(){
+        var lease = $(this).attr("lease");
+        if ( $("#" + lease).is(":visible") ) {
+            $("#" + lease).hide();
+            $(this).text('Show');
+        } else if ( $("#" + lease).is(":hidden") ) {
+            $("#" + lease).show();
+            $(this).text('Hide');
+        }
+    })
 </script>
+
+
