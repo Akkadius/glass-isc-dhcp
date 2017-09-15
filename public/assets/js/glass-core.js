@@ -132,3 +132,14 @@ function change_favicon(img) {
 	favicon.setAttribute('type', 'image/png');
 	favicon.setAttribute('href', img);
 }
+
+$(document).on("click",".option_data",function() {
+    var lease = $(this).attr("lease");
+    if ( $("#" + lease).is(":visible") ) {
+        $("#" + lease).hide();
+        $(this).text('Show');
+    } else if ( $("#" + lease).is(":hidden") ) {
+        $("#" + lease).show();
+        $(this).text('Hide');
+    }
+});

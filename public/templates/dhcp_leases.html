@@ -1,4 +1,3 @@
-
 <div class="card">
     <div class="header">
         <h2>Active Leases</h2>
@@ -34,17 +33,6 @@
 		"pageLength": 100,
 		"aaSorting": []
 	});
-
-    $(document).on("click",".option_data",function() {
-        var lease = $(this).attr("lease");
-        if ( $("#" + lease).is(":visible") ) {
-            $("#" + lease).hide();
-            $(this).text('Show');
-        } else if ( $("#" + lease).is(":hidden") ) {
-            $("#" + lease).show();
-            $(this).text('Hide');
-        }
-    });
 </script>
 
 

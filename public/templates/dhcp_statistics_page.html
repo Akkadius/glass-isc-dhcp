@@ -1,0 +1,70 @@
+<div class="row clearfix">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>Vendor List Count</h2>
+                <ul class="header-dropdown m-r--5">
+                </ul>
+            </div>
+            <div class="body">
+                <table id="device_list_table"  class="table table-bordered table-striped table-hover js-basic-example dataTable dashboard-task-infos">
+                    <thead>
+                    <tr>
+                        <th>Vendor</th>
+                        <th>Count</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <!-- #END# Area Chart -->
+    <!-- Device Chart -->
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>Device Chart</h2>
+            </div>
+            <div class="body">
+                <div id="device_chart" class="graph">
+                    <table class="display"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Donut Chart -->
+</div>
+
+<script type="text/javascript">
+    var chart_data = [];
+    $.getJSON( "/api/get_vendor_count", function( data ) {
+
+        $.each(data, function(k, v) {
+            if(v >= 3)
+                chart_data.push({"label": k, "value": v});
+
+            $('#device_list_table  > tbody:last-child').append('<tr><td>' + k + '</td><td>' + v.toLocaleString('en') + '</td></tr>');
+        });
+
+        Morris.Donut({
+            element: "device_chart",
+            data: chart_data,
+            colors: ['rgb(233, 30, 99)', 'rgb(0, 188, 212)', 'rgb(255, 152, 0)', 'rgb(0, 150, 136)'],
+            formatter: function (y) {
+                return y.toLocaleString('en')
+            }
+        });
+
+        device_list = $('#device_list_table').DataTable({
+            dom: 'tip',
+            responsive: true,
+            "pageLength": 20,
+            "aaSorting": [],
+            "order": [[ 1, "desc" ]]
+        });
+
+    });
+</script>

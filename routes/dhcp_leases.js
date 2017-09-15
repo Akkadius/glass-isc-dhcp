@@ -42,6 +42,7 @@ router.get('/', function(req, res, next) {
 		if(count >= 1000){
 			break;
 		}
+
 	}
 
 	table_data = template_render.set_template_variable(dhcp_leases, "table_data", table_data);

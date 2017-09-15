@@ -31,6 +31,7 @@ if(glass_config.ip_ranges_to_allow != "") {
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 app.use('/get_stats', require('./routes/get_stats'));
+app.use('/dhcp_statistics', require('./routes/dhcp_statistics_page'));
 app.use('/dhcp_leases', require('./routes/dhcp_leases'));
 app.use('/dhcp_log', require('./routes/dhcp_log'));
 app.use('/dhcp_config', require('./routes/dhcp_config'));
@@ -47,6 +48,7 @@ app.use('/glass_settings_save', require('./routes/glass_settings_save'));
 /* API Routes */
 app.use('/api/get_active_leases/', require('./api/get_active_leases'));
 app.use('/api/get_subnet_details/', require('./api/get_subnet_details'));
+app.use('/api/get_vendor_count/', require('./api/get_vendor_count'));
 
 app.set('view engine', 'html');
 
