@@ -49,6 +49,7 @@ app.use('/glass_settings_save', require('./routes/glass_settings_save'));
 app.use('/api/get_active_leases/', require('./api/get_active_leases'));
 app.use('/api/get_subnet_details/', require('./api/get_subnet_details'));
 app.use('/api/get_vendor_count/', require('./api/get_vendor_count'));
+app.use('/api/get_mac_oui_count_by_vendor/', require('./api/get_mac_oui_count_by_vendor'));
 
 app.set('view engine', 'html');
 

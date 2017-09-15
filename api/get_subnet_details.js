@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 	const execSync = require('child_process').execSync;
 	output = execSync('./bin/dhcpd-pools -c ' + glass_config.config_file + ' -l ' + glass_config.leases_file + ' -f j -A -s e');
 
-	console.log(JSON.parse(output));
+	// console.log(JSON.parse(output));
 
 	res.send(JSON.stringify(JSON.parse(output)));
 });

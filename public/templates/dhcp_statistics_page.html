@@ -34,6 +34,24 @@
                 </div>
             </div>
         </div>
+        <div class="card">
+            <div class="header">
+                <h2>MAC Address OUI Count by Vendor</h2>
+            </div>
+            <div class="body">
+                <table id="device_list_mac"  class="table table-bordered table-striped table-hover js-basic-example dataTable dashboard-task-infos">
+                    <thead>
+                    <tr>
+                        <th>MAC Address OUI</th>
+                        <th>Vendor</th>
+                        <th>Count</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <!-- #END# Donut Chart -->
 </div>
@@ -41,7 +59,6 @@
 <script type="text/javascript">
     var chart_data = [];
     $.getJSON( "/api/get_vendor_count", function( data ) {
-
         $.each(data, function(k, v) {
             if(v >= 3)
                 chart_data.push({"label": k, "value": v});
@@ -59,12 +76,36 @@
         });
 
         device_list = $('#device_list_table').DataTable({
-            dom: 'tip',
+            dom: 'rftip',
             responsive: true,
             "pageLength": 20,
             "aaSorting": [],
-            "order": [[ 1, "desc" ]]
+            "order": [[ 1, "desc" ]],
+            "searching": true
+        });
+    });
+
+    $.getJSON( "/api/get_mac_oui_count_by_vendor", function( data ) {
+        $.each(data, function(k, v) {
+            // console.log(k);
+
+            $('#device_list_mac  > tbody:last-child').append('<tr>' +
+                '<td>' + data[k].mac_prefix + '</td>' +
+                '<td>' + data[k].vendor + '</td>' +
+                '<td>' + data[k].count.toLocaleString('en') + '</td>' +
+                '</tr>'
+            );
+
         });
 
+        device_list = $('#device_list_mac').DataTable({
+            dom: 'rftip',
+            responsive: true,
+            "pageLength": 20,
+            "aaSorting": [],
+            "order": [[ 2, "desc" ]]
+        });
     });
+
+
 </script>
