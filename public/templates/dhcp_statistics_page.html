@@ -135,8 +135,6 @@
 
     $.getJSON( "/api/get_dhcp_requests", function( data ) {
         $.each(data, function(k, v) {
-            console.log(k);
-
             $('#excessive_requests  > tbody:last-child').append('<tr>' +
                 '<td>' + k + '</td>' +
                 '<td>' + data[k].request_for + '</td>' +

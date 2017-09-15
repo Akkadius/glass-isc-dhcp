@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
     var stat_data = dhcp_requests;
 
     for (var key in stat_data) {
-        if(stat_data[key].request_count <= 1)
+        if(stat_data[key].request_count <= 100)
             delete stat_data[key];
     }
 
