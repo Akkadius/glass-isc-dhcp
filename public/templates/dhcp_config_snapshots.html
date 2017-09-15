@@ -7,8 +7,30 @@
                 </h2>
             </div>
             <div class="body">
-                [c_content]
-                <div id="dhcp_config_snapshot_result"></div>
+
+                <table id="dhcp_config_snapshot_result" class="table table-bordered table-striped table-hover js-basic-example dataTable dashboard-task-infos">
+                    <thead>
+                    <tr>
+                        <th style="width:300px">File</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    [c_content]
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display:none" id="snapshot_grid">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Snapshot <span id="snapshot_name"></span>
+                </h2>
+            </div>
+            <div class="body">
+                <div id="snapshot_body"></div>
             </div>
         </div>
     </div>
@@ -18,3 +40,12 @@
 <script src="assets/js/ace_editor/theme-terminal.js" type="text/javascript" charset="utf-8"></script>
 <script src="assets/js/glass-pages/dhcp-config-snapshots.js" type="text/javascript" charset="utf-8"></script>
 
+<script type="text/javascript">
+    $('#dhcp_config_snapshot_result').DataTable({
+        dom: 'tip',
+        responsive: true,
+        "pageLength": 10,
+        "aaSorting": [],
+        "order": [[ 1, "desc" ]]
+    });
+</script>
