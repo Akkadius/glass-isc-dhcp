@@ -26,6 +26,7 @@ router.get('/', function(req, res, next) {
 		table_row = '';
 		table_row = table_row + '<td>' + key + '</td>';
 		table_row = table_row + '<td>' + dhcp_lease_data[key].mac + '</td>';
+		table_row = table_row + '<td>' + dhcp_lease_data[key].mac_oui_vendor + '</td>';
 		table_row = table_row + '<td>' + (dhcp_lease_data[key].host ? dhcp_lease_data[key].host : '') + '</td>';
 		table_row = table_row + '<td>' + human_time(dhcp_lease_data[key].start * 1000) + '</td>';
 		table_row = table_row + '<td>' + human_time(dhcp_lease_data[key].end * 1000) + '</td>';
@@ -37,10 +38,6 @@ router.get('/', function(req, res, next) {
 		table_data = table_data + '<tr>' + table_row + '</tr>';
 
 		count++;
-
-		if(count > 30){
-			break;
-		}
 	}
 
 	table_data = template_render.set_template_variable(dhcp_leases, "table_data", table_data);

@@ -87,7 +87,37 @@ listening_to_log_file = 0;
 options = {};
 options.interval = 1000;
 
+debug_watch_lease_parse_stream = 0;
+
 host_name = execSync("cat /etc/hostname").toString();
+
+/**
+ * Ingest OUI Database
+ */
+fs = require('fs');
+var oui_database_file = "bin/oui_table.txt";
+/* Global oui_data bucket */
+oui_data = {};
+if (fs.existsSync(oui_database_file)) {
+    fs.readFile(oui_database_file, 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+        else {
+			/* Iterate through file */
+            lines = data.split("\n");
+            for (l = 0; l < lines.length; l++) {
+				/* Trim whitespaces at each ends of the line */
+                lines[l] = lines[l].trim();
+                var oui_line_data = lines[l].split(":::");
+
+                if(typeof oui_line_data[1] !== "undefined")
+                    oui_data[oui_line_data[0].trim()] = oui_line_data[1].trim();
+            }
+            console.log("[Glass Server] OUI Database Loaded");
+        }
+    });
+}
 
 /**
  * Ingest Current Lease File
