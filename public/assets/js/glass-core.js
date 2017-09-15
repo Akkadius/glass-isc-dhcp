@@ -2,6 +2,17 @@
  * Created by cmiles on 8/9/2017.
  */
 
+var loader_html = '<div class="preloader"> \
+    <div class="spinner-layer pl-light-blue"> \
+    <div class="circle-clipper left"> \
+    <div class="circle"></div> \
+    </div> \
+    <div class="circle-clipper right"> \
+    <div class="circle"></div> \
+    </div> \
+    </div> \
+    </div>';
+
 $( document ).ajaxComplete(function( event, request, settings ) {
 	/*
 	* Form input focus event
@@ -141,5 +152,24 @@ $(document).on("click",".option_data",function() {
     } else if ( $("#" + lease).is(":hidden") ) {
         $("#" + lease).show();
         $(this).text('Hide');
+    }
+});
+
+$(document).on("keypress","#lease_search_criteria", function(e) {
+    if (e.which == 13) {
+        $('#search_result').html(loader_html);
+        $.post("/dhcp_lease_search", { search: $("#lease_search_criteria").val() }, function(result) {
+            $("#search_result").html(result);
+
+            if(typeof display_leases !== "undefined")
+            	display_leases.destroy();
+
+            display_leases = $('#display-leases').DataTable({
+                dom: 'tip',
+                responsive: true,
+                "pageLength": 100,
+                "aaSorting": []
+            });
+        });
     }
 });

@@ -18,36 +18,7 @@ function human_time (time){
 router.get('/', function(req, res, next) {
 	dhcp_leases = template_render.get_template("dhcp_leases");
 
-	table_data = '';
-
-	var count = 0;
-	for (var key in dhcp_lease_data) {
-
-		table_row = '';
-		table_row = table_row + '<td>' + key + '</td>';
-		table_row = table_row + '<td>' + dhcp_lease_data[key].mac + '</td>';
-		table_row = table_row + '<td>' + dhcp_lease_data[key].mac_oui_vendor + '</td>';
-		table_row = table_row + '<td>' + (dhcp_lease_data[key].host ? dhcp_lease_data[key].host : '') + '</td>';
-		table_row = table_row + '<td>' + human_time(dhcp_lease_data[key].start * 1000) + '</td>';
-		table_row = table_row + '<td>' + human_time(dhcp_lease_data[key].end * 1000) + '</td>';
-		table_row = table_row + '<td>' +
-			'<button class="btn btn-default waves-effect option_data" lease="' + dhcp_lease_data[key].mac.split(":").join("") + '">Show</button>' +
-			'<pre style="display:none;margin-top:10px" id="' + dhcp_lease_data[key].mac.split(":").join("") + '">' + JSON.stringify(dhcp_lease_data[key].options, null, 2) + '</pre>' +
-			'</td>';
-
-		table_data = table_data + '<tr>' + table_row + '</tr>';
-
-		count++;
-
-		if(count >= 1000){
-			break;
-		}
-
-	}
-
-	table_data = template_render.set_template_variable(dhcp_leases, "table_data", table_data);
-
-	res.send(template_render.get_index_template(table_data, req.url));
+	res.send(template_render.get_index_template(dhcp_leases, req.url));
 });
 
 module.exports = router;

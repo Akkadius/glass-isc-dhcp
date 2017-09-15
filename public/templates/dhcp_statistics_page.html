@@ -1,6 +1,6 @@
 <div class="row clearfix">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <div class="card">
+        <div class="card hide_me">
             <div class="header">
                 <h2>Vendor List Count</h2>
                 <ul class="header-dropdown m-r--5">
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="card">
+        <div class="card hide_me">
             <div class="header">
                 <h2>MAC Address OUI Count by Vendor</h2>
             </div>
@@ -57,6 +57,8 @@
 </div>
 
 <script type="text/javascript">
+    $('.hide_me').hide();
+
     var chart_data = [];
     $.getJSON( "/api/get_vendor_count", function( data ) {
         $.each(data, function(k, v) {
@@ -105,6 +107,9 @@
             "aaSorting": [],
             "order": [[ 2, "desc" ]]
         });
+
+        // $('table').fadeIn(100);
+        $('.hide_me').show();
     });
 
 

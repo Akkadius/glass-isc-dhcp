@@ -33,6 +33,7 @@ app.use('/users', require('./routes/users'));
 app.use('/get_stats', require('./routes/get_stats'));
 app.use('/dhcp_statistics', require('./routes/dhcp_statistics_page'));
 app.use('/dhcp_leases', require('./routes/dhcp_leases'));
+app.use('/dhcp_lease_search', require('./routes/dhcp_lease_search'));
 app.use('/dhcp_log', require('./routes/dhcp_log'));
 app.use('/dhcp_config', require('./routes/dhcp_config'));
 app.use('/dhcp_config_snapshots', require('./routes/dhcp_config_snapshots'));
