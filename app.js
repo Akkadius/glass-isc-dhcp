@@ -51,6 +51,7 @@ app.use('/api/get_active_leases/', require('./api/get_active_leases'));
 app.use('/api/get_subnet_details/', require('./api/get_subnet_details'));
 app.use('/api/get_vendor_count/', require('./api/get_vendor_count'));
 app.use('/api/get_mac_oui_count_by_vendor/', require('./api/get_mac_oui_count_by_vendor'));
+app.use('/api/get_dhcp_requests/', require('./api/get_dhcp_requests'));
 
 app.set('view engine', 'html');
 
@@ -276,11 +277,60 @@ var tail_dhcp_log = new tail_module(
 	options
 );
 
+dhcp_requests = {};
+
 tail_dhcp_log.on("line", function(data) {
 	if(listening_to_log_file) {
 		wss.broadcast_event(data, 'dhcp_log_subscription');
 	}
+
+	/* Collect Excessive DHCP Request Data */
+	if(/DHCPREQUEST/i.test(data)){
+
+        var request_from = "";
+        var request_for = "";
+        var request_via = "";
+
+        var request_data = data.split(" ");
+        var length = request_data.length;
+        for (var i = 0; i < length; i++) {
+            if(request_data[i] == "from"){
+            	request_from = request_data[i + 1];
+			}
+            if(request_data[i] == "for"){
+            	request_for = request_data[i + 1];
+			}
+            if(request_data[i] == "via"){
+            	request_via = request_data[i + 1];
+			}
+        }
+
+        if(typeof dhcp_requests[request_from] === "undefined")
+            dhcp_requests[request_from] = {};
+
+		if(typeof dhcp_requests[request_from].request_for === "undefined")
+            dhcp_requests[request_from].request_for = request_for;
+
+        if(typeof dhcp_requests[request_from].request_via === "undefined")
+            dhcp_requests[request_from].request_via = request_via;
+
+        if(typeof dhcp_requests[request_from].request_count === "undefined")
+            dhcp_requests[request_from].request_count = 0;
+
+        dhcp_requests[request_from].request_count++;
+	}
 });
+
+const purge_request_data = setInterval(function() {
+    for (var key in dhcp_requests) {
+        if(dhcp_requests[key].request_count <= 10)
+            delete dhcp_requests[key];
+    }
+}, 600 * 1000); /* 10 Minutes */
+
+const purge_request_data_hour = setInterval(function() {
+    dhcp_requests = {};
+}, 3600 * 1000); /* 60 Minutes */
 
 wss.on('connection', function connection(ws) {
 	socket_clients++;

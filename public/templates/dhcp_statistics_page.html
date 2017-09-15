@@ -20,6 +20,27 @@
             </div>
         </div>
 
+        <div class="card hide_me">
+            <div class="header">
+                <h2>Excessive DHCP Requests</h2>
+            </div>
+            <div class="body">
+                <small>Usually indicative of a physical error on the network with one-way communication</small>
+                <table id="excessive_requests"  class="table table-bordered table-striped table-hover js-basic-example dataTable dashboard-task-infos">
+                    <thead>
+                        <tr>
+                            <th>MAC</th>
+                            <th>Requesting IP</th>
+                            <th>Request Via</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
     <!-- #END# Area Chart -->
     <!-- Device Chart -->
@@ -106,6 +127,32 @@
             "pageLength": 20,
             "aaSorting": [],
             "order": [[ 2, "desc" ]]
+        });
+
+        // $('table').fadeIn(100);
+        $('.hide_me').show();
+    });
+
+    $.getJSON( "/api/get_dhcp_requests", function( data ) {
+        $.each(data, function(k, v) {
+            console.log(k);
+
+            $('#excessive_requests  > tbody:last-child').append('<tr>' +
+                '<td>' + k + '</td>' +
+                '<td>' + data[k].request_for + '</td>' +
+                '<td>' + data[k].request_via + '</td>' +
+                '<td>' + data[k].request_count.toLocaleString('en') + '</td>' +
+                '</tr>'
+            );
+
+        });
+
+        excessive_requests = $('#excessive_requests').DataTable({
+            dom: 'rftip',
+            responsive: true,
+            "pageLength": 20,
+            "aaSorting": [],
+            "order": [[ 3, "desc" ]]
         });
 
         // $('table').fadeIn(100);
