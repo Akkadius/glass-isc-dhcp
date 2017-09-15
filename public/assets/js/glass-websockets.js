@@ -26,10 +26,12 @@ function connect_websocket() {
 			return false;
 		}
 
-		if(document.getElementById("grep_fitler").value){
-			var matcher = new RegExp(document.getElementById("grep_fitler").value, "i");
+		var grep_value = document.getElementById("grep_fitler").value;
+
+		if(grep_value){
+			var matcher = new RegExp(grep_value, "i");
 			var found = matcher.test(event.data);
-			if(!found){
+			if(!found && !event.data.includes(grep_value)){
 				return false;
 			}
 		}
