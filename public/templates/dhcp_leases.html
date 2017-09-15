@@ -35,7 +35,7 @@
 		"aaSorting": []
 	});
 
-    $('.option_data').click(function(){
+    $(document).on("click",".option_data",function() {
         var lease = $(this).attr("lease");
         if ( $("#" + lease).is(":visible") ) {
             $("#" + lease).hide();
@@ -44,7 +44,7 @@
             $("#" + lease).show();
             $(this).text('Hide');
         }
-    })
+    });
 </script>
 
 

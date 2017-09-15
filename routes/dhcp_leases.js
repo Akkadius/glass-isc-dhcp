@@ -38,6 +38,10 @@ router.get('/', function(req, res, next) {
 		table_data = table_data + '<tr>' + table_row + '</tr>';
 
 		count++;
+
+		if(count >= 1000){
+			break;
+		}
 	}
 
 	table_data = template_render.set_template_variable(dhcp_leases, "table_data", table_data);
