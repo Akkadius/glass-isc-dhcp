@@ -280,12 +280,12 @@ var tail_dhcp_log = new tail_module(
 dhcp_requests = {};
 
 tail_dhcp_log.on("line", function(data) {
-	if(listening_to_log_file) {
-		wss.broadcast_event(data, 'dhcp_log_subscription');
-	}
+    if (listening_to_log_file) {
+        wss.broadcast_event(data, 'dhcp_log_subscription');
+    }
 
 	/* Collect Excessive DHCP Request Data */
-	if(/DHCPREQUEST/i.test(data)){
+    if (/DHCPREQUEST/i.test(data)) {
 
         var request_from = "";
         var request_for = "";
@@ -294,31 +294,40 @@ tail_dhcp_log.on("line", function(data) {
         var request_data = data.split(" ");
         var length = request_data.length;
         for (var i = 0; i < length; i++) {
-            if(request_data[i] == "from"){
-            	request_from = request_data[i + 1];
-			}
-            if(request_data[i] == "for"){
-            	request_for = request_data[i + 1];
-			}
-            if(request_data[i] == "via"){
-            	request_via = request_data[i + 1];
-			}
+            if (request_data[i] == "from") {
+                request_from = request_data[i + 1];
+            }
+            if (request_data[i] == "for") {
+                request_for = request_data[i + 1];
+            }
+            if (request_data[i] == "via") {
+                request_via = request_data[i + 1];
+            }
         }
 
-        if(typeof dhcp_requests[request_from] === "undefined")
+        if (typeof dhcp_requests[request_from] === "undefined")
             dhcp_requests[request_from] = {};
 
-		if(typeof dhcp_requests[request_from].request_for === "undefined")
+        if (typeof dhcp_requests[request_from].request_for === "undefined")
             dhcp_requests[request_from].request_for = request_for;
 
-        if(typeof dhcp_requests[request_from].request_via === "undefined")
+        if (typeof dhcp_requests[request_from].request_via === "undefined")
             dhcp_requests[request_from].request_via = request_via;
 
-        if(typeof dhcp_requests[request_from].request_count === "undefined")
+        if (typeof dhcp_requests[request_from].request_count === "undefined")
             dhcp_requests[request_from].request_count = 0;
 
+        if (typeof request_from !== "undefined") {
+            if (request_from.length == 17 && /:/.test(request_from)) {
+                var mac_oui = request_from.split(":").join("").toUpperCase().slice(0, 6);
+
+                if (typeof dhcp_requests[request_from].request_vendor === "undefined")
+                    dhcp_requests[request_from].request_vendor = oui_data[mac_oui];
+            }
+        }
+
         dhcp_requests[request_from].request_count++;
-	}
+    }
 });
 
 const purge_request_data = setInterval(function() {
@@ -333,15 +342,15 @@ const purge_request_data_hour = setInterval(function() {
 }, 3600 * 1000); /* 60 Minutes */
 
 wss.on('connection', function connection(ws) {
-	socket_clients++;
-	console.log("[WS] CLIENT_CONNECT: Socket clients (" + socket_clients + ")");
+    socket_clients++;
+    console.log("[WS] CLIENT_CONNECT: Socket clients (" + socket_clients + ")");
 
-	if (!listening_to_log_file) {
+    if (!listening_to_log_file) {
 		/* Watch log file for new information */
-		var tail_module = require('always-tail2');
+        var tail_module = require('always-tail2');
 
-		listening_to_log_file = 1;
-	}
+        listening_to_log_file = 1;
+    }
 
 });
 
