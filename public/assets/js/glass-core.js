@@ -13,42 +13,8 @@ var loader_html = '<div class="preloader"> \
     </div> \
     </div>';
 
-$( document ).ajaxComplete(function( event, request, settings ) {
-	/*
-	* Form input focus event
-	*/
-	$('.form-control').focus(function () {
-		$(this).parent().addClass('focused');
-	});
-
-	//On focusout event
-	$('.form-control').focusout(function () {
-		var $this = $(this);
-		if ($this.parents('.form-group').hasClass('form-float')) {
-			if ($this.val() == '') { $this.parents('.form-line').removeClass('focused'); }
-		}
-		else {
-			$this.parents('.form-line').removeClass('focused');
-		}
-	});
-
-	//On label click
-	$('body').on('click', '.form-float .form-line .form-label', function () {
-		$(this).parent().find('input').focus();
-	});
-
-	//Not blank form
-	$('.form-control').each(function () {
-		if ($(this).val() !== '') {
-			$(this).parents('.form-line').addClass('focused');
-		}
-	});
-
-	$('.form-line').removeClass("focused");
-});
-
 $( document ).ready(function() {
-	$('.form-line').removeClass("focused");
+	remove_init_form();
 });
 
 /*
@@ -60,7 +26,47 @@ $(document).on('on_pjax_complete',function(){
 		$('body').removeClass('overlay-open');
 		$('.overlay').css("display", "none");
 	}
+
+	/*
+	 * Form input focus event
+	 */
+    $('.form-control').focus(function () {
+        $(this).parent().addClass('focused');
+    });
+
+    //On focusout event
+    $('.form-control').focusout(function () {
+        var $this = $(this);
+        if ($this.parents('.form-group').hasClass('form-float')) {
+            if ($this.val() == '') { $this.parents('.form-line').removeClass('focused'); }
+        }
+        else {
+            $this.parents('.form-line').removeClass('focused');
+        }
+    });
+
+    //On label click
+    $('body').on('click', '.form-float .form-line .form-label', function () {
+        $(this).parent().find('input').focus();
+    });
+
+    //Not blank form
+    $('.form-control').each(function () {
+        if ($(this).val() !== '') {
+            $(this).parents('.form-line').addClass('focused');
+        }
+    });
+
+    remove_init_form();
+
+    remove_init_form();
 });
+
+function remove_init_form(){
+    setTimeout(function(){
+        $('.form-line').removeClass("focused");
+    }, 10);
+}
 
 function modal (title, content, buttons) {
 	$('#modal-buttons').html('');
