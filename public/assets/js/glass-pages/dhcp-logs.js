@@ -4,6 +4,7 @@ function log_action (action){
 			socket.send(JSON.stringify({"event_unsubscribe": "dhcp_log_subscription"}));
 			break;
 		case "start":
+			killed_connection = 0;
 			console.log('start readystate is ' + socket.readyState);
 			socket.send(JSON.stringify({"event_subscription": "dhcp_log_subscription"}));
 			break;

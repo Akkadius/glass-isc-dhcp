@@ -6,7 +6,7 @@ function check_websocket_connection () {
 }
 
 function connect_websocket() {
-	var killed_connection = 0;
+	killed_connection = 0;
 
 	delete socket;
 	socket = new WebSocket("ws://" + window.location.hostname + ":8080");
