@@ -1,69 +1,225 @@
 <!-- Get Active Leases -->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="card">
-        <div class="header">
-            <h2>
-                GET: Active Leases
-            </h2>
-        </div>
-        <div class="body">
-            <label>Call</label>
-            <div class="form-group">
-                <div class="form-line">
-                    <input disabled type="input" class="form-control" value="/api/get_active_leases" autocomplete="off">
-                </div>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    GET: Active Leases Data
+                </h2>
             </div>
-            <label>URL Example</label>
-            <div class="form-group">
-                <div class="form-line">
-                    <input disabled type="input" class="form-control api_url" value="/api/get_active_leases" autocomplete="off">
+            <div class="body">
+                <label>Call</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control" value="/api/get_active_leases" autocomplete="off">
+                    </div>
                 </div>
-            </div>
-            <label>Test</label>
-            <div class="form-group">
-                <div>
-                    <button type="button" onclick="api_example('get_active_leases')" class="btn btn-default waves-effect">Try It!</button>
-                    <button type="button" onclick="raw_api('/api/get_active_leases')" class="btn btn-default waves-effect">Raw</button>
-                    <button type="button" onclick="clear_api('get_active_leases')" class="btn btn-default waves-effect">Clear</button>
-                    <div id="get_active_leases" style="margin-top:20px"></div>
+                <label>URL Example</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control api_url" value="/api/get_active_leases" autocomplete="off">
+                    </div>
                 </div>
-            </div>
+                <label>Test</label>
+                <div class="form-group">
+                    <div>
+                        <button type="button" onclick="api_example('get_active_leases')" class="btn btn-default waves-effect">Try It!</button>
+                        <button type="button" onclick="raw_api('/api/get_active_leases')" class="btn btn-default waves-effect">Raw</button>
+                        <button type="button" onclick="clear_api('get_active_leases')" class="btn btn-default waves-effect">Clear</button>
+                        <div id="get_active_leases" style="margin-top:20px"></div>
+                    </div>
+                </div>
 
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Get Subnet Details -->
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="card">
-        <div class="header">
-            <h2>
-                GET: Subnet Details
-            </h2>
-        </div>
-        <div class="body">
-            <label>Call</label>
-            <div class="form-group">
-                <div class="form-line">
-                    <input disabled type="input" class="form-control" value="/api/get_subnet_details" autocomplete="off">
-                </div>
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    GET: Subnet Details
+                </h2>
             </div>
-            <label>URL Example</label>
-            <div class="form-group">
-                <div class="form-line">
-                    <input disabled type="input" class="form-control api_url" value="/api/get_subnet_details" autocomplete="off">
+            <div class="body">
+                <label>Call</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control" value="/api/get_subnet_details" autocomplete="off">
+                    </div>
                 </div>
-            </div>
-            <label>Test</label>
-            <div class="form-group">
-                <div>
-                    <button type="button" onclick="api_example('get_subnet_details')" class="btn btn-default waves-effect">Try It!</button>
-                    <button type="button" onclick="raw_api('/api/get_subnet_details')" class="btn btn-default waves-effect">Raw</button>
-                    <button type="button" onclick="clear_api('get_subnet_details')" class="btn btn-default waves-effect">Clear</button>
-                    <div id="get_subnet_details" style="margin-top:20px"></div>
+                <label>URL Example</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control api_url" value="/api/get_subnet_details" autocomplete="off">
+                    </div>
                 </div>
-            </div>
+                <label>Test</label>
+                <div class="form-group">
+                    <div>
+                        <button type="button" onclick="api_example('get_subnet_details')" class="btn btn-default waves-effect">Try It!</button>
+                        <button type="button" onclick="raw_api('/api/get_subnet_details')" class="btn btn-default waves-effect">Raw</button>
+                        <button type="button" onclick="clear_api('get_subnet_details')" class="btn btn-default waves-effect">Clear</button>
+                        <div id="get_subnet_details" style="margin-top:20px"></div>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="block-header">
+    <h2>Statistics Data</h2>
+</div>
+
+<!-- GET: Server Info -->
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    GET: Basic Server Info
+                </h2>
+            </div>
+            <div class="body">
+                <label>Call</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control" value="/api/get_server_info" autocomplete="off">
+                    </div>
+                </div>
+                <label>URL Example</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control api_url" value="/api/get_server_info" autocomplete="off">
+                    </div>
+                </div>
+                <label>Test</label>
+                <div class="form-group">
+                    <div>
+                        <button type="button" onclick="api_example('get_server_info')" class="btn btn-default waves-effect">Try It!</button>
+                        <button type="button" onclick="raw_api('/api/get_server_info')" class="btn btn-default waves-effect">Raw</button>
+                        <button type="button" onclick="clear_api('get_server_info')" class="btn btn-default waves-effect">Clear</button>
+                        <div id="get_server_info" style="margin-top:20px"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GET: Vendor Count -->
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    GET: Device Count by Vendor
+                </h2>
+            </div>
+            <div class="body">
+                <label>Call</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control" value="/api/get_vendor_count" autocomplete="off">
+                    </div>
+                </div>
+                <label>URL Example</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control api_url" value="/api/get_vendor_count" autocomplete="off">
+                    </div>
+                </div>
+                <label>Test</label>
+                <div class="form-group">
+                    <div>
+                        <button type="button" onclick="api_example('get_vendor_count')" class="btn btn-default waves-effect">Try It!</button>
+                        <button type="button" onclick="raw_api('/api/get_vendor_count')" class="btn btn-default waves-effect">Raw</button>
+                        <button type="button" onclick="clear_api('get_vendor_count')" class="btn btn-default waves-effect">Clear</button>
+                        <div id="get_vendor_count" style="margin-top:20px"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GET: OUI Count by Vendor -->
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    GET: OUI Count by Vendor
+                </h2>
+            </div>
+            <div class="body">
+                <label>Call</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control" value="/api/get_mac_oui_count_by_vendor" autocomplete="off">
+                    </div>
+                </div>
+                <label>URL Example</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control api_url" value="/api/get_mac_oui_count_by_vendor" autocomplete="off">
+                    </div>
+                </div>
+                <label>Test</label>
+                <div class="form-group">
+                    <div>
+                        <button type="button" onclick="api_example('get_mac_oui_count_by_vendor')" class="btn btn-default waves-effect">Try It!</button>
+                        <button type="button" onclick="raw_api('/api/get_mac_oui_count_by_vendor')" class="btn btn-default waves-effect">Raw</button>
+                        <button type="button" onclick="clear_api('get_mac_oui_count_by_vendor')" class="btn btn-default waves-effect">Clear</button>
+                        <div id="get_mac_oui_count_by_vendor" style="margin-top:20px"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GET: Excessive DHCP Requests -->
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    GET: Excessive DHCP Requests
+                </h2>
+            </div>
+            <div class="body">
+                <label>Call</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control" value="/api/get_dhcp_requests" autocomplete="off">
+                    </div>
+                </div>
+                <label>URL Example</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control api_url" value="/api/get_dhcp_requests" autocomplete="off">
+                    </div>
+                </div>
+                <label>Test</label>
+                <div class="form-group">
+                    <div>
+                        <button type="button" onclick="api_example('get_dhcp_requests')" class="btn btn-default waves-effect">Try It!</button>
+                        <button type="button" onclick="raw_api('/api/get_dhcp_requests')" class="btn btn-default waves-effect">Raw</button>
+                        <button type="button" onclick="clear_api('get_dhcp_requests')" class="btn btn-default waves-effect">Clear</button>
+                        <div id="get_dhcp_requests" style="margin-top:20px"></div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

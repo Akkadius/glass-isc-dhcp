@@ -52,6 +52,7 @@ app.use('/api/get_subnet_details/', require('./api/get_subnet_details'));
 app.use('/api/get_vendor_count/', require('./api/get_vendor_count'));
 app.use('/api/get_mac_oui_count_by_vendor/', require('./api/get_mac_oui_count_by_vendor'));
 app.use('/api/get_dhcp_requests/', require('./api/get_dhcp_requests'));
+app.use('/api/get_server_info/', require('./api/get_server_info'));
 
 app.set('view engine', 'html');
 
@@ -94,7 +95,7 @@ options.interval = 1000;
 
 debug_watch_lease_parse_stream = 0;
 
-host_name = execSync("cat /etc/hostname").toString();
+host_name = execSync("cat /etc/hostname").toString().replace("\n", "");
 
 /**
  * Ingest OUI Database

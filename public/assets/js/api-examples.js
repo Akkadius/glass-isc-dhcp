@@ -6,21 +6,12 @@ function api_example(example) {
     var start_time = new Date().getTime();
 
 	switch(example) {
-		case "get_active_leases":
-            $("#get_active_leases").html(loader_html);
-			$.getJSON( "/api/get_active_leases", function( data ) {
-                var request_time = (new Date().getTime() - start_time) / 1000;
-				$("#get_active_leases").html('Server Response Time: ' + request_time + 'ms <pre style="margin-top:20px">' + JSON.stringify(data, null, 2) + '</pre>');
-			});
-			break;
-		case "get_subnet_details":
-			$("#get_subnet_details").html(loader_html);
-			$.getJSON( "/api/get_subnet_details", function( data ) {
-                var request_time = (new Date().getTime() - start_time) / 1000;
-				$("#get_subnet_details").html('Server Response Time: ' + request_time + 'ms <pre style="margin-top:20px">' + JSON.stringify(data, null, 2) + '</pre>');
-			});
-			break;
 		default:
+            $("#" + example).html(loader_html);
+            $.getJSON( "/api/" + example, function( data ) {
+                var request_time = (new Date().getTime() - start_time) / 1000;
+                $("#" + example).html('Server Response Time: ' + request_time + 'ms <pre style="margin-top:20px">' + JSON.stringify(data, null, 2) + '</pre>');
+            });
 			return;
 	}
 }
