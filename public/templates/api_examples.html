@@ -1,3 +1,8 @@
+<div class="block-header">
+    <h2>DHCP Data Calls</h2>
+</div>
+
+
 <!-- Get Active Leases -->
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -64,6 +69,43 @@
                         <button type="button" onclick="raw_api('/api/get_subnet_details')" class="btn btn-default waves-effect">Raw</button>
                         <button type="button" onclick="clear_api('get_subnet_details')" class="btn btn-default waves-effect">Clear</button>
                         <div id="get_subnet_details" style="margin-top:20px"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Get OUI List -->
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    GET: Mac Vendor OUI List (Full)
+                </h2>
+            </div>
+            <div class="body">
+                <label>Call</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control" value="/api/get_mac_oui_list" autocomplete="off">
+                    </div>
+                </div>
+                <label>URL Example</label>
+                <div class="form-group">
+                    <div class="form-line">
+                        <input disabled type="input" class="form-control api_url" value="/api/get_mac_oui_list" autocomplete="off">
+                    </div>
+                </div>
+                <label>Test</label>
+                <div class="form-group">
+                    <div>
+                        <button type="button" onclick="api_example('get_mac_oui_list')" class="btn btn-default waves-effect">Try It!</button>
+                        <button type="button" onclick="raw_api('/api/get_mac_oui_list')" class="btn btn-default waves-effect">Raw</button>
+                        <button type="button" onclick="clear_api('get_mac_oui_list')" class="btn btn-default waves-effect">Clear</button>
+                        <div id="get_mac_oui_list" style="margin-top:20px"></div>
                     </div>
                 </div>
 
@@ -194,6 +236,7 @@
             <div class="header">
                 <h2>
                     GET: Excessive DHCP Requests
+                    <small>Over a 10 minute audit interval</small>
                 </h2>
             </div>
             <div class="body">

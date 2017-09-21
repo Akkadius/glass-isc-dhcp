@@ -43,3 +43,14 @@ $('#dhcp_log').height($(window).height() * 0.6);
 var editor = ace.edit("dhcp_log");
 editor.setTheme("ace/theme/terminal");
 editor.$blockScrolling = Infinity;
+
+get_mac_oui_data();
+
+function get_mac_oui_data() {
+	if(typeof mac_oui_data === "undefined") {
+		mac_oui_data = {};
+        $.getJSON("/api/get_mac_oui_list", function (data) {
+            mac_oui_data = data;
+        });
+    }
+}

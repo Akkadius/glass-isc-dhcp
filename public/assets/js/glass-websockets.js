@@ -26,12 +26,32 @@ function connect_websocket() {
 			return false;
 		}
 
+
+        console_data = event.data;
+
+        if(typeof mac_oui_data !== "undefined") {
+            if (console_data.split(":").length - 1 >= 8) {
+                var line_data = console_data.split(" ");
+                for (i = 0; i < line_data.length; i++) {
+                    if ((line_data[i].split(":").length - 1) == 5) {
+                        var mac_oui = line_data[i].split(":").join("").toUpperCase().slice(0, 6);
+                        console_data = console_data.replace(line_data[i], line_data[i] + " (" + mac_oui_data[mac_oui] + ")");
+                    }
+                }
+            }
+        }
+
+		/*
+			Note: the only thing I stream currently is dhcp log - so later incoming messages will need to be
+			keyed by their "type" via json
+		 */
+
 		var grep_value = document.getElementById("grep_fitler").value;
 
 		if(grep_value){
 			var matcher = new RegExp(grep_value, "i");
-			var found = matcher.test(event.data);
-			if(!found && !event.data.includes(grep_value)){
+			var found = matcher.test(console_data);
+			if(!found && !console_data.includes(grep_value)){
 				return false;
 			}
 		}
@@ -40,7 +60,7 @@ function connect_websocket() {
 		session.insert({
 			row: session.getLength(),
 			column: 0
-		}, "\n" + event.data);
+		}, "\n" + console_data);
 
 		if(session.getLength() >= 50000){
 			/* If we get over 500,000 lines lets clear the editor */
