@@ -13,23 +13,23 @@ var loader_html = '<div class="preloader"> \
     </div> \
     </div>';
 
-$( document ).ready(function() {
-	remove_init_form();
+$(document).ready(function () {
+    remove_init_form();
 });
 
 /*
  * When a sidebar item is clicked in mobile - let's make sure we push the sidebar back in
  */
 
-$(document).on('on_pjax_complete',function(){
-	if($('.ls-closed').length > 0){
-		$('body').removeClass('overlay-open');
-		$('.overlay').css("display", "none");
-	}
+$(document).on('on_pjax_complete', function () {
+    if ($('.ls-closed').length > 0) {
+        $('body').removeClass('overlay-open');
+        $('.overlay').css("display", "none");
+    }
 
-	/*
-	 * Form input focus event
-	 */
+    /*
+     * Form input focus event
+     */
     $('.form-control').focus(function () {
         $(this).parent().addClass('focused');
     });
@@ -38,7 +38,9 @@ $(document).on('on_pjax_complete',function(){
     $('.form-control').focusout(function () {
         var $this = $(this);
         if ($this.parents('.form-group').hasClass('form-float')) {
-            if ($this.val() == '') { $this.parents('.form-line').removeClass('focused'); }
+            if ($this.val() == '') {
+                $this.parents('.form-line').removeClass('focused');
+            }
         }
         else {
             $this.parents('.form-line').removeClass('focused');
@@ -62,113 +64,113 @@ $(document).on('on_pjax_complete',function(){
     remove_init_form();
 });
 
-function remove_init_form(){
-    setTimeout(function(){
+function remove_init_form() {
+    setTimeout(function () {
         $('.form-line').removeClass("focused");
     }, 10);
 }
 
-function modal (title, content, buttons) {
-	$('#modal-buttons').html('');
-	$('#modal-title').html(title);
-	$('#modal-body').html(content);
+function modal(title, content, buttons) {
+    $('#modal-buttons').html('');
+    $('#modal-title').html(title);
+    $('#modal-body').html(content);
 
-	// <button type="button" class="btn btn-link waves-effect">SAVE CHANGES</button>
-	if(buttons != '') {
-		$('#modal-buttons').html(buttons);
-	}
-	$('#mdModal').modal('show');
+    // <button type="button" class="btn btn-link waves-effect">SAVE CHANGES</button>
+    if (buttons != '') {
+        $('#modal-buttons').html(buttons);
+    }
+    $('#mdModal').modal('show');
 }
 
-function get_form_query_string(form_id){
-	query_string = "";
-	$('#' + form_id).find('input, select, textarea').each(function (key) {
-		val = $(this).val();
-		if (val == 'undefined') {
-			val = '';
-		}
-		if($(this).attr('type') == "checkbox"){
-			if (!$(this).is(':checked')) {
-				val = 0;
-			}
-		}
-		query_string = query_string + "&" + $(this).attr('id') + "=" + encodeURIComponent(val);
-	});
-	return query_string;
+function get_form_query_string(form_id) {
+    query_string = "";
+    $('#' + form_id).find('input, select, textarea').each(function (key) {
+        val = $(this).val();
+        if (val == 'undefined') {
+            val = '';
+        }
+        if ($(this).attr('type') == "checkbox") {
+            if (!$(this).is(':checked')) {
+                val = 0;
+            }
+        }
+        query_string = query_string + "&" + $(this).attr('id') + "=" + encodeURIComponent(val);
+    });
+    return query_string;
 }
 
 function save_config() {
-	glass_settings = get_form_query_string("glass-settings-form");
+    glass_settings = get_form_query_string("glass-settings-form");
 
-	$.post( "/glass_settings_save", glass_settings, function( data ) {
-		$( "#glass_settings_result" ).html( data );
-	});
+    $.post("/glass_settings_save", glass_settings, function (data) {
+        $("#glass_settings_result").html(data);
+    });
 }
 
-function notification(text){
-	colorName = 'bg-black';
-	animateEnter = 'animated fadeInDown';
-	animateExit = 'animated fadeOutUp';
-	var allowDismiss = true;
+function notification(text) {
+    colorName = 'bg-black';
+    animateEnter = 'animated fadeInDown';
+    animateExit = 'animated fadeOutUp';
+    var allowDismiss = true;
 
-	$.notify({
-			message: text
-		},
-		{
-		type: colorName,
-		allow_dismiss: allowDismiss,
-		newest_on_top: true,
-		timer: 1000,
-		animate: {
-			enter: animateEnter,
-			exit: animateExit
-		},
-		template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
-		'<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-		'<span data-notify="icon"></span> ' +
-		'<span data-notify="title">{1}</span> ' +
-		'<span data-notify="message">{2}</span>' +
-		'<div class="progress" data-notify="progressbar">' +
-		'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-		'</div>' +
-		'<a href="{3}" target="{4}" data-notify="url"></a>' +
-		'</div>'
-	});
+    $.notify({
+            message: text
+        },
+        {
+            type: colorName,
+            allow_dismiss: allowDismiss,
+            newest_on_top: true,
+            timer: 1000,
+            animate: {
+                enter: animateEnter,
+                exit: animateExit
+            },
+            template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
+            '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+            '<span data-notify="icon"></span> ' +
+            '<span data-notify="title">{1}</span> ' +
+            '<span data-notify="message">{2}</span>' +
+            '<div class="progress" data-notify="progressbar">' +
+            '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+            '</div>' +
+            '<a href="{3}" target="{4}" data-notify="url"></a>' +
+            '</div>'
+        });
 }
 
 function change_favicon(img) {
-	var favicon = document.querySelector('link[rel="shortcut icon"]');
+    var favicon = document.querySelector('link[rel="shortcut icon"]');
 
-	if (!favicon) {
-		favicon = document.createElement('link');
-		favicon.setAttribute('rel', 'shortcut icon');
-		var head = document.querySelector('head');
-		head.appendChild(favicon);
-	}
+    if (!favicon) {
+        favicon = document.createElement('link');
+        favicon.setAttribute('rel', 'shortcut icon');
+        var head = document.querySelector('head');
+        head.appendChild(favicon);
+    }
 
-	favicon.setAttribute('type', 'image/png');
-	favicon.setAttribute('href', img);
+    favicon.setAttribute('type', 'image/png');
+    favicon.setAttribute('href', img);
 }
 
-$(document).on("click",".option_data",function() {
+$(document).on("click", ".option_data", function () {
     var lease = $(this).attr("lease");
-    if ( $("#" + lease).is(":visible") ) {
+    if ($("#" + lease).is(":visible")) {
         $("#" + lease).hide();
         $(this).text('Show');
-    } else if ( $("#" + lease).is(":hidden") ) {
+    } else if ($("#" + lease).is(":hidden")) {
         $("#" + lease).show();
         $(this).text('Hide');
     }
 });
 
-$(document).on("keypress","#lease_search_criteria", function(e) {
+$(document).on("keypress", "#lease_search_criteria", function (e) {
     if (e.which == 13) {
         $('#search_result').html(loader_html);
-        $.post("/dhcp_lease_search", { search: $("#lease_search_criteria").val() }, function(result) {
+        $.post("/dhcp_lease_search", {search: $("#lease_search_criteria").val()}, function (result) {
             $("#search_result").html(result);
 
-            if(typeof display_leases !== "undefined")
-            	display_leases.destroy();
+            if (typeof display_leases !== "undefined")
+                display_leases.destroy();
 
             display_leases = $('#display-leases').DataTable({
                 dom: 'tip',
