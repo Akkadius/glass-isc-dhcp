@@ -16,44 +16,44 @@
 
 <script type="text/javascript">
     function process_action(action) {
-		switch (action) {
-			case "stop":
-				modal(
-					"Are you sure you want to stop server?",
+        switch (action) {
+            case "stop":
+                modal(
+                    "Are you sure you want to stop server?",
                     "Stopping the server can be service affecting! Are you sure?",
                     '<button type="button" class="btn btn-link waves-effect" onclick="process_action(\'confirm_stop\')">STOP SERVER</button>'
                 );
-				break;
-			case "confirm_stop":
-				$('#body-content .btn').attr('disabled', true);
-				$.post( "/dhcp_start_stop_restart", "action=stop", function( data ) {
-					$( "#dhcp_start_stop_restart_result" ).html( data );
-				});
+                break;
+            case "confirm_stop":
+                $('#body-content .btn').attr('disabled', true);
+                $.post("/dhcp_start_stop_restart", "action=stop", function (data) {
+                    $("#dhcp_start_stop_restart_result").html(data);
+                });
 
-				break;
-			case "restart":
-				modal(
-					"Are you sure you want to restart the server?",
-					"Restarting the server can cause very brief interruption. Are you sure?",
-					'<button type="button" class="btn btn-link waves-effect" onclick="process_action(\'confirm_restart\')">RESTART SERVER</button>'
-				);
-				break;
-			case "confirm_restart":
-				$('#body-content .btn').attr('disabled', true);
-				$.post( "/dhcp_start_stop_restart", "action=restart", function( data ) {
-					$( "#dhcp_start_stop_restart_result" ).html( data );
-				});
+                break;
+            case "restart":
+                modal(
+                    "Are you sure you want to restart the server?",
+                    "Restarting the server can cause very brief interruption. Are you sure?",
+                    '<button type="button" class="btn btn-link waves-effect" onclick="process_action(\'confirm_restart\')">RESTART SERVER</button>'
+                );
+                break;
+            case "confirm_restart":
+                $('#body-content .btn').attr('disabled', true);
+                $.post("/dhcp_start_stop_restart", "action=restart", function (data) {
+                    $("#dhcp_start_stop_restart_result").html(data);
+                });
 
-				break;
-			case "start":
-				$('#body-content .btn').attr('disabled', true);
-				$.post( "/dhcp_start_stop_restart", "action=start", function( data ) {
-					$( "#dhcp_start_stop_restart_result" ).html( data );
-				});
+                break;
+            case "start":
+                $('#body-content .btn').attr('disabled', true);
+                $.post("/dhcp_start_stop_restart", "action=start", function (data) {
+                    $("#dhcp_start_stop_restart_result").html(data);
+                });
 
-				break;
-			default:
-				break;
-		}
-	}
+                break;
+            default:
+                break;
+        }
+    }
 </script>
