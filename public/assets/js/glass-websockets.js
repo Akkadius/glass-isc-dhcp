@@ -1,8 +1,8 @@
 function check_websocket_connection () {
-	if(socket.readyState == 3) {
-		connect_websocket();
-		console.log("[Websocket] Connection lost... reconnecting...");
-	}
+    if (socket.readyState == 3) {
+        connect_websocket();
+        console.log("[Websocket] Connection lost... reconnecting...");
+    }
 }
 
 function connect_websocket() {
