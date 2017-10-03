@@ -64,6 +64,8 @@ $('body').on('click', 'a', function (e) {
 
 		do_pjax_request(request_url);
 
+        $( document ).trigger( "on_pjax_click", [$(this)]);
+
 		return false;
 	}
 });

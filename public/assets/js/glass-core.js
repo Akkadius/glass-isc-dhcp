@@ -15,13 +15,38 @@ var loader_html = '<div class="preloader"> \
 
 $(document).ready(function () {
     remove_init_form();
+
+    /* Remove 'active' class from 'li' items */
+    setTimeout(function(){
+        $('li.active').removeClass("active");
+
+        $('.list > li').each(function(){
+            var href = $(this).find('a').attr("href");
+            if(typeof href !== "undefined"){
+                // console.log(href);
+                // console.log(document.location.pathname);
+
+                if(href == document.location.pathname){
+                    $(this).addClass("active");
+                }
+            }
+        });
+    }, 500);
+});
+
+/*
+ * When a sidebar item is clicked - let's make sure we set the active/inactive components
+ */
+
+$(document).on('on_pjax_click', function (e, href) {
+    $('li.active').removeClass("active");
+    href.parent('li').addClass("active");
 });
 
 /*
  * When a sidebar item is clicked in mobile - let's make sure we push the sidebar back in
  */
-
-$(document).on('on_pjax_complete', function () {
+$(document).on('on_pjax_complete', function (e) {
     if ($('.ls-closed').length > 0) {
         $('body').removeClass('overlay-open');
         $('.overlay').css("display", "none");
