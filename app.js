@@ -229,20 +229,14 @@ leases_per_minute_counter_timer = setInterval(function(){
 
 
 	/* Websockets statistics subscription broadcast */
-	if(ws_is_subscribed('dhcp_statistics')) {
-
+	if(ws_event_subscribers('dhcp_statistics')) {
         return_data = {
             "cpu_utilization": cpu_utilization,
             "leases_per_second": current_leases_per_second,
             "leases_per_minute": leases_per_minute
         };
         wss.broadcast_event(JSON.stringify(return_data), 'dhcp_statistics');
-
-        console.log('Returning stats');
     }
-    else {
-		console.log('Stats not subscribed');
-	}
 
 }, 1000);
 
@@ -392,14 +386,29 @@ function isJson(str) {
 	return true;
 }
 
-function ws_is_subscribed(event){
-	if(typeof ws === "undefined")
-		return 0;
+function ws_event_subscribers(event){
+	if(typeof wss === "undefined")
+		return false;
 
-	if(ws.event_subscription[event])
-		return 1;
+	var is_listening = false;
 
-	return 0;
+    wss.clients.forEach(function each(ws) {
+
+		/* Count event listeners */
+        for (var event_listening in ws.event_subscription) {
+            if (event_listening == event) {
+                is_listening = true;
+                return true;
+            }
+        }
+
+    });
+
+    if (is_listening) {
+        return true;
+    }
+
+	return false;
 }
 
 wss.on('connection', function connection(ws) {
@@ -462,7 +471,7 @@ function stale_connections_audit() {
 /* Keepalive - kill stale connections (30s poll) */
 const interval = setInterval(function ping() {
 	stale_connections_audit();
-}, 30000);
+}, 3000);
 
 var socket_clients = 0;
 

@@ -18,8 +18,12 @@ function websockets_unsubscribe_event(event){
 }
 
 function websockets_unsubscribe_all_events(){
-    socket.send(JSON.stringify({"event_unsubscribe": "all_events"}));
-    subscribed_events = [];
+    if(typeof subscribed_events !== "undefined") {
+        if(subscribed_events.length > 0 ) {
+            socket.send(JSON.stringify({"event_unsubscribe": "all_events"}));
+            subscribed_events = [];
+        }
+    }
 }
 
 function connect_websocket() {
@@ -36,7 +40,7 @@ function connect_websocket() {
         var event_data = JSON.parse(data.data);
 
         /*
-         {event: "dhcp_log_subscription", data: "Oct  3 16:02:59 DHCP-Server dhcpd[5303]: reuse_l…% threshold, reply with unaltered, existing lease"}
+            {event: "dhcp_log_subscription", data: "Oct  3 16:02:59 DHCP-Server dhcpd[5303]: reuse_l…% threshold, reply with unaltered, existing lease"}
         */
 
         if (!subscribed_events[event_data['event']])
@@ -45,6 +49,9 @@ function connect_websocket() {
         /* Event Hooks */
         if (event_data['event'] == 'dhcp_log_subscription')
             parse_log_stream (event_data.data);
+
+        if (event_data['event'] == 'dhcp_statistics')
+            parse_statistics_stream (event_data.data);
 
     };
 }

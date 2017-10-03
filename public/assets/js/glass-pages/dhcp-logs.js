@@ -77,9 +77,9 @@ function parse_log_stream (console_data){
     }
 
     /*
-     Note: the only thing I stream currently is dhcp log - so later incoming messages will need to be
-     keyed by their "type" via json
-     */
+         Note: the only thing I stream currently is dhcp log - so later incoming messages will need to be
+         keyed by their "type" via json
+    */
 
     var grep_value = document.getElementById("grep_fitler").value;
 

@@ -36,6 +36,12 @@ $(document).ready(function () {
                 }
             }
         });
+
+
+    }, 100);
+
+    setTimeout(function(){
+        handle_websocket_subscription_navigation ();
     }, 100);
 });
 
@@ -50,11 +56,6 @@ $(document).on('on_pjax_click', function (e, href) {
     /* Unhook from all websocket events */
     websockets_unsubscribe_all_events();
 
-    /* Stream dashboard stats */
-    if(document.location.pathname == "/"){
-        websockets_subscribe_event("dhcp_statistics");
-    }
-
 });
 
 /*
@@ -65,6 +66,8 @@ $(document).on('on_pjax_complete', function (e) {
         $('body').removeClass('overlay-open');
         $('.overlay').css("display", "none");
     }
+
+    handle_websocket_subscription_navigation ();
 
     /*
      * Form input focus event
@@ -99,9 +102,19 @@ $(document).on('on_pjax_complete', function (e) {
     });
 
     remove_init_form();
-
-    remove_init_form();
 });
+
+function handle_websocket_subscription_navigation () {
+    console.log(window.location.pathname);
+
+    /* Stream dashboard stats */
+    if(document.location.pathname == "/"){
+        websockets_subscribe_event("dhcp_statistics");
+    }
+    else {
+        websockets_unsubscribe_all_events();
+    }
+}
 
 function remove_init_form() {
     setTimeout(function () {
