@@ -8,8 +8,15 @@ router.get('/', function(req, res, next) {
 
     var count = 0;
     for (var key in dhcp_lease_data) {
+
         /* Mac OUI Lookup */
-        var mac_oui = dhcp_lease_data[key].mac.split(":").join("").toUpperCase().slice(0,6);
+        var mac_oui = "";
+        if(typeof dhcp_lease_data[key].mac.split(":").join("") !== "undefined") {
+            mac_oui = dhcp_lease_data[key].mac.split(":").join("").toUpperCase().slice(0, 6);
+        }
+
+        if(mac_oui == "")
+            continue;
 
         if(typeof stat_data[mac_oui] === "undefined")
             stat_data[mac_oui] = {};
