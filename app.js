@@ -227,6 +227,23 @@ leases_per_minute_counter_timer = setInterval(function(){
 	if (leases_per_minute_counter == 60)
 		leases_per_minute_counter = 0;
 
+
+	/* Websockets statistics subscription broadcast */
+	if(ws_is_subscribed('dhcp_statistics')) {
+
+        return_data = {
+            "cpu_utilization": cpu_utilization,
+            "leases_per_second": current_leases_per_second,
+            "leases_per_minute": leases_per_minute
+        };
+        wss.broadcast_event(JSON.stringify(return_data), 'dhcp_statistics');
+
+        console.log('Returning stats');
+    }
+    else {
+		console.log('Stats not subscribed');
+	}
+
 }, 1000);
 
 /**
@@ -375,6 +392,16 @@ function isJson(str) {
 	return true;
 }
 
+function ws_is_subscribed(event){
+	if(typeof ws === "undefined")
+		return 0;
+
+	if(ws.event_subscription[event])
+		return 1;
+
+	return 0;
+}
+
 wss.on('connection', function connection(ws) {
 	ws.isAlive = true;
 	ws.on('pong', heartbeat);
@@ -390,6 +417,10 @@ wss.on('connection', function connection(ws) {
 			if(typeof json["event_unsubscribe"] !== "undefined"){
 				console.log("[WS] event_unsubscribe '%s'", json['event_unsubscribe']);
 				delete ws.event_subscription[json["event_unsubscribe"]];
+			}
+			if(typeof json["all_events"] !== "undefined"){
+				console.log("[WS] event_unsubscribe '%s'", json['event_unsubscribe']);
+				ws.event_subscription = [];
 			}
 		}
 	});
@@ -409,7 +440,7 @@ wss.broadcast_event = function broadcast(data, event) {
 	wss.clients.forEach(function each(client) {
 		if (client.readyState === WebSocket.OPEN) {
 			if(client.event_subscription[event])
-				client.send(data);
+				client.send(JSON.stringify({"event": event, "data": data}));
 		}
 	});
 };

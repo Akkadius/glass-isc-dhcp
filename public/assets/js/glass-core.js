@@ -13,6 +13,11 @@ var loader_html = '<div class="preloader"> \
     </div> \
     </div>';
 
+
+/*
+ * On initial document load events
+ */
+
 $(document).ready(function () {
     remove_init_form();
 
@@ -31,7 +36,7 @@ $(document).ready(function () {
                 }
             }
         });
-    }, 500);
+    }, 100);
 });
 
 /*
@@ -41,6 +46,15 @@ $(document).ready(function () {
 $(document).on('on_pjax_click', function (e, href) {
     $('li.active').removeClass("active");
     href.parent('li').addClass("active");
+
+    /* Unhook from all websocket events */
+    websockets_unsubscribe_all_events();
+
+    /* Stream dashboard stats */
+    if(document.location.pathname == "/"){
+        websockets_subscribe_event("dhcp_statistics");
+    }
+
 });
 
 /*

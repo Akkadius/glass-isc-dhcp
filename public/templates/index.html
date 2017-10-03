@@ -277,12 +277,20 @@
 
     change_favicon("images/glass_logo.png");
 
-	get_stats_timer = setInterval(function () {
+	var get_stats_timer = setInterval(function () {
 		if (window_focus && $('#total-leases').length) {
 			get_stats();
 		}
 	}, 5000);
 
+    var get_counters_timer = setInterval(function () {
+        if ($('#total-leases').length) {
+            $.get( "/api/get_server_info", function( data ) {
+                $('#cpu-utilization').html(data.cpu_utilization + "%");
+                $('#leases-sec').html(data.leases_per_second.toLocaleString('en') + ' / ' + data.leases_per_minute.toLocaleString('en'));
+            });
+        }
+    }, 1000);
 
 	var window_focus = true;
 
