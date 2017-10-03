@@ -471,7 +471,7 @@ function stale_connections_audit() {
 /* Keepalive - kill stale connections (30s poll) */
 const interval = setInterval(function ping() {
 	stale_connections_audit();
-}, 3000);
+}, 30000);
 
 var socket_clients = 0;
 
