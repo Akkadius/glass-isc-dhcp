@@ -1,12 +1,15 @@
-# Glass
+![glass_logo](https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png)
+
+# Glass 
+
 
 ## Dashboard
 * Glass has a dashboard containing quick-glance important information pertaining to the health of the server and the pools configured
- * DHCP Leases per second / minute
- * Total Active Leases
- * Server CPU Utilization
- * Shared Network Utilization
- * Subnet Utilization
+  * DHCP Leases per second / minute
+  * Total Active Leases
+  * Server CPU Utilization
+  * Shared Network Utilization
+  * Subnet Utilization
 
 ![dashboard_1](https://user-images.githubusercontent.com/3319450/31204215-6b805826-a930-11e7-8e07-4731c958bda4.gif)
 
