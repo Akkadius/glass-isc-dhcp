@@ -516,11 +516,28 @@ setTimeout(function(){
 			console.log("[Timer] lpm: %s lpm_th: %s", leases_per_minute, glass_config.leases_per_minute_threshold);
 			if (leases_per_minute <= glass_config.leases_per_minute_threshold && alert_status['leases_per_minute'] == 0) {
 				alert_status['leases_per_minute'] = 1;
-				slack_message(":warning: WARNING: DHCP leases per minute have dropped below threshold (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") Current (" + parseInt(leases_per_minute).toLocaleString('en') + ")");
+
+				slack_message(":warning: WARNING: DHCP leases per minute have dropped below threshold " +
+					"(" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") " +
+					"Current (" + parseInt(leases_per_minute).toLocaleString('en') + ")");
+
+                email_alert("CRITICAL: Leases Per Minute Threshold", "DHCP leases per minute dropped below critical threshold <br><br>" +
+                    "Threshold: (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") <br>" +
+                    "Current: (" + parseInt(leases_per_minute).toLocaleString('en') + ") <br><br>" +
+                    "This is usually indicative of a process or hardware problem and needs to be addressed immediately");
 			}
 			else if (leases_per_minute >= glass_config.leases_per_minute_threshold && alert_status['leases_per_minute'] == 1) {
 				alert_status['leases_per_minute'] = 0;
-				slack_message(":white_check_mark: CLEAR: DHCP leases per minute have returned to above threshold (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") Current (" + parseInt(leases_per_minute).toLocaleString('en') + ")");
+
+				slack_message(":white_check_mark: CLEAR: DHCP leases per minute have returned to above threshold " +
+					"(" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") " +
+					"Current (" + parseInt(leases_per_minute).toLocaleString('en') + ")");
+
+                email_alert("CLEAR: Leases Per Minute Threshold", "DHCP leases per minute have returned to normal <br><br>" +
+                    "Threshold: (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") <br>" +
+                    "Current: (" + parseInt(leases_per_minute).toLocaleString('en') + ")"
+				);
+
 			}
 		}
 	}, (60 * 1000));
@@ -571,7 +588,11 @@ setTimeout(function(){
 					)
 					{
 						alert_status_networks_warning[dhcp_data['shared-networks'][i].location] = 1;
-						slack_message(":warning: WARNING: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") Current: (" + utilization + "%) Threshold: (" + glass_config.shared_network_warning_threshold + "%)");
+
+						slack_message(":warning: WARNING: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") " +
+							"Current: (" + utilization + "%) " +
+							"Threshold: (" + glass_config.shared_network_warning_threshold + "%)"
+						);
 					}
 					else if (
 						utilization <= glass_config.shared_network_warning_threshold &&
@@ -579,7 +600,11 @@ setTimeout(function(){
 					)
 					{
 						alert_status_networks_warning[dhcp_data['shared-networks'][i].location] = 0;
-						slack_message(":white_check_mark: CLEAR: Warning DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") Current: (" + utilization + "%) Threshold: (" + glass_config.shared_network_warning_threshold + "%)");
+
+						slack_message(":white_check_mark: CLEAR: Warning DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") " +
+							"Current: (" + utilization + "%) " +
+							"Threshold: (" + glass_config.shared_network_warning_threshold + "%)"
+						);
 					}
 				}
 
@@ -611,5 +636,56 @@ function round(num, places) {
 	var multiplier = Math.pow(10, places);
 	return Math.round(num * multiplier) / multiplier;
 }
+
+/* Load Mailer */
+const nodemailer = require('nodemailer');
+
+let transporter = nodemailer.createTransport({
+    sendmail: true,
+    newline: 'unix',
+    path: '/usr/sbin/sendmail'
+});
+
+console.log("[Glass Server] Loading E-Mail template...");
+
+fs = require('fs');
+var email_body = fs.readFileSync('./public/templates/email_template.html', "utf8");
+
+function email_alert(alert_title, alert_message) {
+	/* E-Mail Template Load */
+    console.log("Sending E-Mail...\n");
+
+    if(typeof glass_config.email_alert_to === "undefined")
+    	return false;
+
+    if (glass_config.email_alert_to == ""){
+		console.log("[Glass Server] No email_to specified - returning...");
+		return false;
+	}
+
+    email_body = email_body.replace("[body_content_placeholder]", alert_message);
+    email_body = email_body.replace("[alert_title]", alert_title);
+    email_body = email_body.replace("[local_time]", new Date().toString() );
+
+    var mailOptions = {
+        from: "Glass Alerting Monitor glass@noreply.com",
+		to: glass_config.email_alert_to,
+        subject: "[Glass] " + alert_title,
+        html: email_body,
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+        }
+        else {
+            console.log('Message sent: ' + info.response);
+        };
+    });
+}
+
+email_alert("CRITICAL: Leases Per Minute Threshold", "DHCP leases per minute dropped below critical threshold <br><br>" +
+    "Threshold: (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") <br>" +
+    "Current: (" + parseInt(leases_per_minute).toLocaleString('en') + ") <br><br>" +
+    "This is usually indicative of a process or hardware problem and needs to be addressed immediately");
 
 console.log("[Glass Server] Bootup complete");

@@ -32,13 +32,19 @@ router.get('/', authorize.auth, function(req, res, next) {
 
 	glass_settings_template = template_render.set_template_variable(glass_settings_template, "c_content", form_data);
 
-	/* Shared Network Alert Threshold (Critical) */
+	/* Slack Webhook URL */
 	input = template_render.form_input('Slack Webhook URL <img src="images/slack-icon.png" style="height:25px; width: auto;"> ', '<input type="input" class="form-control" id="slack_webhook_url" placeholder="https://hooks.slack.com/services/xxx/xxx/xxx" value="' + glass_config.slack_webhook_url + '">');
 
-	/* Shared Network Alert Threshold (Warning) */
+	/* Slack Channel */
 	input = input + template_render.form_input('Slack Channel <img src="images/slack-icon.png" style="height:25px; width: auto;"> ', '<input type="input" class="form-control" id="slack_alert_channel" placeholder="#channel" value="' + glass_config.slack_alert_channel + '">');
 
-	// <div id="glass_settings_result"></div>
+	/* E-Mail Send To */
+    input = input + template_render.form_input(
+    	'E-Mail Send To <i class="material-icons" style="font-size: 16px !important;">mail</i>',
+		'<input type="input" class="form-control" id="email_alert_to" placeholder="email@example.com, email2@example.com" value="' + glass_config.email_alert_to + '">'
+	);
+
+    // <div id="glass_settings_result"></div>
 
 	form_data = template_render.form_body("glass-notifications-form", input);
 
