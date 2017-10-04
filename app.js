@@ -511,7 +511,7 @@ setTimeout(function(){
     console.log("[Glass Server] Alert loop started");
 
     alert_check_timer = setInterval(function(){
-		console.log("[Timer] Alert Timer check");
+		// console.log("[Timer] Alert Timer check");
 		if(glass_config.leases_per_minute_threshold > 0) {
 			console.log("[Timer] lpm: %s lpm_th: %s", leases_per_minute, glass_config.leases_per_minute_threshold);
 			if (leases_per_minute <= glass_config.leases_per_minute_threshold && alert_status['leases_per_minute'] == 0) {
@@ -546,7 +546,7 @@ setTimeout(function(){
 	alert_status_networks_critical = [];
 
 	alert_subnet_check_timer = setInterval(function(){
-		console.log("[Timer] Alert Timer check - subnets");
+		// console.log("[Timer] Alert Timer check - subnets");
 
 		if(glass_config.shared_network_warning_threshold > 0 || glass_config.shared_network_critical_threshold > 0) {
 			const execSync = require('child_process').execSync;
@@ -680,13 +680,24 @@ let transporter = nodemailer.createTransport({
 });
 
 console.log("[Glass Server] Loading E-Mail template...");
-
 fs = require('fs');
 var email_body = fs.readFileSync('./public/templates/email_template.html', "utf8");
+console.log("[Glass Server] Loading E-Mail template... DONE...");
+
+
+console.log("[Glass Server] Loading SMS domains");
+var sms_domains = fs.readFileSync('./lib/sms_domains.txt', "utf8");
+var sms_domains_list = [];
+var lines = sms_domains.split('\n');
+for(var i = 0; i < lines.length; i++){
+    sms_domains_list[lines[i].trim()] = true;
+}
+console.log("[Glass Server] Loading SMS domains DONE");
 
 function email_alert(alert_title, alert_message) {
+
 	/* E-Mail Template Load */
-    console.log("Sending E-Mail...\n");
+    console.log("[Glass Server] Sending E-Mail Alert...\n");
 
     if(typeof glass_config.email_alert_to === "undefined")
     	return false;
@@ -700,20 +711,62 @@ function email_alert(alert_title, alert_message) {
     email_body = email_body.replace("[alert_title]", alert_title);
     email_body = email_body.replace("[local_time]", new Date().toString() );
 
-    var mailOptions = {
-        from: "Glass Alerting Monitor glass@noreply.com",
-		to: glass_config.email_alert_to,
-        subject: "[Glass] " + alert_title,
-        html: email_body,
-    };
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            console.log(error);
+    glass_config.email_alert_to = glass_config.email_alert_to.replace(/ /g,'');
+
+	var sms_emails = "";
+
+    var individual_emails = glass_config.email_alert_to.split(",");
+    for(var i = 0; i < individual_emails.length; i++) {
+    	var domain = individual_emails[i].split("@")[1];
+    	var email_address = individual_emails[i];
+
+		if(typeof domain !== "undefined") {
+            if (sms_domains_list[domain.trim()]) {
+                console.log("This is a mobile sms gateway");
+                sms_emails = sms_emails + email_address + ", ";
+                glass_config.email_alert_to = glass_config.email_alert_to.replace(email_address, "");
+            }
         }
-        else {
-            console.log('Message sent: ' + info.response);
+    }
+
+    /* Clean extra commas etc. */
+    glass_config.email_alert_to = glass_config.email_alert_to.replace(/^[,\s]+|[,\s]+$/g, '').replace(/,[,\s]*,/g, ',');
+
+    /* Send regular HTML E-Mails */
+	if(glass_config.email_alert_to.trim() != "") {
+        var mailOptions = {
+            from: "Glass Alerting Monitor glass@noreply.com",
+            to: glass_config.email_alert_to,
+            subject: "[Glass] " + alert_title,
+            html: email_body,
         };
-    });
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('Message sent: ' + info.response);
+            }
+        });
+    }
+
+    /* Send SMS */
+	if(glass_config.email_alert_to.trim() != "") {
+        var mailOptions = {
+            from: "Glass Alerting Monitor glass@noreply.com",
+            to: sms_emails,
+            subject: "[Glass] " + alert_title,
+            html: alert_message.substring(0, 135) + "...",
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('Message sent: ' + info.response);
+            }
+        });
+    }
 }
 
 console.log("[Glass Server] Bootup complete");
