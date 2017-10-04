@@ -684,16 +684,6 @@ fs = require('fs');
 var email_body = fs.readFileSync('./public/templates/email_template.html', "utf8");
 console.log("[Glass Server] Loading E-Mail template... DONE...");
 
-
-console.log("[Glass Server] Loading SMS domains");
-var sms_domains = fs.readFileSync('./lib/sms_domains.txt', "utf8");
-var sms_domains_list = [];
-var lines = sms_domains.split('\n');
-for(var i = 0; i < lines.length; i++){
-    sms_domains_list[lines[i].trim()] = true;
-}
-console.log("[Glass Server] Loading SMS domains DONE");
-
 function email_alert(alert_title, alert_message) {
 
 	/* E-Mail Template Load */
@@ -710,24 +700,6 @@ function email_alert(alert_title, alert_message) {
     email_body = email_body.replace("[body_content_placeholder]", alert_message);
     email_body = email_body.replace("[alert_title]", alert_title);
     email_body = email_body.replace("[local_time]", new Date().toString() );
-
-    glass_config.email_alert_to = glass_config.email_alert_to.replace(/ /g,'');
-
-	var sms_emails = "";
-
-    var individual_emails = glass_config.email_alert_to.split(",");
-    for(var i = 0; i < individual_emails.length; i++) {
-    	var domain = individual_emails[i].split("@")[1];
-    	var email_address = individual_emails[i];
-
-		if(typeof domain !== "undefined") {
-            if (sms_domains_list[domain.trim()]) {
-                console.log("This is a mobile sms gateway");
-                sms_emails = sms_emails + email_address + ", ";
-                glass_config.email_alert_to = glass_config.email_alert_to.replace(email_address, "");
-            }
-        }
-    }
 
     /* Clean extra commas etc. */
     glass_config.email_alert_to = glass_config.email_alert_to.replace(/^[,\s]+|[,\s]+$/g, '').replace(/,[,\s]*,/g, ',');
@@ -751,10 +723,10 @@ function email_alert(alert_title, alert_message) {
     }
 
     /* Send SMS */
-	if(glass_config.email_alert_to.trim() != "") {
+	if(glass_config.sms_alert_to.trim() != "") {
         var mailOptions = {
             from: "Glass Alerting Monitor glass@noreply.com",
-            to: sms_emails,
+            to: glass_config.sms_alert_to,
             subject: "[Glass] " + alert_title,
             html: alert_message.substring(0, 135) + "...",
         };

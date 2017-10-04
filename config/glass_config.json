@@ -12,5 +12,6 @@
   "ip_ranges_to_allow": [
     ""
   ],
-  "email_alert_to": ""
+  "email_alert_to": "",
+  "sms_alert_to": ""
 }

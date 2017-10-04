@@ -16,7 +16,8 @@ router.post('/', authorize.auth, function(req, res, next) {
 	glass_config.leases_per_minute_threshold = request.leases_per_minute_threshold;
 	glass_config.slack_webhook_url = request.slack_webhook_url;
 	glass_config.slack_alert_channel = request.slack_alert_channel;
-    glass_config.email_alert_to = request.email_alert_to
+    glass_config.email_alert_to = request.email_alert_to;
+    glass_config.sms_alert_to = request.sms_alert_to;
 
 	json_file.writeFile('./config/glass_config.json', glass_config, {spaces: 2}, function(err) {
 		console.error(err);
