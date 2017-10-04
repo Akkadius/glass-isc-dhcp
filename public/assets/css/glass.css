@@ -1,3 +1,13 @@
 .info-box .content .text {
     margin-top: 5px !important;
 }
+
+@media all and (max-width: 1400px) and (min-width: 1000px){
+    .hide_col {
+        display: none;
+        width: 0;
+        height: 0;
+        opacity: 0;
+        visibility: collapse;
+    }
+}
