@@ -593,6 +593,13 @@ setTimeout(function(){
 							"Current: (" + utilization + "%) " +
 							"Threshold: (" + glass_config.shared_network_warning_threshold + "%)"
 						);
+
+                        email_alert("WARNING: DHCP shared network utilization",
+                            "WARNING: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") <br><br>" +
+                            "Threshold: (" + glass_config.shared_network_warning_threshold + "%) <br>" +
+                            "Current: (" + utilization + "%)"
+                        );
+
 					}
 					else if (
 						utilization <= glass_config.shared_network_warning_threshold &&
@@ -605,6 +612,13 @@ setTimeout(function(){
 							"Current: (" + utilization + "%) " +
 							"Threshold: (" + glass_config.shared_network_warning_threshold + "%)"
 						);
+
+                        email_alert("CLEAR: DHCP shared network utilization warning",
+                            "CLEAR: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") <br><br>" +
+                            "Threshold: (" + glass_config.shared_network_warning_threshold + "%) <br>" +
+                            "Current: (" + utilization + "%)"
+                        );
+
 					}
 				}
 
@@ -616,7 +630,17 @@ setTimeout(function(){
 					)
 					{
 						alert_status_networks_critical[dhcp_data['shared-networks'][i].location] = 1;
-						slack_message(":fire: CRITICAL: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") Current: (" + utilization + "%) Threshold: (" + glass_config.shared_network_critical_threshold + "%)");
+						slack_message(":fire: CRITICAL: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") " +
+							"Current: (" + utilization + "%) " +
+							"Threshold: (" + glass_config.shared_network_critical_threshold + "%)"
+						);
+
+                        email_alert("CRITICAL: DHCP shared network utilization",
+                            "CRITICAL: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") <br><br>" +
+                            "Threshold: (" + glass_config.shared_network_critical_threshold + "%) <br>" +
+                            "Current: (" + utilization + "%)"
+                        );
+
 					}
 					else if (
 						utilization <= glass_config.shared_network_critical_threshold &&
@@ -624,7 +648,16 @@ setTimeout(function(){
 					)
 					{
 						alert_status_networks_critical[dhcp_data['shared-networks'][i].location] = 0;
-						slack_message(":white_check_mark: CLEAR: Critical DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") Current: (" + utilization + "%) Threshold: (" + glass_config.shared_network_critical_threshold + "%)");
+						slack_message(":white_check_mark: CLEAR: Critical DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") " +
+							"Current: (" + utilization + "%) " +
+							"Threshold: (" + glass_config.shared_network_critical_threshold + "%)"
+						);
+
+                        email_alert("CLEAR: DHCP shared network utilization",
+							"CLEAR: DHCP shared network utilization (" + dhcp_data['shared-networks'][i].location + ") <br><br>" +
+                            "Threshold: (" + glass_config.shared_network_critical_threshold + "%) <br>" +
+                            "Current: (" + utilization + "%)"
+						);
 					}
 				}
 			}
@@ -682,10 +715,5 @@ function email_alert(alert_title, alert_message) {
         };
     });
 }
-
-email_alert("CRITICAL: Leases Per Minute Threshold", "DHCP leases per minute dropped below critical threshold <br><br>" +
-    "Threshold: (" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") <br>" +
-    "Current: (" + parseInt(leases_per_minute).toLocaleString('en') + ") <br><br>" +
-    "This is usually indicative of a process or hardware problem and needs to be addressed immediately");
 
 console.log("[Glass Server] Bootup complete");
