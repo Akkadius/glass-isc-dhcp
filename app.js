@@ -480,7 +480,6 @@ var socket_clients = 0;
  * Slack Hooks
  */
 
-
 var Slack = require('slack-node');
 
 webhookUri = glass_config.slack_webhook_url;
@@ -513,11 +512,11 @@ setTimeout(function(){
     alert_check_timer = setInterval(function(){
 		// console.log("[Timer] Alert Timer check");
 		if(glass_config.leases_per_minute_threshold > 0) {
-			console.log("[Timer] lpm: %s lpm_th: %s", leases_per_minute, glass_config.leases_per_minute_threshold);
+			// console.log("[Timer] lpm: %s lpm_th: %s", leases_per_minute, glass_config.leases_per_minute_threshold);
 			if (leases_per_minute <= glass_config.leases_per_minute_threshold && alert_status['leases_per_minute'] == 0) {
 				alert_status['leases_per_minute'] = 1;
 
-				slack_message(":warning: WARNING: DHCP leases per minute have dropped below threshold " +
+				slack_message(":warning: CRITICAL: DHCP leases per minute have dropped below threshold " +
 					"(" + parseInt(glass_config.leases_per_minute_threshold).toLocaleString('en') + ") " +
 					"Current (" + parseInt(leases_per_minute).toLocaleString('en') + ")");
 
@@ -540,7 +539,7 @@ setTimeout(function(){
 
 			}
 		}
-	}, (60 * 1000));
+	}, (5 * 1000));
 
 	alert_status_networks_warning = [];
 	alert_status_networks_critical = [];
@@ -679,24 +678,26 @@ let transporter = nodemailer.createTransport({
     path: '/usr/sbin/sendmail'
 });
 
-console.log("[Glass Server] Loading E-Mail template...");
-fs = require('fs');
-var email_body = fs.readFileSync('./public/templates/email_template.html', "utf8");
-console.log("[Glass Server] Loading E-Mail template... DONE...");
 
 function email_alert(alert_title, alert_message) {
 
-	/* E-Mail Template Load */
+    console.log("[Glass Server] Loading E-Mail template...");
+    fs = require('fs');
+    var email_body = fs.readFileSync('./public/templates/email_template.html', "utf8");
+    console.log("[Glass Server] Loading E-Mail template... DONE...");
+
+    /* E-Mail Template Load */
     console.log("[Glass Server] Sending E-Mail Alert...\n");
 
-    if(typeof glass_config.email_alert_to === "undefined")
+    if(typeof glass_config.email_alert_to === "undefined" && typeof glass_config.sms_alert_to === "undefined")
     	return false;
 
-    if (glass_config.email_alert_to == ""){
+    if (glass_config.email_alert_to == "" && glass_config.sms_alert_to != ""){
 		console.log("[Glass Server] No email_to specified - returning...");
 		return false;
 	}
 
+	/* Write on top of E-Mail Template */
     email_body = email_body.replace("[body_content_placeholder]", alert_message);
     email_body = email_body.replace("[alert_title]", alert_title);
     email_body = email_body.replace("[local_time]", new Date().toString() );
@@ -728,7 +729,7 @@ function email_alert(alert_title, alert_message) {
             from: "Glass Alerting Monitor glass@noreply.com",
             to: glass_config.sms_alert_to,
             subject: "[Glass] " + alert_title,
-            html: alert_message.substring(0, 135) + "...",
+            html: (alert_message.substring(0, 130) + "..."),
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {

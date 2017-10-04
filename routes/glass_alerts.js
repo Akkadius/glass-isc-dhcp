@@ -47,7 +47,7 @@ router.get('/', authorize.auth, function(req, res, next) {
     /* SMS Send To */
     input = input + template_render.form_input(
     	'SMS Gateway E-Mails <i class="material-icons" style="font-size: 16px !important;">perm_phone_msg</i>',
-		'<input type="input" class="form-control" id="email_alert_to" placeholder="smsgatewayemail@example.com, smsgatewayemail@example.com" value="' + glass_config.sms_alert_to + '">'
+		'<input type="input" class="form-control" id="sms_alert_to" placeholder="smsgatewayemail@example.com, smsgatewayemail@example.com" value="' + glass_config.sms_alert_to + '">'
 	);
 
     // <div id="glass_settings_result"></div>
