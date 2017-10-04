@@ -1,7 +1,7 @@
 ![glass_logo](https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png)
 
 # Glass 
-
+* Glass was created as a quick side project out of necessity to fulfill requirements not readily available through our production ISC DHCP Servers
 
 ## Dashboard
 * Glass has a dashboard containing quick-glance important information pertaining to the health of the server and the pools configured
@@ -27,6 +27,18 @@
 * Server Stop / Start / Restarting can all be done through the Glass interface
 
 ![dhcp_server_restart](https://user-images.githubusercontent.com/3319450/31204517-c06001ba-a931-11e7-8e8a-1bf2779b9497.gif)
+
+## Statistics
+* Glass exposes useful statistical information in the Web interface that is also available through the raw API interface
+
+![statistics_1](https://user-images.githubusercontent.com/3319450/31204863-80c1cf82-a933-11e7-8682-ac3ebffeb6f5.gif)
+
+## Log Streaming
+* Stream the DHCP syslog via Websockets to your browser, making troubleshooting efforts super easy by being able to add realtime filters and have MAC address be translated realtime to the vendor for readability
+
+![dhcp_log_stream_filter](https://user-images.githubusercontent.com/3319450/31205190-9c97e4b0-a935-11e7-9c2c-d26f476cfa14.gif)
+
+![log_stream](https://user-images.githubusercontent.com/3319450/31204870-89cccc94-a933-11e7-97fc-27547c90892c.gif)
 
 ## Glass API
 * Glass has a small but powerful REST API exposing data not otherwise available easily through raw isc-dhcp-server formats
