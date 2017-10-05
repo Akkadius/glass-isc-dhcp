@@ -253,6 +253,8 @@ make install
 ## Example Calls
 
 ### GET: /api/get_active_leases
+* This call will return the full lease list unless you pass optional search parameter:
+  * Ex: /api/get_active_leases?search=Cisco
 
 **Output example truncated - some info redacted**
 <pre>
