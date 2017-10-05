@@ -76,7 +76,7 @@
 
 ## DHCP Config Editing
 * A built in config web editor that uses the dhcp server binary to check syntax before over-writing the production config with a bad configuration
-* Currently config editing only supports editing one single config file (No includes) due to syntax verificiation that glass performs
+* Currently config editing only supports editing one single config file (No includes) due to syntax verification that glass performs
 
 ![dhcp_config](https://user-images.githubusercontent.com/3319450/31204509-bb583c00-a931-11e7-982c-186ef8c33e61.gif)
 
