@@ -8,6 +8,22 @@
 * Disclaimer: Glass and its author has no affiliation with ISC and the authors of isc-dhcp-server
 * Original Author: Chris Miles: chris.miles.e@gmail.com
 
+**Table of Contents**
+
+- [  Glass ](#)
+- [Features](#)
+	- [Dashboard](#)
+	- [DHCP Config Editing](#)
+	- [DHCP Config Snapshots](#)
+	- [DHCP Server Restart](#)
+	- [Statistics](#)
+	- [Log Streaming](#)
+	- [Glass API](#)
+- [Alerting](#)
+	- [E-Mail](#)
+	- [Slack](#)
+	- [SMS - Simple Format](#)
+
 # Features
   * Standalone NodeJS application that has a web interface, listens to the dhcp log and the leases file to collect analytics and data realtime
   * DHCP IPv4 Support (No IPv6 at this time)
