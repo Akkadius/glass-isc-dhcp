@@ -4,8 +4,10 @@
 # Glass <img src="https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png" alt="Glass" width="20" height="20">
 * Glass was created as a quick side project out of necessity to fulfill requirements not readily available through our production ISC DHCP Servers for our organization - I've decided to share it for anyone who would also find it useful
 * More features and application-level things could be extended into the interface but my goals were simply the high yield features for our production network needs
+* Disclaimer: Glass and its author has no affiliation with ISC and the authors of isc-dhcp-server
+* Original Author: Chris Miles: chris.miles.e@gmail.com
 
-## Features
+# Features
   * Standalone NodeJS application that has a web interface, listens to the dhcp log and the leases file to collect analytics and data realtime
   * DHCP IPv4 Support (No IPv6 at this time)
   * Full OUI Database
@@ -34,9 +36,11 @@
      * Config editing through Glass creates a backup (snapshot) on success with no syntax errors and commits to production file
     * Start / Stop / Restart server process
     * Administrative Authentication enforced on administrative tasks (Restarts/Config/Glass Settings)
+ * Uses AdminBSB UI with customizations and tweaks
+ * Full Mobile support
 
 ## Dashboard
-* Glass has a dashboard containing quick-glance important information pertaining to the health of the server and the pools configured
+* Glass has a dashboard containing quick-glance important information pertaining to the health of the server and the pools configured - statistics update in realtime
   * DHCP Leases per second / minute
   * Total Active Leases
   * Server CPU Utilization
@@ -73,7 +77,7 @@
 ![log_stream](https://user-images.githubusercontent.com/3319450/31204870-89cccc94-a933-11e7-97fc-27547c90892c.gif)
 
 ## Glass API
-* Glass has a small but powerful REST API exposing data not otherwise available easily through raw isc-dhcp-server formats
+* Glass has a small but powerful REST API exposing data not otherwise available easily through raw isc-dhcp-server data formats
 
 ![api_examples](https://user-images.githubusercontent.com/3319450/31204191-3e197804-a930-11e7-871e-2c469480b906.gif)
 
