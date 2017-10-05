@@ -78,7 +78,11 @@
 ![api_examples](https://user-images.githubusercontent.com/3319450/31204191-3e197804-a930-11e7-871e-2c469480b906.gif)
 
 # Alerting
-* Glass currently supports the following alerting methods
+* Currently, Glass alerts on
+  * Shared Network Utilization % Thresholds (Warning & Critical) (Default 0 and 95)
+  * Leases per minute rate (Default 50)
+  * 0 values = Off
+* Glass currently supports the following alerting delivery methods
 
 ## E-Mail
 
@@ -86,5 +90,12 @@
 
 ## Slack
 
-![snip20171004_11](https://user-images.githubusercontent.com/3319450/31207501-2e9fda58-a944-11e7-99b3-cdab2ae3f81f.png)
+<img src="https://user-images.githubusercontent.com/3319450/31207501-2e9fda58-a944-11e7-99b3-cdab2ae3f81f.png" width="500">
+
+## SMS - Simple Format
+* SMS gets cut off at 140 characters - but you get the core alert and should only be used as a backup measure to other methods
+
+<img src="https://user-images.githubusercontent.com/3319450/31207663-40cf573e-a945-11e7-8753-288e68a38da1.jpg" width="300">
+
+
 
