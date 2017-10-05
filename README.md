@@ -22,6 +22,7 @@
   * [E-Mail](#e-mail)
   * [Slack](#slack)
   * [SMS - Simple Format](#sms---simple-format)
+- [Installation](#Installation)
 
 # Features
   * Standalone NodeJS application that has a web interface, listens to the dhcp log and the leases file to collect analytics and data realtime
@@ -118,5 +119,54 @@
 
 <img src="https://user-images.githubusercontent.com/3319450/31207663-40cf573e-a945-11e7-8753-288e68a38da1.jpg" width="300">
 
+# Installation
+* Instructions are per Debian/Ubuntu Distros
 
+## Install NodeJS (If not installed)
 
+<pre>
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+</pre>
+
+## Install Glass
+<pre>
+cd /opt
+git clone https://github.com/Akkadius/glass-isc-dhcp.git
+cd glass-isc-dhcp
+mkdir logs
+chmod u+x ./bin/ -R
+
+npm install
+npm start
+</pre>
+
+## Apparmor (Ubuntu LTS)
+
+* Ubuntu uses AppArmor by default - you will most likely run into file access issues without exemptions
+
+### Option 1) Add file exemptions to apparmor (For glass and dhcpd)
+
+<pre>
+sed -i '/\/etc\/dhcp\/\*\*/a\ \ \/var\/lib\/dhcp\/\*\* lrw,' /etc/apparmor.d/usr.sbin.dhcpd 
+sed -i '/\/etc\/dhcp\/\*\*/a\ \ \/opt\/glass-isc-dhcp\/\*\* lrw,' /etc/apparmor.d/usr.sbin.dhcpd 
+service apparmor restart
+</pre>
+
+### Option 2) Disable completely (not recommended)
+
+<pre>
+sudo ln -s /etc/apparmor.d/usr.sbin.dhcpd /etc/apparmor.d/disable/
+sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.dhcpd
+</pre>
+
+## Secure your Install
+
+* Glass runs on web port 3000 - if you're going to run this on a production server, make sure that you lock it down from the outside world if anyone can access it. Even if they don't have a password - vulnerabilities can surface at any point in the future and your system becomes a prime target
+
+### Iptables
+<pre>
+iptables -A INPUT -p tcp --dport 3000 -s 127.0.0.0/8 -j ACCEPT
+iptables -A INPUT -p tcp --dport 3000 -s x.x.x.x/24 -j ACCEPT
+iptables -A INPUT -p tcp --dport 3000 -j REJECT --reject-with icmp-port-unreachable
+</pre>
