@@ -1,7 +1,33 @@
-![glass_logo](https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png)
+# Glass <img src="https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png" alt="Glass" width="30" height="30">
+* Glass was created as a quick side project out of necessity to fulfill requirements not readily available through our production ISC DHCP Servers for our organization - I've decided to share it for anyone who would also find it useful
+* More features and application-level things could be extended into the interface but my goals were simply the high yield features for our production network needs
 
-# Glass 
-* Glass was created as a quick side project out of necessity to fulfill requirements not readily available through our production ISC DHCP Servers
+## Features
+  * DHCP IPv4 Support (No IPv6 at this time)
+  * Realtime Alerting
+    * Shared Subnet Utilization Alerting
+      * Customize thresholds (IE: Warning: 80% Critical 95%)
+    * Leases Per Minute - If your disk fills up - or your SAN is unavailable - alerting your team on absolutely zero activity on your production server can allow you to be on the 8 ball
+  * Alerting Destinations
+    * Slack
+    * E-Mail
+    * SMS
+  * Statistics (Available through REST API)
+    * Shared Network Utilization
+    * Individual Network Utilization
+    * Vendor Counts by MAC
+    * OUI Count
+    * Excessive DHCP Requests
+   * Log Streaming (Realtime via Websockets)
+   * Lease Data
+     * Full active DHCP lease data available via API and searchable through the web interface
+     * All options are dynamically parsed into an easy to ingest JSON format
+   * Config Edit (Only supports single DHCP config file configurations)
+     * Edit the DHCP config using a full web-based text editor (Ace)
+     * Before saving the config - Glass will run a syntax check against the file
+     * Config editing through Glass creates a backup (snapshot) on success with no syntax errors and commits to production file
+    * Start / Stop / Restart server process
+    * Administrative Authentication enforced on administrative tasks (Restarts/Config/Glass Settings)
 
 ## Dashboard
 * Glass has a dashboard containing quick-glance important information pertaining to the health of the server and the pools configured
