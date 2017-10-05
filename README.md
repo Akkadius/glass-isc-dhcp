@@ -1,4 +1,7 @@
-# Glass <img src="https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png" alt="Glass" width="30" height="30">
+[![npm](https://img.shields.io/npm/v/npm.svg)]()
+[![CocoaPods](https://img.shields.io/cocoapods/l/AFNetworking.svg)]()
+
+# Glass <img src="https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png" alt="Glass" width="20" height="20">
 * Glass was created as a quick side project out of necessity to fulfill requirements not readily available through our production ISC DHCP Servers for our organization - I've decided to share it for anyone who would also find it useful
 * More features and application-level things could be extended into the interface but my goals were simply the high yield features for our production network needs
 
@@ -73,3 +76,15 @@
 * Glass has a small but powerful REST API exposing data not otherwise available easily through raw isc-dhcp-server formats
 
 ![api_examples](https://user-images.githubusercontent.com/3319450/31204191-3e197804-a930-11e7-871e-2c469480b906.gif)
+
+# Alerting
+* Glass currently supports the following alerting methods
+
+## E-Mail
+
+<img src="https://user-images.githubusercontent.com/3319450/31207443-e4dc71e2-a943-11e7-804f-49f3b656861a.png" width="500">
+
+## Slack
+
+![snip20171004_11](https://user-images.githubusercontent.com/3319450/31207501-2e9fda58-a944-11e7-99b3-cdab2ae3f81f.png)
+
