@@ -1,7 +1,8 @@
 [![npm](https://img.shields.io/npm/v/npm.svg)]()
 [![CocoaPods](https://img.shields.io/cocoapods/l/AFNetworking.svg)]()
 
-# Glass <img src="https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png" alt="Glass" width="20" height="20">
+<h1> <img src="https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png" alt="Glass" width="35" height="35"> Glass </h1>
+
 * Glass was created as a quick side project out of necessity to fulfill requirements not readily available through our production ISC DHCP Servers for our organization - I've decided to share it for anyone who would also find it useful
 * More features and application-level things could be extended into the interface but my goals were simply the high yield features for our production network needs
 * Disclaimer: Glass and its author has no affiliation with ISC and the authors of isc-dhcp-server
@@ -15,7 +16,7 @@
   * Realtime Alerting
     * Shared Subnet Utilization Alerting
       * Customize thresholds (IE: Warning: 80% Critical 95%)
-    * Leases Per Minute - If your disk fills up - or your SAN is unavailable - alerting your team on absolutely zero activity on your production server can allow you to be on the 8 ball
+    * Leases Per Minute - If your disk fills up - or your SAN is unavailable - alerting your team on absolutely zero activity on your production server can allow you to be on the 8-ball. This is a step-above process alerting because you can have the dhcp server process running and no leases being written
   * Alerting Destinations
     * Slack
     * E-Mail
@@ -36,7 +37,7 @@
      * Config editing through Glass creates a backup (snapshot) on success with no syntax errors and commits to production file
     * Start / Stop / Restart server process
     * Administrative Authentication enforced on administrative tasks (Restarts/Config/Glass Settings)
- * Uses AdminBSB UI with customizations and tweaks
+ * Uses [AdminBSB UI](https://github.com/gurayyarar/AdminBSBMaterialDesign) with customizations and tweaks
  * Full Mobile support
 
 ## Dashboard
@@ -51,6 +52,7 @@
 
 ## DHCP Config Editing
 * A built in config web editor that uses the dhcp server binary to check syntax before over-writing the production config with a bad configuration
+* Currently config editing only supports editing one single config file (No includes) due to syntax verificiation that glass performs
 
 ![dhcp_config](https://user-images.githubusercontent.com/3319450/31204509-bb583c00-a931-11e7-982c-186ef8c33e61.gif)
 
@@ -82,7 +84,7 @@
 ![api_examples](https://user-images.githubusercontent.com/3319450/31204191-3e197804-a930-11e7-871e-2c469480b906.gif)
 
 # Alerting
-* Currently, Glass alerts on
+* Glass alerts check once a minute for subnet utilization and every 5 seconds for lease-rate alerts
   * Shared Network Utilization % Thresholds (Warning & Critical) (Default 0 and 95)
   * Leases per minute rate (Default 50)
   * 0 values = Off
