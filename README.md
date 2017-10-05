@@ -3,7 +3,10 @@
 * More features and application-level things could be extended into the interface but my goals were simply the high yield features for our production network needs
 
 ## Features
+  * Standalone NodeJS application that has a web interface, listens to the dhcp log and the leases file to collect analytics and data realtime
   * DHCP IPv4 Support (No IPv6 at this time)
+  * Full OUI Database
+    * Has complete vendor to MAC OUI database - with a script to pull down and update live data
   * Realtime Alerting
     * Shared Subnet Utilization Alerting
       * Customize thresholds (IE: Warning: 80% Critical 95%)
