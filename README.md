@@ -34,13 +34,13 @@
 - [Glass API](#glass-api-1)
   * [Use Cases](#use-cases)
   * [Example Calls](#example-calls)
-    + [GET: /api/get_active_leases](#get---api-get-active-leases)
-    + [GET: /api/get_subnet_details](#get---api-get-subnet-details)
-    + [GET: /api/get_mac_oui_list](#get---api-get-mac-oui-list)
-    + [GET: /api/get_server_info](#get---api-get-server-info)
-    + [GET: /api/get_vendor_count](#get---api-get-vendor-count)
-    + [GET: /api/get_mac_oui_count_by_vendor](#get---api-get-mac-oui-count-by-vendor)
-    + [GET: /api/get_dhcp_requests](#get---api-get-dhcp-requests)
+    + GET: /api/get_active_leases
+    + GET: /api/get_subnet_details
+    + GET: /api/get_mac_oui_list
+    + GET: /api/get_server_info
+    + GET: /api/get_vendor_count
+    + GET: /api/get_mac_oui_count_by_vendor
+    + GET: /api/get_dhcp_requests
 
 # Features
   * Standalone NodeJS application that has a web interface, listens to the dhcp log and the leases file to collect analytics and data realtime
