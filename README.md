@@ -138,7 +138,7 @@ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
 </pre>
 
-## Install Glass
+## Install Glass (as root)
 <pre>
 cd /opt
 git clone https://github.com/Akkadius/glass-isc-dhcp.git
@@ -153,24 +153,16 @@ npm start
 * For Debian this is all that is needed and Glass should start immediately
 * For Ubuntu users - you will have additional Apparmor config to add
 * **Highly Recommended** to iptables port 3000 to close off Glass if you are facing the public on your server
+* [Glass Process Keepalive](#glass-process-keepalive)
 
-## Apparmor (Ubuntu LTS)
+## Apparmor
 
 * Ubuntu uses AppArmor by default - you will most likely run into file access issues without exemptions
-
-### Option 1) Add file exemptions to apparmor (For glass and dhcpd)
 
 <pre>
 sed -i '/\/etc\/dhcp\/\*\*/a\ \ \/var\/lib\/dhcp\/\*\* lrw,' /etc/apparmor.d/usr.sbin.dhcpd 
 sed -i '/\/etc\/dhcp\/\*\*/a\ \ \/opt\/glass-isc-dhcp\/\*\* lrw,' /etc/apparmor.d/usr.sbin.dhcpd 
 service apparmor restart
-</pre>
-
-### Option 2) Disable completely (not recommended)
-
-<pre>
-sudo ln -s /etc/apparmor.d/usr.sbin.dhcpd /etc/apparmor.d/disable/
-sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.dhcpd
 </pre>
 
 ## Glass Configuration
@@ -196,6 +188,16 @@ sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.dhcpd
   "email_alert_to": "",
   "sms_alert_to": ""
 }
+</pre>
+
+## Glass Process Keepalive
+* To keep your server alive through reboots, possible crashes and process restarts, we need to use a process monitor and for simplicity we will use NodeJS's **Forever**. Forever is already installed during Glass installation. We will add it to our **crontab**
+
+<pre>
+crontab -l > mycrontab
+echo "@reboot cd /opt/glass-isc-dhcp && /usr/bin/forever --minUptime 10000 --spinSleepTime 10000 -a -o ./logs/glass-process.log -e ./logs/glass-error.log ./bin/www" >> mycrontab
+crontab mycrontab
+rm mycrontab
 </pre>
 
 ## Secure your Server
