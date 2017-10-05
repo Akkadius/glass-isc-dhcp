@@ -496,7 +496,7 @@ function slack_message(message) {
         channel: glass_config.slack_alert_channel,
         username: "Glass",
         icon_emoji: "https://imgur.com/wD3CcBi",
-        text: message
+        text: "(" + host_name + ") " + message
     }, function (err, response) {
         console.log(response);
     });
@@ -708,7 +708,7 @@ function email_alert(alert_title, alert_message) {
         var mailOptions = {
             from: "Glass Alerting Monitor glass@noreply.com",
             to: glass_config.email_alert_to,
-            subject: "[Glass] " + alert_title,
+            subject: "[Glass] " + "(" + host_name + ") " + alert_title,
             html: email_body,
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -726,7 +726,7 @@ function email_alert(alert_title, alert_message) {
         var mailOptions = {
             from: "Glass Alerting Monitor glass@noreply.com",
             to: glass_config.sms_alert_to,
-            subject: "[Glass] " + alert_title,
+            subject: "[Glass] " + "(" + host_name + ") " + alert_title,
             html: (alert_message.substring(0, 130) + "..."),
         };
         transporter.sendMail(mailOptions, function (error, info) {
