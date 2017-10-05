@@ -24,11 +24,10 @@
   * [SMS - Simple Format](#sms---simple-format)
 - [Installation](#installation)
   * [Install NodeJS (If not installed)](#install-nodejs--if-not-installed-)
-  * [Install Glass](#install-glass)
-  * [Apparmor (Ubuntu LTS)](#apparmor--ubuntu-lts-)
-    + [Option 1) Add file exemptions to apparmor (For glass and dhcpd)](#option-1--add-file-exemptions-to-apparmor--for-glass-and-dhcpd-)
-    + [Option 2) Disable completely (not recommended)](#option-2--disable-completely--not-recommended-)
+  * [Install Glass (as root)](#install-glass--as-root-)
+  * [Apparmor](#apparmor)
   * [Glass Configuration](#glass-configuration)
+  * [Glass Process Keepalive](#glass-process-keepalive)
   * [Secure your Server](#secure-your-server)
     + [iptables (Recommended)](#iptables--recommended-)
   * [Building dhcpd-pools (Optional)](#building-dhcpd-pools--optional-)
@@ -150,10 +149,10 @@ npm install
 npm start
 </pre>
 
-* For Debian this is all that is needed and Glass should start immediately
+* For Debian this is all that is needed and Glass should start immediately, you can browse via http://server-ip:3000
 * For Ubuntu users - you will have additional Apparmor config to add
-* **Highly Recommended** to iptables port 3000 to close off Glass if you are facing the public on your server
-* [Glass Process Keepalive](#glass-process-keepalive)
+* **Recommended** to iptables port 3000 to close off Glass if you are facing the public on your server
+* **Recommended** to keep Glass up through reboots, see [Glass Process Keepalive](#glass-process-keepalive)
 
 ## Apparmor
 
