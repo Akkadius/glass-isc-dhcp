@@ -2,7 +2,7 @@
     margin-top: 5px !important;
 }
 
-@media all and (max-width: 1400px) and (min-width: 1000px){
+@media all and (max-width: 1600px) and (min-width: 1000px){
     .hide_col {
         display: none;
         width: 0;
