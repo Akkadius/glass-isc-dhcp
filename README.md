@@ -22,7 +22,16 @@
   * [E-Mail](#e-mail)
   * [Slack](#slack)
   * [SMS - Simple Format](#sms---simple-format)
-- [Installation](#Installation)
+- [Installation](#installation)
+  * [Install NodeJS (If not installed)](#install-nodejs--if-not-installed-)
+  * [Install Glass](#install-glass)
+  * [Apparmor (Ubuntu LTS)](#apparmor--ubuntu-lts-)
+    + [Option 1) Add file exemptions to apparmor (For glass and dhcpd)](#option-1--add-file-exemptions-to-apparmor--for-glass-and-dhcpd-)
+    + [Option 2) Disable completely (not recommended)](#option-2--disable-completely--not-recommended-)
+  * [Glass Configuration](#glass-configuration)
+  * [Secure your Server](#secure-your-server)
+    + [iptables (Recommended)](#iptables--recommended-)
+  * [Building dhcpd-pools (Optional)](#building-dhcpd-pools--optional-)
 
 # Features
   * Standalone NodeJS application that has a web interface, listens to the dhcp log and the leases file to collect analytics and data realtime
@@ -141,6 +150,10 @@ npm install
 npm start
 </pre>
 
+* For Debian this is all that is needed and Glass should start immediately
+* For Ubuntu users - you will have additional Apparmor config to add
+* **Highly Recommended** to iptables port 3000 to close off Glass if you are facing the public on your server
+
 ## Apparmor (Ubuntu LTS)
 
 * Ubuntu uses AppArmor by default - you will most likely run into file access issues without exemptions
@@ -160,11 +173,36 @@ sudo ln -s /etc/apparmor.d/usr.sbin.dhcpd /etc/apparmor.d/disable/
 sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.dhcpd
 </pre>
 
-## Secure your Install
+## Glass Configuration
+* Glass configuration is stored in **./config/glass_config.json**
+* All of these settings can be edited in both Glass Settings and Glass Alerts within the Web Interface, if you have custom file locations you will need to edit this config file before starting
+
+**Defaults**
+<pre>
+{
+  "admin_user": "glassadmin",
+  "admin_password": "glassadmin",
+  "leases_file": "/var/lib/dhcp/dhcpd.leases",
+  "log_file": "/var/log/dhcp.log",
+  "config_file": "/etc/dhcp/dhcpd.conf",
+  "shared_network_critical_threshold": "95",
+  "shared_network_warning_threshold": "0",
+  "slack_webhook_url": "",
+  "slack_alert_channel": "",
+  "leases_per_minute_threshold": "50",
+  "ip_ranges_to_allow": [
+    ""
+  ],
+  "email_alert_to": "",
+  "sms_alert_to": ""
+}
+</pre>
+
+## Secure your Server
 
 * Glass runs on web port 3000 - if you're going to run this on a production server, make sure that you lock it down from the outside world if anyone can access it. Even if they don't have a password - vulnerabilities can surface at any point in the future and your system becomes a prime target
 
-### Iptables
+### iptables (Recommended)
 <pre>
 iptables -A INPUT -p tcp --dport 3000 -s 127.0.0.0/8 -j ACCEPT
 iptables -A INPUT -p tcp --dport 3000 -s x.x.x.x/24 -j ACCEPT
@@ -174,6 +212,7 @@ iptables -A INPUT -p tcp --dport 3000 -j REJECT --reject-with icmp-port-unreacha
 ## Building dhcpd-pools (Optional)
 
 * Glass uses dhcpd-pools for shared network / subnet utilization and it is bundled by default (For Ubuntu and Debian) when you install. However, if you need to build the binary yourself on another distribution, use the following to build dhcpd-pools and it needs to be placed in the ./bin directory of glass
+* Below shows use of apt-get of unzip/libtool - you will have to use your respective package management system to pull pre-requisites down
 * Credit: dhcpd-pools: http://dhcpd-pools.sourceforge.net/
 
 <pre>
