@@ -170,3 +170,26 @@ iptables -A INPUT -p tcp --dport 3000 -s 127.0.0.0/8 -j ACCEPT
 iptables -A INPUT -p tcp --dport 3000 -s x.x.x.x/24 -j ACCEPT
 iptables -A INPUT -p tcp --dport 3000 -j REJECT --reject-with icmp-port-unreachable
 </pre>
+
+## Building dhcpd-pools (Optional)
+
+* Glass uses dhcpd-pools for shared network / subnet utilization and it is bundled by default (For Ubuntu and Debian) when you install. However, if you need to build the binary yourself on another distribution, use the following to build dhcpd-pools and it needs to be placed in the ./bin directory of glass
+* Credit: dhcpd-pools: http://dhcpd-pools.sourceforge.net/
+
+<pre>
+sudo apt-get install -y unzip
+sudo apt-get install -y libtool
+
+git clone https://github.com/Akkadius/dhcpd-pools.git
+
+cd /tmp
+wget https://github.com/troydhanson/uthash/archive/master.zip
+unzip master.zip
+
+cd /tmp/dhcpd-pools
+./bootstrap	# only when building git clone
+./configure --with-uthash=/tmp/uthash-master/include
+make -j4
+make check
+make install
+</pre>
