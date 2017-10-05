@@ -31,6 +31,16 @@
   * [Secure your Server](#secure-your-server)
     + [iptables (Recommended)](#iptables--recommended-)
   * [Building dhcpd-pools (Optional)](#building-dhcpd-pools--optional-)
+- [Glass API](#glass-api-1)
+  * [Use Cases](#use-cases)
+  * [Example Calls](#example-calls)
+    + [GET: /api/get_active_leases](#get---api-get-active-leases)
+    + [GET: /api/get_subnet_details](#get---api-get-subnet-details)
+    + [GET: /api/get_mac_oui_list](#get---api-get-mac-oui-list)
+    + [GET: /api/get_server_info](#get---api-get-server-info)
+    + [GET: /api/get_vendor_count](#get---api-get-vendor-count)
+    + [GET: /api/get_mac_oui_count_by_vendor](#get---api-get-mac-oui-count-by-vendor)
+    + [GET: /api/get_dhcp_requests](#get---api-get-dhcp-requests)
 
 # Features
   * Standalone NodeJS application that has a web interface, listens to the dhcp log and the leases file to collect analytics and data realtime
@@ -232,4 +242,163 @@ cd /tmp/dhcpd-pools
 make -j4
 make check
 make install
+</pre>
+
+# Glass API
+
+## Use Cases
+* If none of the in-web management features are appealing - at the very least the exposed real time data the Glass agent can expose via the API can be valuable in integrating with 3rd party applications. For example - if you need to query 5 DHCP servers for one device on a network - this makes it incredibly efficient to do so with real-time and accurate data
+* If you want to get all subnet details/utilization exposed into a 3rd party application, (For example graphing utilization in grafana) you can use the API calls to ingest into your InfluxDB or otherwise
+
+## Example Calls
+
+### GET: /api/get_active_leases
+
+**Output example truncated - some info redacted**
+<pre>
+  "64.90.X.X": {
+    "start": 1507177832,
+    "end": 1507181432,
+    "mac": "14:91:82:6e:77:0a",
+    "mac_oui_vendor": "Belkin International Inc.",
+    "options": {
+      "ClientMac": "14:91:82:6e:77:a",
+      "ClientIP": "64.90.X.X",
+      "vendor-class-identifier": "udhcp 1.19.4",
+      "vendor-string": "udhcp 1.19.4",
+      "agent.remote-id": "3:c:0:0:d1:d4:29:81:f6:3:2:8a:0:be"
+    },
+    "host": "Vargo"
+  },
+  "209.212.X.X": {
+    "start": 1507177401,
+    "end": 1507181001,
+    "mac": "20:aa:4b:12:bd:9b",
+    "mac_oui_vendor": "Cisco-Linksys, LLC",
+    "options": {
+      "ClientMac": "20:aa:4b:12:bd:9b",
+      "ClientIP": "209.212.X.X",
+      "agent.remote-id": "3:c:0:0:d1:d4:29:81:f6:3:1:4e:4:51"
+    },
+    "host": "snarley55"
+  },
+...
+</pre>
+
+### GET: /api/get_subnet_details
+
+**Output example truncated - some info redacted**
+<pre>
+{
+  "subnets": [
+    {
+      "location": "69.168.x.x/26",
+      "range": "69.168.x.x - 69.168.x.x",
+      "defined": 55,
+      "used": 0,
+      "touched": 0,
+      "free": 55
+    },
+    {
+      "location": "10.70.48.0/21",
+      "range": "10.70.48.2 - 10.70.55.254",
+      "defined": 2045,
+      "used": 0,
+      "touched": 0,
+      "free": 2045
+    },
+...
+</pre>
+
+### GET: /api/get_mac_oui_list
+
+**Output example truncated - some info redacted**
+<pre>
+{
+  "100000": "Private",
+  "100501": "PEGATRON CORPORATION",
+  "100723": "IEEE Registration Authority",
+  "101212": "Vivo International Corporation Pty Ltd",
+  "101218": "Korins Inc.",
+  "101248": "ITG, Inc.",
+  "101250": "Integrated Device Technology (Malaysia) Sdn. Bhd.",
+  "101331": "Technicolor",
+  "102279": "ZeroDesktop, Inc.",
+...
+</pre>
+
+### GET: /api/get_server_info
+
+**Output example**
+<pre>
+{
+  "cpu_utilization": 3.1,
+  "leases_per_second": 4,
+  "leases_per_minute": 310,
+  "host_name": "DHCP-Server"
+}
+</pre>
+
+### GET: /api/get_vendor_count
+
+**Output example truncated**
+<pre>
+{
+  "Belkin International Inc.": 1230,
+  "Cisco-Linksys, LLC": 1345,
+  "Calix Inc.": 4368,
+  "Billion Electric Co. Ltd.": 404,
+  "Apple, Inc.": 528,
+  "Wistron Corporation": 18,
+  "ASUSTek COMPUTER INC.": 266,
+  "Zyxel Communications Corporation": 320,
+  "Billion Electric Co., Ltd.": 611,
+  "NETGEAR": 2797,
+  "Cisco Systems, Inc": 65,
+  "Hewlett Packard": 87,
+  "Sonicwall": 11,
+...
+</pre>
+
+### GET: /api/get_mac_oui_count_by_vendor
+
+**Output example truncated**
+<pre>
+{
+  "149182": {
+    "count": 131,
+    "mac_prefix": "149182",
+    "vendor": "Belkin International Inc."
+  },
+  "180373": {
+    "count": 4,
+    "mac_prefix": "180373",
+    "vendor": "Dell Inc."
+  },
+  "186590": {
+    "count": 1,
+    "mac_prefix": "186590",
+    "vendor": "Apple, Inc."
+  },
+...
+</pre>
+
+### GET: /api/get_dhcp_requests
+
+**Output example truncated - some info redacted**
+<pre>
+{
+  "20:aa:4b:1d:d0:17": {
+    "request_for": "68.170.X.X",
+    "request_via": "209.212.X.X",
+    "request_count": 139,
+    "request_vendor": "Cisco-Linksys, LLC"
+  },
+  "58:6d:8f:aa:37:6a": {
+    "request_for": "68.170.X.X",
+    "request_via": "209.212.X.X",
+    "request_count": 171,
+    "request_vendor": "Cisco-Linksys, LLC"
+  },
+...
 </pre>
