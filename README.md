@@ -10,19 +10,18 @@
 
 **Table of Contents**
 
-- [  Glass ](#)
-- [Features](#)
-	- [Dashboard](#)
-	- [DHCP Config Editing](#)
-	- [DHCP Config Snapshots](#)
-	- [DHCP Server Restart](#)
-	- [Statistics](#)
-	- [Log Streaming](#)
-	- [Glass API](#)
-- [Alerting](#)
-	- [E-Mail](#)
-	- [Slack](#)
-	- [SMS - Simple Format](#)
+- [Features](#features)
+  * [Dashboard](#dashboard)
+  * [DHCP Config Editing](#dhcp-config-editing)
+  * [DHCP Config Snapshots](#dhcp-config-snapshots)
+  * [DHCP Server Restart](#dhcp-server-restart)
+  * [Statistics](#statistics)
+  * [Log Streaming](#log-streaming)
+  * [Glass API](#glass-api)
+- [Alerting](#alerting)
+  * [E-Mail](#e-mail)
+  * [Slack](#slack)
+  * [SMS - Simple Format](#sms---simple-format)
 
 # Features
   * Standalone NodeJS application that has a web interface, listens to the dhcp log and the leases file to collect analytics and data realtime
