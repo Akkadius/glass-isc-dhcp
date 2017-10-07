@@ -1,5 +1,5 @@
 [![npm](https://img.shields.io/npm/v/npm.svg)]()
-[![CocoaPods](https://img.shields.io/cocoapods/l/AFNetworking.svg)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <h1> <img src="https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png" alt="Glass" width="35" height="35"> Glass </h1>
 
