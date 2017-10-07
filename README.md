@@ -164,8 +164,9 @@ cd glass-isc-dhcp
 mkdir logs
 chmod u+x ./bin/ -R
 
-npm install
-npm start
+sudo npm install
+sudo npm install forever -g
+sudo npm start
 </pre>
 
 * For Debian this is all that is needed and Glass should start immediately, you can browse via http://server-ip:3000
