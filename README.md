@@ -1,5 +1,5 @@
 [![npm](https://img.shields.io/npm/v/npm.svg)]()
-[![CocoaPods](https://img.shields.io/cocoapods/l/AFNetworking.svg)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <h1> <img src="https://user-images.githubusercontent.com/3319450/31204769-06a0f9da-a933-11e7-87d5-efda1059ccfe.png" alt="Glass" width="35" height="35"> Glass </h1>
 
@@ -118,10 +118,19 @@
 ![api_examples](https://user-images.githubusercontent.com/3319450/31204191-3e197804-a930-11e7-871e-2c469480b906.gif)
 
 # Alerting
-* Glass alerts check once a minute for subnet utilization and every 5 seconds for lease-rate alerts
-  * Shared Network Utilization % Thresholds (Warning & Critical) (Default 0 and 95)
-  * Leases per minute rate (Default 50)
-  * 0 values = Off
+* **Realtime Alerting** One of our biggest high value returns on this project was creating something that can keep us on top of any sort of outage issues. 
+  * "Is our server writing leases even though the process is alive?"
+  * "Is any our shared networks filling up?"
+* **Shared Subnet Utilization Alerting** (Checked once a minute)
+    * Customize thresholds
+      * Default 80 (Warning)
+      * Default 95 (Critical)
+* **Leases Per Minute** (Checked once every 5 seconds) - If your disk fills up - or your SAN is unavailable - alerting your team on absolutely zero activity on your production server can allow you to be on the 8-ball. This is a step-above process alerting because you can have the dhcp server process running and no leases being written.
+  * **Default**: 50
+  * Glass keeps track of a rolling average of leases being written on the minute, the counter can be seen realtime on the dashboard
+* 0 value in **Glass Settings** or in your **glass_config.json** will turn the alerting functionality **OFF**
+
+## Alert Delivery Methods
 * Glass currently supports the following alerting delivery methods
 
 ## E-Mail
@@ -155,8 +164,9 @@ cd glass-isc-dhcp
 mkdir logs
 chmod u+x ./bin/ -R
 
-npm install
-npm start
+sudo npm install
+sudo npm install forever -g
+sudo npm start
 </pre>
 
 * For Debian this is all that is needed and Glass should start immediately, you can browse via http://server-ip:3000
