@@ -15,7 +15,7 @@ router.post('/', authorize.auth, function(req, res, next) {
 
 	var exec = require('child_process').exec;
 
-	exec('dhcpd -t -cf ./syntax_verify_config > verify_output 2> verify_output', function(err, stdout, stderr)
+	exec('/usr/sbin/dhcpd -t -cf ./syntax_verify_config > verify_output 2> verify_output', function(err, stdout, stderr)
 	{
 		var output = fs.readFileSync('./verify_output', "utf8");
 
@@ -46,7 +46,7 @@ router.post('/', authorize.auth, function(req, res, next) {
 			}
 
 			//date +"%Y-%m-%d_%H:%M:%S"
-			exec('cp ' + glass_config.config_file + ' ./config_backups/`basename ' + glass_config.config_file + '`_`date +"%Y-%m-%d_%H:%M:%S"`',
+			exec('/bin/cp ' + glass_config.config_file + ' ./config_backups/`basename ' + glass_config.config_file + '`_`date +"%Y-%m-%d_%H:%M:%S"`',
 				function(err, stdout, stderr) {
 
 			});
