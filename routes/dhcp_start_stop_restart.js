@@ -49,7 +49,7 @@ router.post('/', authorize.auth, function(req, res, next) {
 
 	switch (request.action) {
 		case "stop":
-			dhcp_exec = execSync('service isc-dhcp-server stop && sleep 1');
+			dhcp_exec = execSync('/usr/sbin/service service isc-dhcp-server stop && /bin/sleep 1');
 			res.send("<script type='text/javascript'>notification('DHCP Server Stopped');ignore_cache = 1;do_pjax_request('/dhcp_start_stop_restart');$('#mdModal').modal('hide');</script>");
 			break;
 		case "start":
@@ -57,7 +57,7 @@ router.post('/', authorize.auth, function(req, res, next) {
 			res.send("<script type='text/javascript'>notification('DHCP Server Started');ignore_cache = 1;do_pjax_request('/dhcp_start_stop_restart');</script>");
 			break;
 		case "restart":
-			dhcp_exec = execSync('/usr/sbin/service isc-dhcp-server restart && sleep 1');
+			dhcp_exec = execSync('/usr/sbin/service isc-dhcp-server restart && /bin/sleep 1');
 			res.send("<script type='text/javascript'>notification('DHCP Server Restarted " + dhcp_exec + "');ignore_cache = 1;do_pjax_request('/dhcp_start_stop_restart');$('#mdModal').modal('hide');</script>");
 			break;
 		default:
