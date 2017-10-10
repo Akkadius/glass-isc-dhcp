@@ -163,6 +163,7 @@ git clone https://github.com/Akkadius/glass-isc-dhcp.git
 cd glass-isc-dhcp
 mkdir logs
 chmod u+x ./bin/ -R
+chmod u+x .*.sh
 
 sudo npm install
 sudo npm install forever -g
