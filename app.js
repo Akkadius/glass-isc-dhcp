@@ -76,6 +76,7 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+module.exports.glass_config = glass_config;
 
 /**
  * Global Variables
