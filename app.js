@@ -283,7 +283,8 @@ fs.watch('config/glass_config.json', function (event, filename) {
  */
 
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({port: 8080});
+const ws_port = glass_config.ws_port || 8080;
+const wss = new WebSocket.Server({port: ws_port});
 
 options.interval = 300;
 var tail_dhcp_log = new tail_module(
