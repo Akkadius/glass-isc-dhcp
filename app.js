@@ -54,6 +54,8 @@ app.use('/api/get_mac_oui_count_by_vendor/', require('./api/get_mac_oui_count_by
 app.use('/api/get_dhcp_requests/', require('./api/get_dhcp_requests'));
 app.use('/api/get_server_info/', require('./api/get_server_info'));
 app.use('/api/get_mac_oui_list/', require('./api/get_mac_oui_list'));
+app.use('/api/get_glass_config/', require('./api/get_glass_config'));
+app.use('/api/get_websocket_config/', require('./api/get_websocket_config'));
 
 app.set('view engine', 'html');
 
