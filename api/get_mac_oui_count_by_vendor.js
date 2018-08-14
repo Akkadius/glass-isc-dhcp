@@ -30,6 +30,7 @@ router.get('/', function (req, res, next) {
 		}
 
 		if (stat_data[mac_oui].vendor !== "undefined") {
+			stat_data[mac_oui].vendor = "N/A";
 			if (typeof oui_data[mac_oui] !== "undefined") {
 				stat_data[mac_oui].vendor = oui_data[mac_oui];
 			}
