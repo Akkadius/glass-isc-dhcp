@@ -4,7 +4,7 @@
 
 var express = require('express');
 var router = express.Router();
-var authorize = require('../lib/authorize.js');
+var authorize = require('../core/authorize.js');
 
 router.post('/', authorize.auth, function(req, res, next) {
 	var request = req.body;

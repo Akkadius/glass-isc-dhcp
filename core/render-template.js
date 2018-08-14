@@ -30,4 +30,3 @@ module.exports = {
         return '<label>' + title + '</label><div class="form-group"><div class="form-line">' + input + '</div></div>';
     },
 };
-

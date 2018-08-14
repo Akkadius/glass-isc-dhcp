@@ -1,7 +1,7 @@
 var express         = require('express');
 var router          = express.Router();
-var template_render = require('../lib/render_template.js');
-var authorize       = require('../lib/authorize.js');
+var template_render = require('../core/render-template.js');
+var authorize       = require('../core/authorize.js');
 
 router.get('/', authorize.auth, function (req, res, next) {
 

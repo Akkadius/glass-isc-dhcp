@@ -6,7 +6,7 @@ var express = require('express');
 var router  = express.Router();
 
 router.get('/', function (req, res, next) {
-	var lease_parser = require('../lib/lease_parser.js');
+	var lease_parser = require('../core/lease-parser.js');
 	lease_parser.clean();
 
 	var dhcp_lease_data_return_buffer = {};

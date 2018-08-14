@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var template_render = require('../lib/render_template.js');
+var template_render = require('../core/render-template.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

@@ -2,11 +2,13 @@ function log_action (action) {
     switch (action) {
         case "stop":
             websockets_unsubscribe_event("dhcp_log_subscription");
+			notification('Log watch stopped');
             break;
         case "start":
             killed_connection = 0;
             console.log('start readystate is ' + socket.readyState);
             websockets_subscribe_event("dhcp_log_subscription");
+            notification('Log watch started');
             break;
         case "clear":
             editor.setValue("");
