@@ -114,11 +114,11 @@ global.host_name = execSync("cat /etc/hostname").toString().replace("\n", "");
 /**
  * Pull in core handlers
  */
-let oui_reader  = require('./core/oui-reader');
-let dhcp_leases = require('./core/dhcp-leases');
+let oui_reader           = require('./core/oui-reader');
+let dhcp_leases          = require('./core/dhcp-leases');
 let glass_config_watcher = require('./core/glass-config-watcher');
-let dhcp_log_watcher = require('./core/dhcp-log-watcher');
-let app_timers = require('./core/app-timers');
+let dhcp_log_watcher     = require('./core/dhcp-log-watcher');
+let app_timers           = require('./core/app-timers');
 
 /**
  * Run routines
@@ -265,8 +265,6 @@ are_clients_subscribed_to_ws_event = function(event) {
 
 	return is_listening;
 };
-
-
 
 /**
  * Alert Checks
