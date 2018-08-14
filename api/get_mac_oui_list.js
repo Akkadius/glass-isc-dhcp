@@ -3,11 +3,11 @@
  */
 
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
 
-router.get('/', function(req, res, next) {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(oui_data));
+router.get('/', function (req, res, next) {
+	res.setHeader('Content-Type', 'application/json');
+	res.send(JSON.stringify(oui_data));
 });
 
 module.exports = router;

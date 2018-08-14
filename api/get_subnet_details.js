@@ -3,19 +3,17 @@
  */
 
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 
 	var json_file = require('jsonfile');
-	glass_config = json_file.readFileSync('config/glass_config.json');
+	let glass_config = json_file.readFileSync('config/glass_config.json');
 
 	res.setHeader('Content-Type', 'application/json');
 
 	const execSync = require('child_process').execSync;
-	output = execSync('./bin/dhcpd-pools -c ' + glass_config.config_file + ' -l ' + glass_config.leases_file + ' -f j -A -s e');
-
-	// console.log(JSON.parse(output));
+	output         = execSync('./bin/dhcpd-pools -c ' + glass_config.config_file + ' -l ' + glass_config.leases_file + ' -f j -A -s e');
 
 	res.send(JSON.stringify(JSON.parse(output)));
 });

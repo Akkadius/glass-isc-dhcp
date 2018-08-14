@@ -1,18 +1,17 @@
 var express = require('express');
-var router = express.Router();
-var fs = require('fs');
+var router  = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 
-    var stat_data = dhcp_requests;
+	var stat_data = dhcp_requests;
 
-    for (var key in stat_data) {
-        if(stat_data[key].request_count <= 10)
-            delete stat_data[key];
-    }
+	for (var key in stat_data) {
+		if (stat_data[key].request_count <= 10)
+			delete stat_data[key];
+	}
 
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(stat_data));
+	res.setHeader('Content-Type', 'application/json');
+	res.send(JSON.stringify(stat_data));
 });
 
 module.exports = router;

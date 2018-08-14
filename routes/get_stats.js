@@ -1,33 +1,30 @@
 var express = require('express');
-var router = express.Router();
-var fs = require('fs');
-var template_render = require('../lib/render_template.js');
+var router  = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 
-	var json_file = require('jsonfile');
+	var json_file    = require('jsonfile');
 	var glass_config = json_file.readFileSync('config/glass_config.json');
 
 	const execSync = require('child_process').execSync;
-	output = execSync('./bin/dhcpd-pools -c ' + glass_config.config_file + ' -l ' + glass_config.leases_file + ' -f j -A -s e');
+	let output     = execSync('./bin/dhcpd-pools -c ' + glass_config.config_file + ' -l ' + glass_config.leases_file + ' -f j -A -s e');
 
 	var dhcp_data = JSON.parse(output);
 
-	for ( var i = 0; i < dhcp_data['shared-networks'].length; i++) {
+	for (var i = 0; i < dhcp_data['shared-networks'].length; i++) {
 		utilization = round(parseFloat(dhcp_data['shared-networks'][i].used / dhcp_data['shared-networks'][i].defined) * 100, 2);
-		if(isNaN(utilization))
+		if (isNaN(utilization))
 			utilization = 0;
 
 		dhcp_data['shared-networks'][i].utilization = utilization;
 	}
-	dhcp_data['shared-networks'].sort(function(a, b) {
+	dhcp_data['shared-networks'].sort(function (a, b) {
 		return parseFloat(b.utilization) - parseFloat(a.utilization);
 	});
 
-	shared_networks = '';
+	let shared_networks = '';
 
-	for ( var i = 0; i < dhcp_data['shared-networks'].length; i++) {
+	for (var i = 0; i < dhcp_data['shared-networks'].length; i++) {
 
 		utilization = dhcp_data['shared-networks'][i].utilization;
 
@@ -39,9 +36,9 @@ router.get('/', function(req, res, next) {
 
 		utilization_color = 'green';
 
-		if(utilization >= 80)
+		if (utilization >= 80)
 			utilization_color = 'orange';
-		if(utilization >= 90)
+		if (utilization >= 90)
 			utilization_color = 'red';
 
 		table_row = table_row + '<td><div class="progress">' +
@@ -52,21 +49,21 @@ router.get('/', function(req, res, next) {
 	}
 
 	/* Display All Subnets */
-	for ( var i = 0; i < dhcp_data.subnets.length; i++) {
+	for (var i = 0; i < dhcp_data.subnets.length; i++) {
 		utilization = round(parseFloat(dhcp_data.subnets[i].used / dhcp_data.subnets[i].defined) * 100, 2);
-		if(isNaN(utilization))
+		if (isNaN(utilization))
 			utilization = 0;
 
 		dhcp_data.subnets[i].utilization = utilization;
 	}
 
-	dhcp_data.subnets.sort(function(a, b) {
+	dhcp_data.subnets.sort(function (a, b) {
 		return parseFloat(b.utilization) - parseFloat(a.utilization);
 	});
 
 	display_subnets = '';
 
-	for ( var i = 0; i < dhcp_data.subnets.length; i++) {
+	for (var i = 0; i < dhcp_data.subnets.length; i++) {
 		utilization = dhcp_data.subnets[i].utilization;
 
 		table_row = '';
@@ -78,9 +75,9 @@ router.get('/', function(req, res, next) {
 
 		utilization_color = 'green';
 
-		if(utilization >= 80)
+		if (utilization >= 80)
 			utilization_color = 'orange';
-		if(utilization >= 90)
+		if (utilization >= 90)
 			utilization_color = 'red';
 
 		table_row = table_row + '<td><div class="progress">' +
@@ -92,13 +89,13 @@ router.get('/', function(req, res, next) {
 
 	total_leases = dhcp_data.summary.used.toLocaleString('en');
 
-	return_data = {
-		"cpu_utilization": cpu_utilization,
-		"leases_used": total_leases,
-		"leases_per_second": current_leases_per_second,
-		"leases_per_minute": leases_per_minute,
-		"shared_network_table": shared_networks,
-		"host_name": host_name,
+	let return_data = {
+		"cpu_utilization":       cpu_utilization,
+		"leases_used":           total_leases,
+		"leases_per_second":     current_leases_per_second,
+		"leases_per_minute":     leases_per_minute,
+		"shared_network_table":  shared_networks,
+		"host_name":             host_name,
 		"display_subnets_table": display_subnets
 	};
 
