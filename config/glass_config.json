@@ -13,5 +13,6 @@
     ""
   ],
   "email_alert_to": "",
-  "sms_alert_to": ""
+  "sms_alert_to": "",
+  "ws_port": 8080
 }
