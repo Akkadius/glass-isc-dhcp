@@ -109,7 +109,11 @@ global.socket_clients                 = 0;
 /**
  * Server hostname
  */
-global.host_name = execSync("cat /etc/hostname").toString().replace("\n", "");
+try {
+    global.host_name = execSync("cat /etc/hostname").toString().replace("\n", "");
+} catch (e) {
+    global.host_name = execSync("/usr/bin/env hostname -s").toString().replace("\n", "");
+}
 
 /**
  * Pull in core handlers
