@@ -3,14 +3,16 @@
  */
 
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
+
 
 var authorize = require('../core/authorize.js');
 
 router.post('/', authorize.auth, function(req, res, next) {
 	var request = req.body;
 
-
+	var fs = require('fs');
+	
 	fs.writeFileSync("./syntax_verify_config", request.dhcp_config_data, 'utf8');
 
 	var exec = require('child_process').exec;
