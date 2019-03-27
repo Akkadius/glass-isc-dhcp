@@ -49,11 +49,14 @@ router.post('/', function(req, res, next) {
         table_row = table_row + '<td>' + (dhcp_lease_data[key].host ? dhcp_lease_data[key].host : '') + '</td>';
         table_row = table_row + '<td>' + human_time(dhcp_lease_data[key].start * 1000) + '</td>';
         table_row = table_row + '<td>' + human_time(dhcp_lease_data[key].end * 1000) + '</td>';
-        table_row = table_row + '<td>' +
+        if (typeof dhcp_lease_data[key].mac !== "undefined" ) {
+          table_row = table_row + '<td>' +
             '<button class="btn btn-default waves-effect option_data" lease="' + dhcp_lease_data[key].mac.split(":").join("") + '">Show</button>' +
             '<pre style="display:none;margin-top:10px" id="' + dhcp_lease_data[key].mac.split(":").join("") + '">' + JSON.stringify(dhcp_lease_data[key].options, null, 2) + '</pre>' +
             '</td>';
-
+        } else {
+          table_row = table_row + '<td></td>';
+        }	
         table_data = table_data + '<tr>' + table_row + '</tr>';
 
         count++;
