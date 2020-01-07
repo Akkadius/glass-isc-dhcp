@@ -29,14 +29,12 @@ router.post('/', function(req, res, next) {
         var matcher = new RegExp(search, "i");
 
         // console.log(dhcp_lease_data[key]);
-
-        if(!matcher.test(JSON.stringify(dhcp_lease_data[key])))
-            continue;
-
+        
         if(
             !matcher.test(dhcp_lease_data[key].mac_oui_vendor)
             && !matcher.test(dhcp_lease_data[key].host)
             && !matcher.test(key)
+            && !matcher.test(JSON.stringify(dhcp_lease_data[key]))
             && !matcher.test(dhcp_lease_data[key].mac)
             && !matcher.test(JSON.stringify(dhcp_lease_data[key].options, null, 2))
         )
