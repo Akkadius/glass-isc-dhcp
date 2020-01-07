@@ -19,7 +19,13 @@
 </div>
 
 <script type="text/javascript">
-    /*
+        $( document ).ready(function() {
+                var e = jQuery.Event("keypress");
+                e.which = 13; // Enter
+                e.keyCode = 13;
+                $("#lease_search_criteria").trigger(e);
+        });
+        /*
 	$('#display-leases').DataTable({
 		dom: 'tip',
 		responsive: true,
