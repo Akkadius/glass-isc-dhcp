@@ -15,6 +15,8 @@
     "express": "^4.16.3",
     "express-ipfilter": "^0.3.1",
     "forever": "^0.15.3",
+    "fs": "0.0.1-security",
+    "https": "^1.0.0",
     "humanize": "0.0.9",
     "jade": "~1.11.0",
     "jsonfile": "^3.0.1",

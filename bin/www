@@ -7,20 +7,29 @@
 var app = require('../app');
 var debug = require('debug')('dhcpd-warrior:server');
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
 
 /**
  * Get port from environment and store in Express.
  */
+
+var isHttps = normalizePort(app.glass_config.port) === 443;
+var ca = app.glass_config.ca ? fs.readFileSync(app.glass_config.ca) : undefined;
+var dhparams = app.glass_config.dhparams ? fs.readFileSync(app.glass_config.dhparams) : undefined;
+var cert = fs.readFileSync(app.glass_config.cert);
+var key = fs.readFileSync(app.glass_config.key);
+var options = { key, cert, ca, dhparams };
 
 var port = normalizePort(process.env.PORT || app.glass_config.port || '3000');
 var interface = app.glass_config.host || '0.0.0.0';
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTP or HTTPS server.
  */
 
-var server = http.createServer(app);
+var server = isHttps ? https.createServer(options, app) : http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
