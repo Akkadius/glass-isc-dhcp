@@ -1,0 +1,14 @@
+[Unit]
+Description=Glass ISC DHCP-Server Monitor
+After=syslog.target network.target
+
+[Service]
+Environment="NODE_ENV=production"
+WorkingDirectory=/opt/glass-isc-dhcp
+ExecStart=/usr/bin/node bin/www
+Type=simple
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.taraget
