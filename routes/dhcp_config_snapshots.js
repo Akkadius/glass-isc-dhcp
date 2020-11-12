@@ -3,29 +3,13 @@ var router = express.Router();
 var fs = require('fs');
 var template_render = require('../core/render-template.js');
 var authorize = require('../core/authorize.js');
+var json_file = require('jsonfile');
+var moment = require('moment');
+var glass_config = json_file.readFileSync('../config/glass_config.json');
 
 function human_time (time){
-    var time = new Date(time);
-    var year = time.getFullYear();
-    var month = time.getMonth()+1;
-    var date1 = time.getDate();
-    var hour = time.getHours();
-    var minutes = time.getMinutes();
-    var seconds = time.getSeconds();
-
-    var hour = time.getHours();
-    var minute = time.getMinutes();
-    var amPM = (hour > 11) ? "PM" : "AM";
-    if(hour > 12) {
-        hour -= 12;
-    } else if(hour == 0) {
-        hour = "12";
-    }
-    if(minute < 10) {
-        minute = "0" + minute;
-    }
-
-    return year + "-" + month+"-"+date1+" "+hour + ":" + minute + ' ' + amPM;
+    var humantime = moment(time);
+    return humantime.format(glass_config.date_format + " " + glass_config.time_format)
 }
 
 router.get('/', authorize.auth, function(req, res, next) {
