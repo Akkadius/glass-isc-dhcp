@@ -11,6 +11,16 @@ module.exports = {
 			lines = lease_data[i].split("\n");
 			for (l = 0; l < lines.length; l++) {
 
+				if (typeof lines[5] !== "undefined") {
+					if (
+						lines[5].trim() === "binding state backup;" ||
+						lines[5].trim() === "binding state expired;" ||
+						lines[5].trim() === "binding state free;"
+					) {
+					continue;
+				}
+
+
 				/**
 				 * Trim whitespaces at each ends of the line
 				 */
