@@ -17,7 +17,8 @@ module.exports = {
 						lines[5].trim() === "binding state expired;" ||
 						lines[5].trim() === "binding state free;"
 					) {
-					continue;
+						continue;
+					}
 				}
 
 
