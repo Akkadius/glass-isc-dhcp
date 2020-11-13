@@ -206,7 +206,10 @@ service apparmor restart
     ""
   ],
   "email_alert_to": "",
-  "sms_alert_to": ""
+  "sms_alert_to": "",
+  "ws_port": 8080,
+  "date_format": "YYYY-MM-DD",
+  "time_format": "HH:mm:ss"
 }
 </pre>
 
