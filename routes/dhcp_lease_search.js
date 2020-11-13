@@ -4,7 +4,7 @@ var fs = require('fs');
 var template_render = require('../core/render-template.js');
 var json_file = require('jsonfile');
 var moment = require('moment');
-var glass_config = json_file.readFileSync('../config/glass_config.json');
+var glass_config = json_file.readFileSync('config/glass_config.json');
 
 function human_time (time){
     var humantime = moment(time);
