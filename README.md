@@ -146,6 +146,23 @@
 
 <img src="https://user-images.githubusercontent.com/3319450/31207663-40cf573e-a945-11e7-8753-288e68a38da1.jpg" width="300">
 
+# Docker
+1) Clone down the repo and do any configuration in `glass_config.json`.
+2) Run `build-docker.sh` to create the container, tagged as `glass-isc-dhcp`.
+3) Run the container for example: 
+`docker run -d --name glass --restart unless-stopped -p 8080:8080 -p 3000:3000 -v /var/lib/dhcp:/var/lib/dhcp -v /etc/dhcp/dhcpd.conf:/etc/dhcp/dhcpd.conf -v $(pwd)/config_backups:/home/node/app/config_backups glass-isc-dhcp:latest`
+
+> You can mount another config file if you want to store that outside the container, the app root is `/home/node/app`, so you can use `-v /path/to/glass_config.json:/home/node/app/config/glass_config.json`
+
+To update the container do the following:
+1. Pull changes via `git`
+2. Run `build-docker.sh`
+3. Remove the old container, for example `docker stop glass && docker rm glass`
+    - Be sure to backup your config! `docker exec -it glass cat /home/node/app/config/glass_config.json`
+4. Recreate the container, `docker run -d --name glass --restart unless-stopped -p 8080:8080 -p 3000:3000 -v /var/lib/dhcp:/var/lib/dhcp -v /etc/dhcp/dhcpd.conf:/etc/dhcp/dhcpd.conf -v $(pwd)/config_backups:/home/node/app/config_backups glass-isc-dhcp:latest`
+
+> If you had the config file mounted outside the container, edit the last command above accordingly.
+
 # Installation
 * Instructions are per Debian/Ubuntu Distros
 
