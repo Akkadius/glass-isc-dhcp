@@ -1,0 +1,5 @@
+.git
+docker-compose.yaml
+glass_start.sh
+glass_stop.sh
+config_backups
