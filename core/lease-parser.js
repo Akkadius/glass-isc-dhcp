@@ -77,11 +77,17 @@ module.exports = {
 
 							/* Mac OUI Lookup */
 							var mac_oui = dhcp_lease_data[ip_address].mac.split(":").join("").toUpperCase().slice(0, 6);
-
 							dhcp_lease_data[ip_address].mac_oui_vendor = '';
 							if (typeof oui_data[mac_oui] !== "undefined") {
 								dhcp_lease_data[ip_address].mac_oui_vendor = oui_data[mac_oui];
 							}
+						}
+					}
+					if (/binding/i.test(lines[l])) {
+						/* Need to ignore binding, when it is not first. Cause "next binding state expired" in Leases. */
+						if (line_data_arg[0] == "binding" && line_data_arg[2] != "active;") {
+							delete dhcp_lease_data[ip_address];
+							break;
 						}
 					}
 					if (/hostname/i.test(lines[l])) {

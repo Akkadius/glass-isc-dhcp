@@ -125,14 +125,17 @@ let dhcp_log_watcher     = require('./core/dhcp-log-watcher');
 let app_timers           = require('./core/app-timers');
 
 /**
- * Run routines
+ * Run routines in seq order
  */
-oui_reader.initOuiDatabase();
-dhcp_leases.parseLeasesFileOnce(glass_config);
-dhcp_leases.startLeaseListener(glass_config);
-dhcp_leases.setLeasesCleanTimer();
-glass_config_watcher.init();
-dhcp_log_watcher.init(glass_config);
+(async () => {
+	await oui_reader.initOuiDatabase();
+	dhcp_leases.parseLeasesFileOnce(glass_config);
+	dhcp_leases.startLeaseListener(glass_config);
+	dhcp_leases.setLeasesCleanTimer();
+	glass_config_watcher.init();
+	dhcp_log_watcher.init(glass_config);
+})();
+	
 
 /**
  * Timers
