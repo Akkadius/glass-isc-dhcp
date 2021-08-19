@@ -65,7 +65,7 @@ module.exports = {
 						}
 						dhcp_lease_data[ip_address].end = end_unix_time;
 					}
-					if (/ethernet/i.test(lines[l])) {
+					if (/hardware ethernet/i.test(lines[l])) {
 						if (typeof line_data_arg[2] !== "undefined") {
 							dhcp_lease_data[ip_address].mac = line_data_arg[2].replace(/;/gi, '').trim();
 
