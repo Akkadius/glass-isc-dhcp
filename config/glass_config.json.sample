@@ -14,5 +14,6 @@
   ],
   "email_alert_to": "",
   "sms_alert_to": "",
-  "ws_port": 8080
+  "port": "8081",
+  "ws_port": "8082"
 }

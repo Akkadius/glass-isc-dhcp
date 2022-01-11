@@ -60,7 +60,7 @@ app.use('/api/get_mac_oui_list/', require('./api/get_mac_oui_list'));
 app.use('/api/get_glass_config/', require('./api/get_glass_config'));
 app.use('/api/get_websocket_config/', require('./api/get_websocket_config'));
 
-app.set('view engine', 'html');
+//app.set('view engine', 'html');
 
 /**
  * Catch 404
@@ -148,11 +148,11 @@ app_timers.startLeasesPerMinuteCalculator();
  * Websockets
  */
 const WebSocket = require('ws');
-const ws_port   = glass_config.ws_port || 8080;
+const ws_port   = glass_config.ws_port || 8081;
 
 console.log("[Glass Server] Websocket server starting on port: " + ws_port);
 
-global.wss = new WebSocket.Server({port: ws_port});
+global.wss = new WebSocket.Server({ port: ws_port });
 
 wss.on('connection', function connection(ws) {
 	socket_clients++;
@@ -227,7 +227,7 @@ stale_connections_audit = function() {
 		if (ws.isAlive === false) return ws.terminate();
 
 		ws.isAlive = false;
-		ws.ping('', false, true);
+		ws.ping('');
 
 		socket_clients++;
 	});

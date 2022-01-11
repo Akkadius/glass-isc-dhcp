@@ -152,7 +152,7 @@
 ## Install NodeJS (If not installed)
 
 <pre>
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install -y nodejs
 </pre>
 
@@ -172,7 +172,7 @@ sudo npm start
 
 * For Debian this is all that is needed and Glass should start immediately, you can browse via http://server-ip:3000
 * For Ubuntu users - you will have additional Apparmor config to add
-* **Recommended** to iptables port 3000 to close off Glass if you are facing the public on your server
+* **Recommended** to iptables port 8081 to close off Glass if you are facing the public on your server
 * **Recommended** to keep Glass up through reboots, see [Glass Process Keepalive](#glass-process-keepalive)
 
 ## Apparmor
@@ -206,7 +206,9 @@ service apparmor restart
     ""
   ],
   "email_alert_to": "",
-  "sms_alert_to": ""
+  "sms_alert_to": "",
+  "port": "8081",
+  "ws_port": 8082
 }
 </pre>
 
@@ -222,13 +224,18 @@ rm mycrontab
 
 ## Secure your Server
 
-* Glass runs on web port 3000 - if you're going to run this on a production server, make sure that you lock it down from the outside world if anyone can access it. Even if they don't have a password - vulnerabilities can surface at any point in the future and your system becomes a prime target
+* Glass runs on web port 8081 - if you're going to run this on a production server, make sure that you lock it down from the outside world if anyone can access it. Even if they don't have a password - vulnerabilities can surface at any point in the future and your system becomes a prime target
 
 ### iptables (Recommended)
 <pre>
-iptables -A INPUT -p tcp --dport 3000 -s 127.0.0.0/8 -j ACCEPT
-iptables -A INPUT -p tcp --dport 3000 -s x.x.x.x/24 -j ACCEPT
-iptables -A INPUT -p tcp --dport 3000 -j REJECT --reject-with icmp-port-unreachable
+iptables -A INPUT -p tcp --dport 8081 -s 127.0.0.0/8 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8081 -s x.x.x.x/24 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8081 -j REJECT --reject-with icmp-port-unreachable
+</pre>
+
+### ufw
+<pre>
+ufw allow proto tcp from any to any port 8081
 </pre>
 
 ## Building dhcpd-pools (Optional)
