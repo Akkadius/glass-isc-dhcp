@@ -211,14 +211,22 @@ service apparmor restart
 </pre>
 
 ## Glass Process Keepalive
-* To keep your server alive through reboots, possible crashes and process restarts, we need to use a process monitor and for simplicity we will use NodeJS's **Forever**. Forever is already installed during Glass installation. We will add it to our **crontab**
+* To keep your server alive through reboots, possible crashes and process restarts, we need to use a process monitor and for simplicity we will use NodeJS's **Forever**. Forever is already installed during Glass installation (`npm install forever`). We will add it to our **crontab**
 
-<pre>
+```
 crontab -l > mycrontab
 echo "@reboot cd /opt/glass-isc-dhcp && /usr/bin/forever --minUptime 10000 --spinSleepTime 10000 -a -o ./logs/glass-process.log -e ./logs/glass-error.log ./bin/www" >> mycrontab
 crontab mycrontab
 rm mycrontab
-</pre>
+```
+
+### Glass Process Keepalive for debian
+```
+crontab -l > mycrontab
+echo "@reboot cd /opt/glass-isc-dhcp && /usr/local/bin/forever --minUptime 10000 --spinSleepTime 10000 -a -o ./logs/glass-process.log -e ./logs/glass-error.log ./bin/www" >> mycrontab
+crontab mycrontab
+rm mycrontab
+```
 
 ## Secure your Server
 
