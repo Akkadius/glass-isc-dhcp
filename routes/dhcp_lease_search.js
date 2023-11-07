@@ -6,11 +6,11 @@ var template_render = require('../core/render-template.js');
 function human_time (time){
     var time = new Date(time);
     var year = time.getFullYear();
-    var month = time.getMonth()+1;
-    var date1 = time.getDate();
-    var hour = time.getHours();
-    var minutes = time.getMinutes();
-    var seconds = time.getSeconds();
+    var month = ("0" + (time.getMonth()+1)).slice(-2);
+    var date1 = ("0" + time.getDate()).slice(-2);
+    var hour = ("0" + time.getHours()).slice(-2);
+    var minutes = ("0" + time.getMinutes()).slice(-2);
+    var seconds = ("0" + time.getSeconds()).slice(-2);
 
     return year + "-" + month+"-"+date1+" "+hour+":"+minutes+":"+seconds;
 }
