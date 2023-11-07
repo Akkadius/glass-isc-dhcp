@@ -15,6 +15,16 @@ function human_time (time){
     return year + "-" + month+"-"+date1+" "+hour+":"+minutes+":"+seconds;
 }
 
+function ip_to_string (ip){
+    var octets = ip.split('.');
+
+    for (let i = 0; i < octets.length; i++) {
+        while (octets[i].length < 3) octets[i] = "0" + octets[i];
+    }
+
+    return octets.join('');
+}
+
 router.post('/', function(req, res, next) {
     var request = req.body;
     var search = request.search;
@@ -41,7 +51,7 @@ router.post('/', function(req, res, next) {
             continue;
 
         table_row = '';
-        table_row = table_row + '<td>' + key + '</td>';
+        table_row = table_row + '<td data-order="' +  ip_to_string(key) + '">' + key + '</td>';
         table_row = table_row + '<td>' + dhcp_lease_data[key].mac + '</td>';
         table_row = table_row + '<td>' + dhcp_lease_data[key].mac_oui_vendor + '</td>';
         table_row = table_row + '<td>' + (dhcp_lease_data[key].host ? dhcp_lease_data[key].host : '') + '</td>';
