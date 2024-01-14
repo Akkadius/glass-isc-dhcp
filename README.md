@@ -170,7 +170,7 @@ sudo npm install forever -g
 sudo npm start
 </pre>
 
-* For Debian this is all that is needed and Glass should start immediately, you can browse via http://server-ip:3000
+* For Debian this is all that is needed and Glass should start immediately, you can browse via http://server-ip:8081
 * For Ubuntu users - you will have additional Apparmor config to add
 * **Recommended** to iptables port 8081 to close off Glass if you are facing the public on your server
 * **Recommended** to keep Glass up through reboots, see [Glass Process Keepalive](#glass-process-keepalive)
