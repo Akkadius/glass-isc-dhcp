@@ -12,7 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || app.glass_config.port || '3000');
+var port = normalizePort(process.env.PORT || app.glass_config.port || '8081');
 var interface = app.glass_config.host || '0.0.0.0';
 app.set('port', port);
 
